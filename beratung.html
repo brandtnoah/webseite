@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>noahbrandt – Beratung</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Cookie-Banner -->
+    <script src="https://cloud.ccm19.de/app.js?apiKey=82e51f1a8b5d42f3ec79ca11e02cfb73411063952ffa1476&amp;domain=695d0ab7c20c70d96b037163" referrerpolicy="origin"></script>
+
+    <style>
+        body {
+            margin:0;
+            font-family:Arial, Helvetica, sans-serif;
+            background-color:#ff7a00;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            font-size:16px;
+        }
+        nav a {
+            margin:0 15px;
+            font-weight:bold;
+            color:black;
+            text-decoration:none;
+        }
+        .container {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            align-items:stretch;
+            gap:20px;
+        }
+        .left-box, .middle-box, .right-box {
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            box-sizing:border-box;
+        }
+        .left-box, .right-box {
+            background-color:#ffb366;
+            border:4px solid #000;
+            padding:20px;
+            width:25%;
+        }
+        .middle-box {
+            background-color:#ffffff;
+            border:4px solid #000;
+            padding:30px;
+            width:45%;
+            text-align:justify; /* Blocksatz */
+        }
+        .mobile .container {
+            flex-direction:column;
+            align-items:stretch;
+        }
+        .mobile .left-box, .mobile .middle-box, .mobile .right-box {
+            width:100% !important;
+        }
+        @media (max-width:768px) {
+            .container {
+                flex-direction:column;
+                align-items:stretch;
+            }
+            .left-box, .middle-box, .right-box {
+                width:100% !important;
+            }
+        }
+        hr {
+            margin:20px 0;
+            border:1px solid #000;
+        }
+        .forgot-pw {
+            text-align:center;
+            margin-top:5px;
+        }
+        .forgot-pw a {
+            font-size:12px;
+            color:grey;
+            text-decoration:none;
+        }
+    </style>
+</head>
+
+<body id="body">
+
+    <!-- Obere Leiste: Sprache, Barrierefreiheit, Mobile -->
+    <div style="text-align:right; padding:10px 20px;">
+        <button onclick="showDE()" style="font-weight:bold;">Deutsch</button>
+        <button onclick="showEN()" style="font-weight:bold;">English</button>
+        |
+        <button onclick="toggleContrast()" style="font-weight:bold;">Kontrast</button>
+        <button onclick="adjustFontSize(2)" style="font-weight:bold;">A+</button>
+        <button onclick="adjustFontSize(-2)" style="font-weight:bold;">A-</button>
+        <button onclick="resetAccessibility()" style="font-weight:bold;">Ursprünglich</button>
+        |
+        <button onclick="toggleMobile()" style="font-weight:bold;">Mobile Version</button>
+    </div>
+
+    <!-- Webseitenname -->
+    <header style="text-align:center; padding:20px; font-size:32px; font-weight:bold; color:black;">
+        noahbrandt
+    </header>
+
+    <!-- ===== DEUTSCH ===== -->
+    <div id="de" style="flex:1; padding:20px;">
+
+        <!-- Navigationsleiste -->
+        <nav role="navigation" aria-label="Hauptnavigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+            <a href="index.html">Startseite</a>
+            <a href="lebenslauf.html">Lebenslauf</a>
+            <a href="beratung.html">Beratung</a>
+            <a href="publikationen.html">Publikationen</a>
+            <a href="internetpraesenz.html">Internetpräsenzen</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="impressum.html">Impressum</a>
+        </nav>
+
+        <!-- Dreispaltiges Layout: links, Mitte, rechts -->
+        <div class="container">
+
+            <!-- Linke Spalte (Noah Brandt) -->
+            <div class="left-box">
+                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+                <p style="text-align:center;">Noah Brandt - deutscher und ostbelgischer Bibliothekar, Autor und Konsultant.</p>
+            </div>
+
+            <!-- Mittlere Spalte (Beratung) -->
+            <div class="middle-box">
+                <h2 style="margin-top:0; text-align:center;">Beratung</h2>
+                <p>Einträge</p>
+            </div>
+
+            <!-- Rechte Spalte (Login + Aktuelles) -->
+            <div class="right-box">
+                <h2 style="margin-top:0; text-align:center;">Login</h2>
+                <form onsubmit="handleLogin(event)" aria-label="Login-Formular">
+                    <label for="username">Benutzername:</label><br>
+                    <input type="text" id="username" name="username" style="width:100%; margin-bottom:10px;" required><br>
+                    <label for="password">Kennwort:</label><br>
+                    <input type="password" id="password" name="password" style="width:100%; margin-bottom:10px;" required><br>
+                    <button type="submit" style="width:100%; font-weight:bold;">Anmelden</button>
+                </form>
+                <div class="forgot-pw">
+                    <a href="pwvergessen.html">Passwort vergessen?</a>
+                </div>
+                <div style="margin-top:10px; text-align:center;">
+                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registrierung</a>
+                </div>
+
+                <hr>
+
+                <!-- Aktuelles (Blog-Format) -->
+                <div>
+                    <h3 style="margin:0 0 10px 0;">Aktuelles</h3>
+                    <ul style="padding-left:20px; margin:0;">
+                        <li>Kein Eintrag</li>
+                        <li>Kein Eintrag</li>
+                        <li>Kein Eintrag</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== ENGLISH ===== -->
+    <div id="en" style="display:none; flex:1; padding:20px;">
+
+        <!-- Navigation -->
+        <nav role="navigation" aria-label="Main Navigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+            <a href="index.html">Home</a>
+            <a href="lebenslauf.html">Resume</a>
+            <a href="beratung.html">Consulting</a>
+            <a href="publikationen.html">Publications</a>
+            <a href="internetpraesenz.html">Websites</a>
+            <a href="kontakt.html">Contact</a>
+            <a href="impressum.html">Legal Notice</a>
+        </nav>
+
+        <div class="container">
+
+            <!-- Left column -->
+            <div class="left-box">
+                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+                <p style="text-align:center;">Noah Brandt - German and East Belgian librarian, author and consultant.</p>
+            </div>
+
+            <!-- Middle column -->
+            <div class="middle-box">
+                <h2 style="margin-top:0; text-align:center;">Consulting</h2>
+                <p>Entries</p>
+            </div>
+
+            <!-- Right column -->
+            <div class="right-box">
+                <h2 style="margin-top:0; text-align:center;">Login</h2>
+                <form onsubmit="handleLogin(event, 'en')" aria-label="Login form">
+                    <label for="username_en">Username:</label><br>
+                    <input type="text" id="username_en" name="username" style="width:100%; margin-bottom:10px;" required><br>
+                    <label for="password_en">Password:</label><br>
+                    <input type="password" id="password_en" name="password" style="width:100%; margin-bottom:10px;" required><br>
+                    <button type="submit" style="width:100%; font-weight:bold;">Login</button>
+                </form>
+                <div class="forgot-pw">
+                    <a href="pwvergessen.html">Forgot password?</a>
+                </div>
+                <div style="margin-top:10px; text-align:center;">
+                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registration</a>
+                </div>
+
+                <hr>
+
+                <div>
+                    <h3 style="margin:0 0 10px 0;">News</h3>
+                    <ul style="padding-left:20px; margin:0;">
+                        <li>No entries</li>
+                        <li>No entries</li>
+                        <li>No entries</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer style="background-color:#ff9a33; border-top:4px solid #000; text-align:center; padding:15px; font-size:14px;">
+        <span id="footer-de">
+            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Impressum</a> |
+            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Datenschutz</a> |
+            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Nutzungsbedingungen</a>
+        </span>
+        <span id="footer-en" style="display:none;">
+            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Legal Notice</a> |
+            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Privacy Policy</a> |
+            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Terms of Use</a>
+        </span>
+    </footer>
+
+    <script>
+        let fontSize = 16;
+        let highContrast = false;
+        let mobileActive = false;
+
+        function showDE() {
+            document.getElementById("de").style.display = "block";
+            document.getElementById("en").style.display = "none";
+            document.getElementById("footer-de").style.display = "inline";
+            document.getElementById("footer-en").style.display = "none";
+        }
+
+        function showEN() {
+            document.getElementById("de").style.display = "none";
+            document.getElementById("en").style.display = "block";
+            document.getElementById("footer-de").style.display = "none";
+            document.getElementById("footer-en").style.display = "inline";
+        }
+
+        function toggleContrast() {
+            highContrast = !highContrast;
+            if(highContrast){
+                document.getElementById("body").style.backgroundColor = "#000000";
+                document.getElementById("body").style.color = "#ffffff";
+            } else {
+                document.getElementById("body").style.backgroundColor = "#ff7a00";
+                document.getElementById("body").style.color = "#000000";
+            }
+        }
+
+        function adjustFontSize(change) {
+            fontSize += change;
+            if(fontSize < 10) fontSize = 10;
+            document.getElementById("body").style.fontSize = fontSize + "px";
+        }
+
+        function resetAccessibility() {
+            fontSize = 16;
+            highContrast = false;
+            mobileActive = false;
+            document.getElementById("body").classList.remove("mobile");
+            document.getElementById("body").style.fontSize = fontSize + "px";
+            document.getElementById("body").style.backgroundColor = "#ff7a00";
+            document.getElementById("body").style.color = "#000000";
+        }
+
+        function toggleMobile() {
+            mobileActive = !mobileActive;
+            if(mobileActive){
+                document.getElementById("body").classList.add("mobile");
+            } else {
+                document.getElementById("body").classList.remove("mobile");
+            }
+        }
+
+        function handleLogin(event, lang='de') {
+            event.preventDefault();
+            alert(lang === 'de' ? 'Login-Prozess erfolgt gegenwärtig...' : 'Login process is in progress...');
+            setTimeout(function() {
+                window.location.href = "login.html";
+            }, 4000);
+        }
+    </script>
+
+</body>
+</html>
