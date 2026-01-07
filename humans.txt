@@ -1,0 +1,16 @@
+/* TEAM */
+Developer: Noah Brandt
+Role: Bibliothekar, Autor, Konsultant
+Location: Bonn-Hoholz, Deutschland / Ostbelgien
+Website: https://www.noahbrandt.de
+Contact: brandtnoah@outlook.de
+
+/* SITE */
+Standards: HTML5, CSS3, JavaScript
+
+/* THANKS */
+Thanks: Besucher, Unterstützer, Bibliotheken, Förderer
+
+/* NOTE */
+This site is a private project. All content provided for informational purposes.
+All rights reserved © Noah Brandt 2026
