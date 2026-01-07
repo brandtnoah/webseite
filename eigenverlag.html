@@ -61,7 +61,7 @@
             text-align:justify;
         }
 
-        /* Windows-Style Kacheln */
+        /* Windows-Style Kacheln mit schwarzen eckigen Kanten */
         .tiles {
             display:grid;
             grid-template-columns:repeat(2, 1fr);
@@ -76,19 +76,21 @@
             color:#fff;
             font-weight:bold;
             font-size:18px;
-            border-radius:8px;
+            border:4px solid #000; /* Schwarzer Rahmen */
+            border-radius:0px; /* Eckig */
             cursor:pointer;
             text-decoration:none;
             text-align:center;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background-color 0.2s;
         }
         .tile:hover {
             transform:scale(1.05);
+            background-color:#333; /* leicht dunkler beim Hover */
         }
-        .tile-buecher { background-color:#0078D7; } /* Blau */
-        .tile-filme { background-color:#E81123; }  /* Rot */
-        .tile-musik { background-color:#107C10; }  /* Grün */
-        .tile-open { background-color:#FFB900; color:#000; } /* Gelb */
+        .tile-buecher { background-color:#0078D7; }
+        .tile-filme { background-color:#E81123; }
+        .tile-musik { background-color:#107C10; }
+        .tile-open { background-color:#FFB900; color:#000; }
 
         /* Mobile Anpassungen */
         .mobile .container {
@@ -126,14 +128,12 @@
         <button onclick="toggleMobile()" style="font-weight:bold;">Mobile Version</button>
     </div>
 
-    <!-- Webseitenname -->
     <header style="text-align:center; padding:20px; font-size:32px; font-weight:bold; color:black;">
         noahbrandt
     </header>
 
     <!-- ===== DEUTSCH ===== -->
     <div id="de" style="flex:1; padding:20px;">
-
         <nav role="navigation" aria-label="Hauptnavigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
             <a href="index.html">Startseite</a>
             <a href="lebenslauf.html">Lebenslauf</a>
@@ -246,7 +246,6 @@
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
     <footer style="background-color:#ff9a33; border-top:4px solid #000; text-align:center; padding:15px; font-size:14px;">
         <span id="footer-de">
             <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Impressum</a> |
