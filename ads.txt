@@ -1,0 +1,11 @@
+# ads.txt für noahbrandt.de
+# Derzeit werden keine Werbeanbieter genutzt.
+# Es wird aktuell keine Werbung geschaltet.
+# Diese Datei dient als Platzhalter für zukünftige Werbeanbieter.
+
+-----------------------------------------------------------------
+
+# ads.txt for noahbrandt.de
+# Currently, no advertising providers are used.
+# No ads are being served at the moment.
+# This file serves as a placeholder for future advertising providers.
