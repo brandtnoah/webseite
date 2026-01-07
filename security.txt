@@ -1,0 +1,8 @@
+# security.txt für noahbrandt.de
+
+Contact: mailto:brandtnoah@outlook.de, tel:+4915251788263
+Preferred-Languages: de, en
+Canonical: https://www.noahbrandt.de/security.txt
+Expires: 2026-07-07T00:00:00Z
+# Hinweis: Bitte melden Sie Sicherheitsprobleme oder Anfragen zu Schwachstellen direkt an die oben angegebenen Kontakte.
+# Herzlichen Dank für Ihre Aufmerksamkeit und Unterstützung!
