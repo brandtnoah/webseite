@@ -1,0 +1,12 @@
+# ============================================
+# Internetpräsenz: http://noahbrandt.de
+# ============================================
+
+# ============================================
+# Folgende Seiten sind nicht zu indexieren:
+# ============================================
+
+User-agent: *
+Disallow: /admin/
+Disallow: /temp/
+
