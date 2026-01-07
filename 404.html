@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>noahbrandt – 404 Fehler</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Cookie-Banner -->
+<script src="https://cloud.ccm19.de/app.js?apiKey=82e51f1a8b5d42f3ec79ca11e02cfb73411063952ffa1476&amp;domain=695d0ab7c20c70d96b037163" referrerpolicy="origin"></script>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial, Helvetica, sans-serif;
+    background-color:#ff7a00;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    font-size:16px;
+}
+nav a {margin:0 15px; font-weight:bold; color:black; text-decoration:none;}
+.container {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:stretch;
+    gap:20px;
+}
+.left-box, .middle-box, .right-box {
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    box-sizing:border-box;
+}
+.left-box, .right-box {
+    background-color:#ffb366;
+    border:4px solid #000;
+    padding:20px;
+    width:25%;
+}
+.middle-box {
+    background-color:#ffffff;
+    border:4px solid #000;
+    padding:30px;
+    width:45%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+.mobile .container {
+    flex-direction:column;
+    align-items:stretch;
+}
+.mobile .left-box, .mobile .middle-box, .mobile .right-box {
+    width:100% !important;
+}
+@media (max-width:768px) {
+    .container {flex-direction:column; align-items:stretch;}
+    .left-box, .middle-box, .right-box {width:100% !important;}
+}
+hr {margin:20px 0; border:1px solid #000;}
+.forgot-pw {text-align:center; margin-top:5px;}
+.forgot-pw a {font-size:12px; color:grey; text-decoration:none;}
+</style>
+</head>
+
+<body id="body">
+
+<!-- Obere Leiste -->
+<div style="text-align:right; padding:10px 20px;">
+    <button onclick="showDE()" style="font-weight:bold;">Deutsch</button>
+    <button onclick="showEN()" style="font-weight:bold;">English</button>
+    |
+    <button onclick="toggleContrast()" style="font-weight:bold;">Kontrast</button>
+    <button onclick="adjustFontSize(2)" style="font-weight:bold;">A+</button>
+    <button onclick="adjustFontSize(-2)" style="font-weight:bold;">A-</button>
+    <button onclick="resetAccessibility()" style="font-weight:bold;">Ursprünglich</button>
+    |
+    <button onclick="toggleMobile()" style="font-weight:bold;">Mobile Version</button>
+</div>
+
+<header style="text-align:center; padding:20px; font-size:32px; font-weight:bold; color:black;">
+    noahbrandt
+</header>
+
+<!-- ===== DEUTSCH ===== -->
+<div id="de" style="flex:1; padding:20px;">
+
+<nav role="navigation" aria-label="Hauptnavigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+    <a href="index.html">Startseite</a>
+    <a href="lebenslauf.html">Lebenslauf</a>
+    <a href="beratung.html">Beratung</a>
+    <a href="publikationen.html">Publikationen</a>
+    <a href="internetpraesenz.html">Internetpräsenzen</a>
+    <a href="kontakt.html">Kontakt</a>
+    <a href="impressum.html">Impressum</a>
+</nav>
+
+<div class="container">
+
+    <div class="left-box">
+        <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+        <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+        <p style="text-align:center;">Noah Brandt – deutscher und ostbelgischer Bibliothekar, Autor und Konsultant.</p>
+    </div>
+
+    <div class="middle-box">
+        <div>
+            <h2>404 – Seite nicht gefunden</h2>
+            <p>
+                Die angeforderte Seite konnte leider nicht gefunden werden.<br>
+                Bitte überprüfen Sie die eingegebene Adresse oder kehren Sie zur Startseite zurück.
+            </p>
+        </div>
+    </div>
+
+    <div class="right-box">
+        <h2 style="margin-top:0; text-align:center;">Login</h2>
+        <form onsubmit="handleLogin(event)">
+            <label>Benutzername:</label><br>
+            <input type="text" style="width:100%; margin-bottom:10px;" required><br>
+            <label>Kennwort:</label><br>
+            <input type="password" style="width:100%; margin-bottom:10px;" required><br>
+            <button type="submit" style="width:100%; font-weight:bold;">Anmelden</button>
+        </form>
+        <div class="forgot-pw">
+            <a href="pwvergessen.html">Passwort vergessen?</a>
+        </div>
+        <hr>
+        <h3>Aktuelles</h3>
+        <ul>
+            <li>Kein Eintrag</li>
+            <li>Kein Eintrag</li>
+            <li>Kein Eintrag</li>
+        </ul>
+    </div>
+
+</div>
+</div>
+
+<!-- ===== ENGLISH ===== -->
+<div id="en" style="display:none; flex:1; padding:20px;">
+
+<nav role="navigation" aria-label="Main Navigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+    <a href="index.html">Home</a>
+    <a href="lebenslauf.html">Resume</a>
+    <a href="beratung.html">Consulting</a>
+    <a href="publikationen.html">Publications</a>
+    <a href="internetpraesenz.html">Websites</a>
+    <a href="kontakt.html">Contact</a>
+    <a href="impressum.html">Legal Notice</a>
+</nav>
+
+<div class="container">
+
+    <div class="left-box">
+        <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+        <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+        <p style="text-align:center;">Noah Brandt – German and East Belgian librarian, author and consultant.</p>
+    </div>
+
+    <div class="middle-box">
+        <div>
+            <h2>404 – Page not found</h2>
+            <p>
+                The requested page could not be found.<br>
+                Please check the URL or return to the homepage.
+            </p>
+        </div>
+    </div>
+
+    <div class="right-box">
+        <h2 style="margin-top:0; text-align:center;">Login</h2>
+        <form onsubmit="handleLogin(event,'en')">
+            <label>Username:</label><br>
+            <input type="text" style="width:100%; margin-bottom:10px;" required><br>
+            <label>Password:</label><br>
+            <input type="password" style="width:100%; margin-bottom:10px;" required><br>
+            <button type="submit" style="width:100%; font-weight:bold;">Login</button>
+        </form>
+        <div class="forgot-pw">
+            <a href="pwvergessen.html">Forgot password?</a>
+        </div>
+        <hr>
+        <h3>News</h3>
+        <ul>
+            <li>No entries</li>
+            <li>No entries</li>
+            <li>No entries</li>
+        </ul>
+    </div>
+
+</div>
+</div>
+
+<footer style="background-color:#ff9a33; border-top:4px solid #000; text-align:center; padding:15px; font-size:14px;">
+    <span id="footer-de">
+        <a href="impressum.html">Impressum</a> |
+        <a href="datenschutz.html">Datenschutz</a> |
+        <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+    </span>
+    <span id="footer-en" style="display:none;">
+        <a href="impressum.html">Legal Notice</a> |
+        <a href="datenschutz.html">Privacy Policy</a> |
+        <a href="nutzungsbedingungen.html">Terms of Use</a>
+    </span>
+</footer>
+
+<script>
+let fontSize=16, highContrast=false, mobileActive=false;
+function showDE(){de.style.display="block";en.style.display="none";footer-de.style.display="inline";footer-en.style.display="none";}
+function showEN(){de.style.display="none";en.style.display="block";footer-de.style.display="none";footer-en.style.display="inline";}
+function toggleContrast(){highContrast=!highContrast;body.style.backgroundColor=highContrast?"#000":"#ff7a00";body.style.color=highContrast?"#fff":"#000";}
+function adjustFontSize(c){fontSize+=c;if(fontSize<10)fontSize=10;body.style.fontSize=fontSize+"px";}
+function resetAccessibility(){fontSize=16;highContrast=false;mobileActive=false;body.classList.remove("mobile");body.style.fontSize="16px";body.style.backgroundColor="#ff7a00";body.style.color="#000";}
+function toggleMobile(){mobileActive=!mobileActive;body.classList.toggle("mobile",mobileActive);}
+function handleLogin(e,l='de'){e.preventDefault();alert(l==='de'?'Login-Prozess erfolgt gegenwärtig...':'Login process is in progress...');setTimeout(()=>location.href="login.html",4000);}
+</script>
+
+</body>
+</html>
