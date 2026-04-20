@@ -28,6 +28,9 @@ body{
   overflow-y:auto;
   -webkit-overflow-scrolling: touch;
   background:linear-gradient(to bottom,var(--sky1),var(--sky2),#fff);
+
+  /* NEU: mehr Scrollraum unten */
+  padding-bottom:140px;
 }
 
 /* SUN */
@@ -314,76 +317,24 @@ body{
   text-decoration:underline;
 }
 
-/* ===================== */
-/* MOBILE OPTIMIERUNG */
-/* ===================== */
-
+/* MOBILE */
 @media (max-width: 900px){
-
-  .grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .card{
-    width:90%;
-  }
-
-  .guide{
-    width:260px;
-    bottom:70px;
-  }
-
-  #intro h1{
-    font-size:2.2rem;
-  }
-
-  .piece{
-    font-size:2rem;
-  }
+  .grid{grid-template-columns:repeat(2,1fr);}
+  .card{width:90%;}
+  .guide{width:260px;bottom:70px;}
+  #intro h1{font-size:2.2rem;}
+  .piece{font-size:2rem;}
 }
 
 @media (max-width: 600px){
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .card{
-    width:95%;
-    padding:18px;
-  }
-
-  .guide{
-    width:90%;
-    right:5%;
-    left:5%;
-    bottom:70px;
-  }
-
-  .quotes{
-    width:90%;
-    right:5%;
-    left:5%;
-    text-align:center;
-    top:10px;
-  }
-
-  #intro h1{
-    font-size:1.8rem;
-  }
-
-  #intro p{
-    font-size:.9rem;
-  }
-
-  .tile{
-    padding:14px;
-  }
-
-  .sun{
-    width:140px;
-    height:140px;
-  }
+  .grid{grid-template-columns:1fr;}
+  .card{width:95%;padding:18px;}
+  .guide{width:90%;right:5%;left:5%;bottom:70px;}
+  .quotes{width:90%;right:5%;left:5%;text-align:center;top:10px;}
+  #intro h1{font-size:1.8rem;}
+  #intro p{font-size:.9rem;}
+  .tile{padding:14px;}
+  .sun{width:140px;height:140px;}
 }
 </style>
 </head>
@@ -436,7 +387,7 @@ body{
     </div>
 
     <div class="tile"
-      onclick="window.open('https://api.whatsapp.com/send/?phone=49&text=Entsprechende%20Nachricht%20an%20Noah%20Brandt%20zusenden.%C2%A0','_blank')">
+      onclick="window.open('https://wa.me/4915251788263','_blank')">
       <div class="icon">💬</div><div class="title">WhatsApp</div><div class="value">Nachricht</div>
     </div>
 
@@ -458,9 +409,9 @@ body{
 </div>
 
 <div class="footer">
-  <a href="#">Impressum</a>
-  <a href="#">Datenschutz</a>
-  <a href="#">Nutzungsbedingungen</a>
+  <a href="www.noahbrandt.de/impressum.html">Impressum</a>
+  <a href="www.noahbrandt.de/datenschutz.html">Datenschutz</a>
+  <a href="www.noahbrandt.de/nutzungsbedingungen.html">Nutzungsbedingungen</a>
 </div>
 
 <script>
