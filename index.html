@@ -1,519 +1,317 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Noah Brandt – Besucherkarte</title>
+    <meta charset="UTF-8">
+    <title>noahbrandt – Startseite</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="Noah Brandt" />
+<link rel="manifest" href="/site.webmanifest" />
 
-<style>
-:root{
-  --sky1:#e0f2fe;
-  --sky2:#bae6fd;
-  --glass:rgba(255,255,255,0.7);
-  --text:#0f172a;
-  --muted:#334155;
-  --accent:#38bdf8;
-}
+</head>
+    <!-- Cookie-Banner -->
+    <script src="https://cloud.ccm19.de/app.js?apiKey=82e51f1a8b5d42f3ec79ca11e02cfb73411063952ffa1476&amp;domain=695d0ab7c20c70d96b037163" referrerpolicy="origin"></script>
 
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:system-ui,Segoe UI,Roboto,Arial;
-}
-
-body{
-  min-height:100vh;
-  overflow-x:hidden;
-  overflow-y:auto;
-  -webkit-overflow-scrolling: touch;
-  background:linear-gradient(to bottom,var(--sky1),var(--sky2),#fff);
-}
-
-/* SUN */
-.sun{
-  position:fixed;
-  top:-80px;
-  left:50%;
-  transform:translateX(-50%);
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  background:radial-gradient(circle,#fff7b1,#facc15);
-  box-shadow:0 0 70px rgba(250,204,21,.7);
-  animation:sun 5s ease-in-out infinite;
-  z-index:1;
-}
-
-@keyframes sun{
-  0%,100%{transform:translateX(-50%) translateY(0);}
-  50%{transform:translateX(-50%) translateY(10px);}
-}
-
-/* BUBBLES */
-.bubble-bg{
-  position:fixed;
-  inset:0;
-  overflow:hidden;
-  z-index:0;
-  pointer-events:none;
-}
-
-.bubble-bg span{
-  position:absolute;
-  bottom:-50px;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.6);
-  border:1px solid rgba(255,255,255,0.8);
-  animation:rise linear infinite;
-}
-
-@keyframes rise{
-  from{transform:translateY(0) scale(1);opacity:1;}
-  to{transform:translateY(-120vh) scale(0.6);opacity:0;}
-}
-
-/* INTRO */
-#intro{
-  position:fixed;
-  inset:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  background:linear-gradient(to bottom,#e0f2fe,#bae6fd);
-  z-index:999;
-  overflow:hidden;
-  text-align:center;
-}
-
-#intro h1{
-  font-size:3rem;
-  letter-spacing:2px;
-  color:#0f172a;
-  animation:popIn .4s ease-out;
-}
-
-#intro p{
-  margin-top:10px;
-  font-size:1rem;
-  color:#334155;
-  opacity:.85;
-  animation:popIn .6s ease-out;
-}
-
-@keyframes popIn{
-  from{transform:scale(0.6);opacity:0;}
-  to{transform:scale(1);opacity:1;}
-}
-
-#intro::after{
-  content:"";
-  position:absolute;
-  width:200px;
-  height:200px;
-  border-radius:50%;
-  border:2px solid rgba(56,189,248,.5);
-  animation:wave 2s ease-out forwards;
-}
-
-@keyframes wave{
-  0%{transform:scale(0);opacity:1;}
-  100%{transform:scale(8);opacity:0;}
-}
-
-.piece{
-  position:absolute;
-  font-size:2.8rem;
-  font-weight:600;
-  color:#0f172a;
-  animation:explode 1.2s forwards ease-out;
-}
-
-@keyframes explode{
-  0%{transform:translate(0,0) rotate(0deg) scale(1);opacity:1;}
-  100%{
-    transform:translate(var(--x),var(--y)) rotate(720deg) scale(0.3);
-    opacity:0;
-    filter:blur(4px);
-  }
-}
-
-/* MAIN */
-.wrapper{
-  position:relative;
-  z-index:2;
-  padding:70px 20px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.card{
-  width:420px;
-  padding:25px;
-  border-radius:22px;
-  background:var(--glass);
-  backdrop-filter:blur(14px);
-  text-align:center;
-  border:1px solid rgba(255,255,255,.8);
-  margin-bottom:25px;
-  box-shadow:0 10px 30px rgba(0,0,0,.08);
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:15px;
-  max-width:900px;
-  width:100%;
-}
-
-.tile{
-  background:rgba(255,255,255,.75);
-  border:1px solid rgba(148,163,184,.3);
-  border-radius:18px;
-  padding:18px;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.tile:hover{
-  transform:translateY(-6px) scale(1.02);
-  box-shadow:0 20px 40px rgba(56,189,248,.25);
-}
-
-.icon{font-size:1.5rem;}
-.title{font-weight:600;margin-top:8px;}
-.value{color:var(--muted);font-size:.9rem;margin-top:4px;}
-
-.span-2{grid-column:span 2;}
-
-/* CHAT */
-.guide{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  width:320px;
-  display:flex;
-  gap:10px;
-  z-index:999;
-}
-
-.person{
-  width:60px;height:60px;border-radius:50%;
-  background:radial-gradient(circle,#fff,#93c5fd);
-  box-shadow:0 0 20px rgba(56,189,248,.6);
-  animation:float 4s infinite ease-in-out;
-}
-
-.person::after{
-  content:"🙂";
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  height:100%;
-  font-size:28px;
-}
-
-@keyframes float{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(-6px);}
-}
-
-.chat{
-  flex:1;
-  background:rgba(255,255,255,.85);
-  border-radius:14px;
-  padding:10px;
-  font-size:.85rem;
-  backdrop-filter:blur(10px);
-}
-
-.cursor::after{
-  content:"|";
-  animation:blink 1s infinite;
-}
-
-@keyframes blink{
-  50%{opacity:0;}
-}
-
-/* RIPPLE */
-.ripple{
-  position:fixed;
-  width:20px;
-  height:20px;
-  border-radius:50%;
-  border:2px solid rgba(56,189,248,.6);
-  animation:ripple 1s forwards;
-}
-
-@keyframes ripple{
-  to{transform:scale(15);opacity:0;}
-}
-
-/* QUOTES */
-.quotes{
-  position:fixed;
-  top:20px;
-  right:20px;
-  width:260px;
-  z-index:998;
-  font-size:.85rem;
-  color:#0f172a;
-  text-align:right;
-  pointer-events:none;
-}
-
-.quote{
-  background:rgba(255,255,255,.75);
-  backdrop-filter:blur(10px);
-  padding:10px;
-  border-radius:12px;
-  margin-bottom:10px;
-  animation:quoteFade 4s ease-in-out forwards;
-}
-
-@keyframes quoteFade{
-  0%{opacity:0; transform:translateY(-10px);}
-  15%{opacity:1; transform:translateY(0);}
-  70%{opacity:1;}
-  100%{opacity:0; transform:translateY(10px);}
-}
-
-/* FOOTER */
-.footer{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  padding:4px 0;
-  text-align:center;
-  font-size:.65rem;
-  color:#334155;
-  background:rgba(255,255,255,0.45);
-  backdrop-filter:blur(8px);
-  border-top:1px solid rgba(148,163,184,.2);
-  z-index:5;
-  pointer-events:auto;
-}
-
-.footer a{
-  color:#0f172a;
-  text-decoration:none;
-  margin:0 10px;
-  opacity:.7;
-  transition:.2s;
-}
-
-.footer a:hover{
-  opacity:1;
-  text-decoration:underline;
-}
-</style>
+    <style>
+        body {
+            margin:0;
+            font-family:Arial, Helvetica, sans-serif;
+            background-color:#ff7a00;
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            font-size:16px;
+        }
+        nav a {
+            margin:0 15px;
+            font-weight:bold;
+            color:black;
+            text-decoration:none;
+        }
+        .container {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:space-between;
+            align-items:stretch;
+            gap:20px;
+        }
+        .left-box, .middle-box, .right-box {
+            display:flex;
+            flex-direction:column;
+            justify-content:flex-start;
+            box-sizing:border-box;
+        }
+        .left-box, .right-box {
+            background-color:#ffb366;
+            border:4px solid #000;
+            padding:20px;
+            width:25%;
+        }
+        .middle-box {
+            background-color:#ffffff;
+            border:4px solid #000;
+            padding:30px;
+            width:45%;
+            text-align:justify;
+        }
+        .mobile .container {
+            flex-direction:column;
+            align-items:stretch;
+        }
+        .mobile .left-box, .mobile .middle-box, .mobile .right-box {
+            width:100% !important;
+        }
+        @media (max-width:768px) {
+            .container {
+                flex-direction:column;
+                align-items:stretch;
+            }
+            .left-box, .middle-box, .right-box {
+                width:100% !important;
+            }
+        }
+        hr {
+            margin:20px 0;
+            border:1px solid #000;
+        }
+        .forgot-pw {
+            text-align:center;
+            margin-top:5px;
+        }
+        .forgot-pw a {
+            font-size:12px;
+            color:grey;
+            text-decoration:none;
+        }
+    </style>
 </head>
 
-<body>
+<body id="body">
 
-<div class="bubble-bg" id="bubbleBg"></div>
-<div class="sun"></div>
-
-<div id="intro">
-  <h1 id="welcome">HERZLICH WILLKOMMEN</h1>
-  <p>auf der Besucherkarte von Noah Brandt</p>
-</div>
-
-<div class="quotes" id="quotes"></div>
-
-<div class="wrapper">
-
-  <div class="card">
-    <h1>Noah Brandt</h1>
-    <p>Willkommen auf der Besucherkarte</p>
-  </div>
-
-  <div class="grid">
-
-    <div class="tile" onclick="location.href='mailto:brandtnoah@outlook.de'">
-      <div class="icon">📧</div><div class="title">E-Mail</div><div class="value">Kontakt</div>
+    <!-- Obere Leiste: Sprache, Barrierefreiheit, Mobile -->
+    <div style="text-align:right; padding:10px 20px;">
+        <button onclick="showDE()" style="font-weight:bold;">Deutsch</button>
+        <button onclick="showEN()" style="font-weight:bold;">English</button>
+        |
+        <button onclick="toggleContrast()" style="font-weight:bold;">Kontrast</button>
+        <button onclick="adjustFontSize(2)" style="font-weight:bold;">A+</button>
+        <button onclick="adjustFontSize(-2)" style="font-weight:bold;">A-</button>
+        <button onclick="resetAccessibility()" style="font-weight:bold;">Ursprünglich</button>
+        |
+        <button onclick="toggleMobile()" style="font-weight:bold;">Mobile Version</button>
     </div>
 
-    <div class="tile" onclick="location.href='tel:+4915251788263'">
-      <div class="icon">📞</div><div class="title">Telefon</div><div class="value">Anrufen</div>
+    <!-- Webseitenname -->
+    <header style="text-align:center; padding:20px; font-size:32px; font-weight:bold; color:black;">
+        noahbrandt
+    </header>
+
+    <!-- ===== DEUTSCH ===== -->
+    <div id="de" style="flex:1; padding:20px;">
+
+        <!-- Navigationsleiste -->
+        <nav role="navigation" aria-label="Hauptnavigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+            <a href="index.html">Startseite</a>
+            <a href="lebenslauf.html">Lebenslauf</a>
+            <a href="beratung.html">Beratung</a>
+            <a href="eigenverlag.html">Eigenverlag</a>
+            <a href="internetpraesenz.html">Internetpräsenzen</a>
+            <a href="kontakt.html">Kontakt</a>
+            <a href="impressum.html">Impressum</a>
+        </nav>
+
+        <!-- Dreispaltiges Layout: links, Mitte, rechts -->
+        <div class="container">
+
+            <!-- Linke Spalte (Noah Brandt) -->
+            <div class="left-box">
+                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+                <p style="text-align:center;">Noah Brandt - deutscher und ostbelgischer Bibliothekar, Autor und Konsultant.</p>
+            </div>
+
+            <!-- Mittlere Spalte (Lebenslauf) -->
+            <div class="middle-box">
+                <h2 style="margin-top:0; text-align:center;">Startseite</h2>
+                <p>Bibliothekar, Autor und Konsultant Noah Brandt, im Jahre 2002 in Bonn-Gronau geboren und gegenwärtig ansässig, verfügt über umfangreiche bibliothekarische Erfahrung. Zu seinen beruflichen Stationen zählen unter anderem Arbeit in renommierten Einrichtungen wie der Spezialbibliothek der Friedrich-Ebert-Stiftung. Er sammelte wertvolle Erfahrungen in der Mediothek der AHS in Eupen, der pädagogischen Mediothek in St. Vith sowie in der Öffentlichen Pfarrbibliothek Bütgenbach. Zusätzlich ist Herr Brandt als Autor tätig sowie konsultiert - als Berater - Bibliotheken und engagiert sich ehrenamtlich in verschiedenen Bibliotheken. Es handelt sich um eine private Internetpräsenz.</p>
+            </div>
+
+            <!-- Rechte Spalte (Login + Aktuelles) -->
+            <div class="right-box">
+                <h2 style="margin-top:0; text-align:center;">Login</h2>
+                <form onsubmit="handleLogin(event)" aria-label="Login-Formular">
+                    <label for="username">Benutzername:</label><br>
+                    <input type="text" id="username" name="username" style="width:100%; margin-bottom:10px;" required><br>
+                    <label for="password">Kennwort:</label><br>
+                    <input type="password" id="password" name="password" style="width:100%; margin-bottom:10px;" required><br>
+                    <button type="submit" style="width:100%; font-weight:bold;">Anmelden</button>
+                </form>
+                <div class="forgot-pw">
+                    <a href="pwvergessen.html">Passwort vergessen?</a>
+                </div>
+                <div style="margin-top:10px; text-align:center;">
+                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registrierung</a>
+                </div>
+
+                <hr>
+
+                <div>
+                    <h3 style="margin:0 0 10px 0;">Aktuelles</h3>
+                    <ul style="padding-left:20px; margin:0;">
+                        <li>Kein Eintrag</li>
+                        <li>Kein Eintrag</li>
+                        <li>Kein Eintrag</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="tile" onclick="downloadVCard()">
-      <div class="icon">📇</div>
-      <div class="title">Kontakt speichern</div>
-      <div class="value">Noah Brandt</div>
+    <!-- ===== ENGLISH ===== -->
+    <div id="en" style="display:none; flex:1; padding:20px;">
+
+        <!-- Navigation -->
+        <nav role="navigation" aria-label="Main Navigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
+            <a href="index.html">Home</a>
+            <a href="lebenslauf.html">Resume</a>
+            <a href="beratung.html">Consulting</a>
+            <a href="eigenverlag.html">Publisher</a>
+            <a href="internetpraesenz.html">Websites</a>
+            <a href="kontakt.html">Contact</a>
+            <a href="impressum.html">Legal Notice</a>
+        </nav>
+
+        <div class="container">
+
+            <!-- Left column -->
+            <div class="left-box">
+                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
+                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
+                <p style="text-align:center;">Noah Brandt - German and East Belgian librarian, author and consultant.</p>
+            </div>
+
+            <!-- Middle column -->
+            <div class="middle-box">
+                <h2 style="margin-top:0; text-align:center;">Resume</h2>
+                <p>Resume entries</p>
+            </div>
+
+            <!-- Right column -->
+            <div class="right-box">
+                <h2 style="margin-top:0; text-align:center;">Login</h2>
+                <form onsubmit="handleLogin(event, 'en')" aria-label="Login form">
+                    <label for="username_en">Username:</label><br>
+                    <input type="text" id="username_en" name="username" style="width:100%; margin-bottom:10px;" required><br>
+                    <label for="password_en">Password:</label><br>
+                    <input type="password" id="password_en" name="password" style="width:100%; margin-bottom:10px;" required><br>
+                    <button type="submit" style="width:100%; font-weight:bold;">Login</button>
+                </form>
+                <div class="forgot-pw">
+                    <a href="pwvergessen.html">Forgot password?</a>
+                </div>
+                <div style="margin-top:10px; text-align:center;">
+                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registration</a>
+                </div>
+
+                <hr>
+
+                <div>
+                    <h3 style="margin:0 0 10px 0;">News</h3>
+                    <ul style="padding-left:20px; margin:0;">
+                        <li>No entries</li>
+                        <li>No entries</li>
+                        <li>No entries</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="tile">
-      <div class="icon">🌐</div>
-      <div class="title">Website</div>
-      <div class="value">Portfolio</div>
-    </div>
+    <!-- ===== FOOTER ===== -->
+    <footer style="background-color:#ff9a33; border-top:4px solid #000; text-align:center; padding:15px; font-size:14px;">
+        <span id="footer-de">
+            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Impressum</a> |
+            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Datenschutz</a> |
+            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Nutzungsbedingungen</a>
+        </span>
+        <span id="footer-en" style="display:none;">
+            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Legal Notice</a> |
+            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Privacy Policy</a> |
+            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Terms of Use</a>
+        </span>
+    </footer>
 
-    <div class="tile">
-      <div class="icon">⚡</div>
-      <div class="title">Berufsbezeichnung</div>
-      <div class="value">Bibliothekar • Autor • Konsultant</div>
-    </div>
+    <script>
+        let fontSize = 16;
+        let highContrast = false;
+        let mobileActive = false;
 
-    <div class="tile"
-      onclick="window.open('https://wa.me/4915251788263','_blank')">
-      <div class="icon">💬</div><div class="title">WhatsApp</div><div class="value">Nachricht</div>
-    </div>
+        function showDE() {
+            document.getElementById("de").style.display = "block";
+            document.getElementById("en").style.display = "none";
+            document.getElementById("footer-de").style.display = "inline";
+            document.getElementById("footer-en").style.display = "none";
+        }
 
-    <div class="tile">
-      <div class="icon">📍</div><div class="title">Ort</div><div class="value">Ittenbach, Deutschland</div>
-    </div>
+        function showEN() {
+            document.getElementById("de").style.display = "none";
+            document.getElementById("en").style.display = "block";
+            document.getElementById("footer-de").style.display = "none";
+            document.getElementById("footer-en").style.display = "inline";
+        }
 
-    <div class="tile span-2">
-      <div class="icon">👤</div><div class="title">Über mich</div>
-      <div class="value">Noah Brandt ist ein deutsch-ostbelgischer Bibliothekar, Autor und Konsultant.</div>
-    </div>
+        function toggleContrast() {
+            highContrast = !highContrast;
+            if(highContrast){
+                document.getElementById("body").style.backgroundColor = "#000000";
+                document.getElementById("body").style.color = "#ffffff";
+            } else {
+                document.getElementById("body").style.backgroundColor = "#ff7a00";
+                document.getElementById("body").style.color = "#000000";
+            }
+        }
 
-  </div>
-</div>
+        function adjustFontSize(change) {
+            fontSize += change;
+            if(fontSize < 10) fontSize = 10;
+            document.getElementById("body").style.fontSize = fontSize + "px";
+        }
 
-<div class="guide">
-  <div class="person"></div>
-  <div class="chat" id="chat"></div>
-</div>
+        function resetAccessibility() {
+            fontSize = 16;
+            highContrast = false;
+            mobileActive = false;
+            document.getElementById("body").classList.remove("mobile");
+            document.getElementById("body").style.fontSize = fontSize + "px";
+            document.getElementById("body").style.backgroundColor = "#ff7a00";
+            document.getElementById("body").style.color = "#000000";
+        }
 
-<div class="footer">
-  <a href="www.noahbrandt.de/impressum.html">Impressum</a>
-  <a href="www.noahbrandt.de/datenschutz.html"">Datenschutz</a>
-  <a href="www.noahbrandt.de/nutzungsbedingungen">Nutzungsbedingungen</a>
-</div>
+        function toggleMobile() {
+            mobileActive = !mobileActive;
+            if(mobileActive){
+                document.getElementById("body").classList.add("mobile");
+            } else {
+                document.getElementById("body").classList.remove("mobile");
+            }
+        }
 
-<script>
-let introFinished=false;
-
-function createBubble(){
-  const b=document.createElement("span");
-  const size=Math.random()*20+10;
-  b.style.width=size+"px";
-  b.style.height=size+"px";
-  b.style.left=Math.random()*100+"vw";
-  b.style.animationDuration=(5+Math.random()*5)+"s";
-  document.getElementById("bubbleBg").appendChild(b);
-  setTimeout(()=>b.remove(),10000);
-}
-setInterval(createBubble,300);
-
-const quotes=[
-"✨ Alles beginnt mit einem Gedanken.",
-"🌱 Kleine Schritte führen zu großen Dingen.",
-"💡 Habe den Mut. Traue Dich.",
-"🚀 Du bist näher dran als du denkst."
-];
-
-let qi=0;
-function startQuotes(){
-  function show(){
-    const box=document.getElementById("quotes");
-    const q=document.createElement("div");
-    q.className="quote";
-    q.textContent=quotes[qi];
-    box.appendChild(q);
-    setTimeout(()=>q.remove(),4000);
-    qi=(qi+1)%quotes.length;
-  }
-  show();
-  setInterval(show,4500);
-}
-
-const messages=[
-"Hallo 👋 Willkommen auf der Besucherkarte von Noah Brandt.",
-"Klicke auf die Kacheln — jede führt dich irgendwo hin.",
-"Oben siehst du die Sonne… sie ist hier immer ein bisschen lebendig ☀️",
-"Wenn du klickst, entstehen kleine Wellen in der Realität ✨",
-"Ich begleite dich ein Stück durch diese kleine digitale Welt."
-];
-
-function startChat(){
-  let i=0,j=0;
-  const chat=document.getElementById("chat");
-
-  function type(){
-    let t=messages[i];
-    chat.innerHTML=t.substring(0,j)+"<span class='cursor'></span>";
-    j++;
-    if(j>t.length){
-      setTimeout(()=>{j=0;i=(i+1)%messages.length;},1200);
-    }
-    setTimeout(type,35);
-  }
-  type();
-}
-
-function downloadVCard(){
-  const vcf =
-`BEGIN:VCARD
-VERSION:3.0
-FN:Noah Brandt
-TEL:+4915251788263
-END:VCARD`;
-
-  const blob = new Blob([vcf], {type:"text/vcard"});
-  const url = URL.createObjectURL(blob);
-
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "Noah_Brandt.vcf";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-setTimeout(()=>{
-  const intro=document.getElementById("intro");
-  const text=document.getElementById("welcome");
-
-  const letters="HERZLICH WILLKOMMEN".split("");
-  const rect=text.getBoundingClientRect();
-
-  intro.innerHTML="";
-
-  letters.forEach((l,i)=>{
-    const span=document.createElement("div");
-    span.className="piece";
-    span.textContent=l;
-
-    const angle=Math.random()*2*Math.PI;
-    const dist=Math.random()*300;
-
-    span.style.left=rect.left+i*18+"px";
-    span.style.top=rect.top+"px";
-    span.style.setProperty("--x",Math.cos(angle)*dist+"px");
-    span.style.setProperty("--y",Math.sin(angle)*dist+"px");
-
-    intro.appendChild(span);
-  });
-
-  setTimeout(()=>{
-    intro.style.display="none";
-    startChat();
-    startQuotes();
-  },1200);
-
-},2000);
-
-document.addEventListener("click",(e)=>{
-  const r=document.createElement("div");
-  r.className="ripple";
-  r.style.left=e.clientX+"px";
-  r.style.top=e.clientY+"px";
-  document.body.appendChild(r);
-  setTimeout(()=>r.remove(),1000);
-});
-</script>
+        function handleLogin(event, lang='de') {
+            event.preventDefault();
+            alert(lang === 'de' ? 'Login-Prozess erfolgt gegenwärtig...' : 'Login process is in progress...');
+            setTimeout(function() {
+                window.location.href = "login.html";
+            }, 4000);
+        }
+    </script>
 
 </body>
 </html>
