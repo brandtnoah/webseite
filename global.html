@@ -476,23 +476,45 @@ function startChat(){
 }
 
 function downloadVCard(){
+
   const vcf =
+
 `BEGIN:VCARD
+
 VERSION:3.0
+
 FN:Noah Brandt
+
 TEL:+4915251788263
+
+EMAIL:brandtnoah@outlook.de
+
+URL:https://www.noahbrandt.de
+
+ADR:;;Ittenbach;Königswinter;;Deutschland
+
+NOTE:Noah Brandt, mein persönlicher Ansprechpartner
+
 END:VCARD`;
 
   const blob = new Blob([vcf], {type:"text/vcard"});
+
   const url = URL.createObjectURL(blob);
 
   const a = document.createElement("a");
+
   a.href = url;
+
   a.download = "Noah_Brandt.vcf";
+
   document.body.appendChild(a);
+
   a.click();
+
   document.body.removeChild(a);
+
   URL.revokeObjectURL(url);
+
 }
 
 setTimeout(()=>{
