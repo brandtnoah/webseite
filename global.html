@@ -75,7 +75,7 @@ body{
   to{transform:translateY(-120vh) scale(0.6);opacity:0;}
 }
 
-/* ================= INTRO (UPDATED) ================= */
+/* INTRO */
 #intro{
   position:fixed;
   inset:0;
@@ -89,7 +89,6 @@ body{
   text-align:center;
 }
 
-/* main title */
 #intro h1{
   font-size:3rem;
   letter-spacing:2px;
@@ -97,7 +96,6 @@ body{
   animation:popIn .4s ease-out;
 }
 
-/* subtitle (NEW) */
 #intro p{
   margin-top:10px;
   font-size:1rem;
@@ -111,7 +109,6 @@ body{
   to{transform:scale(1);opacity:1;}
 }
 
-/* wave */
 #intro::after{
   content:"";
   position:absolute;
@@ -127,7 +124,6 @@ body{
   100%{transform:scale(8);opacity:0;}
 }
 
-/* explosion pieces */
 .piece{
   position:absolute;
   font-size:2.8rem;
@@ -259,7 +255,7 @@ body{
   to{transform:scale(15);opacity:0;}
 }
 
-/* ZITATE */
+/* QUOTES */
 .quotes{
   position:fixed;
   top:20px;
@@ -287,6 +283,37 @@ body{
   70%{opacity:1;}
   100%{opacity:0; transform:translateY(10px);}
 }
+
+/* ================= FOOTER (DEZENTER + UNTER CHAT) ================= */
+.footer{
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:4px 0;
+  text-align:center;
+  font-size:.65rem;
+  color:#334155;
+  background:rgba(255,255,255,0.45);
+  backdrop-filter:blur(8px);
+  border-top:1px solid rgba(148,163,184,.2);
+  z-index:5; /* bewusst unter Chat */
+  pointer-events:auto;
+}
+
+.footer a{
+  color:#0f172a;
+  text-decoration:none;
+  margin:0 10px;
+  opacity:.7;
+  transition:.2s;
+}
+
+.footer a:hover{
+  opacity:1;
+  text-decoration:underline;
+}
+
 </style>
 </head>
 
@@ -295,7 +322,6 @@ body{
 <div class="bubble-bg" id="bubbleBg"></div>
 <div class="sun"></div>
 
-<!-- ================= INTRO (UPDATED TEXT) ================= -->
 <div id="intro">
   <h1 id="welcome">HERZLICH WILLKOMMEN</h1>
   <p>auf der Besucherkarte von Noah Brandt</p>
@@ -321,7 +347,7 @@ body{
     </div>
 
     <div class="tile"
-      onclick="window.open('https://api.whatsapp.com/send/?phone=49&text=Entsprechende%20Nachricht%20an%20Noah%20Brandt%20zusenden.%C2%A0','_blank')">
+      onclick="window.open('https://wa.me/15251788263?text=Ich%20bin%20sehr%20an%20deinem%20Auto%20interessiert','_blank')">
       <div class="icon">💬</div><div class="title">WhatsApp</div><div class="value">Nachricht</div>
     </div>
 
@@ -350,13 +376,17 @@ body{
   <div class="chat" id="chat"></div>
 </div>
 
+<!-- FOOTER -->
+<div class="footer">
+  <a href="https://noahbrandt.de/impressum.html">Impressum</a>
+  <a href="https://noahbrandt.de/datenschutz.html">Datenschutz</a>
+  <a href="https://noahbrandt.de/nutzungsbedingungen.html">Nutzungsbedingungen</a>
+</div>
+
 <script>
-
-/* everything unchanged below (intro timing + chat + quotes already synced from previous version) */
-
+/* unchanged JS */
 let introFinished=false;
 
-/* bubbles */
 function createBubble(){
   const b=document.createElement("span");
   const size=Math.random()*20+10;
@@ -369,7 +399,6 @@ function createBubble(){
 }
 setInterval(createBubble,300);
 
-/* quotes */
 const quotes=[
 "✨ Alles beginnt mit einem Gedanken.",
 "🌱 Kleine Schritte führen zu großen Dingen.",
@@ -392,7 +421,6 @@ function startQuotes(){
   setInterval(show,4500);
 }
 
-/* chat */
 const messages=[
 "Hallo 👋 Willkommen auf der Besucherkarte von Noah Brandt.",
 "Klicke auf die Kacheln — jede führt dich irgendwo hin.",
@@ -400,8 +428,6 @@ const messages=[
 "Wenn du klickst, entstehen kleine Wellen in der Realität ✨",
 "Ich begleite dich ein Stück durch diese kleine digitale Welt."
 ];
-
-
 
 function startChat(){
   let i=0,j=0;
@@ -419,7 +445,6 @@ function startChat(){
   type();
 }
 
-/* intro */
 setTimeout(()=>{
   const intro=document.getElementById("intro");
   const text=document.getElementById("welcome");
@@ -453,7 +478,6 @@ setTimeout(()=>{
 
 },2000);
 
-/* ripple */
 document.addEventListener("click",(e)=>{
   const r=document.createElement("div");
   r.className="ripple";
@@ -462,7 +486,6 @@ document.addEventListener("click",(e)=>{
   document.body.appendChild(r);
   setTimeout(()=>r.remove(),1000);
 });
-
 </script>
 
 </body>
