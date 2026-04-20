@@ -345,8 +345,26 @@ body{
       <div class="icon">📞</div><div class="title">Telefon</div><div class="value">Anrufen</div>
     </div>
 
+    <div class="tile" onclick="downloadVCard()">
+      <div class="icon">📇</div>
+      <div class="title">Kontakt speichern</div>
+      <div class="value">Noah Brandt</div>
+    </div>
+
+    <div class="tile">
+      <div class="icon">🌐</div>
+      <div class="title">Website</div>
+      <div class="value">Portfolio</div>
+    </div>
+
+    <div class="tile">
+      <div class="icon">⚡</div>
+      <div class="title">Berufsbezeichnung</div>
+      <div class="value">Bibliothekar • Autor • Konsultant</div>
+    </div>
+
     <div class="tile"
-      onclick="window.open('wa.link/p1wpyq','_blank')">
+      onclick="window.open('https://wa.me/4915251788263','_blank')">
       <div class="icon">💬</div><div class="title">WhatsApp</div><div class="value">Nachricht</div>
     </div>
 
@@ -359,15 +377,6 @@ body{
       <div class="value">Noah Brandt ist ein deutsch-ostbelgischer Bibliothekar, Autor und Konsultant.</div>
     </div>
 
-    <!-- GEÄNDERT: Website-Kachel -->
-    <div class="tile" onclick="window.open('https://noahbrandt.de','_blank')">
-      <div class="icon">🌐</div><div class="title">Website</div><div class="value">Portfolio</div>
-    </div>
-
-    <div class="tile">
-      <div class="icon">⚡</div><div class="title">Berufsbezeichnung</div><div class="value">Bibliothekar • Autor • Konsultant</div>
-    </div>
-
   </div>
 </div>
 
@@ -377,13 +386,12 @@ body{
 </div>
 
 <div class="footer">
-  <a href="#">Impressum</a>
-  <a href="#">Datenschutz</a>
-  <a href="#">Nutzungsbedingungen</a>
+  <a href="www.noahbrandt.de/impressum.html">Impressum</a>
+  <a href="www.noahbrandt.de/datenschutz.html"">Datenschutz</a>
+  <a href="www.noahbrandt.de/nutzungsbedingungen">Nutzungsbedingungen</a>
 </div>
 
 <script>
-/* unchanged JS */
 let introFinished=false;
 
 function createBubble(){
@@ -442,6 +450,26 @@ function startChat(){
     setTimeout(type,35);
   }
   type();
+}
+
+function downloadVCard(){
+  const vcf =
+`BEGIN:VCARD
+VERSION:3.0
+FN:Noah Brandt
+TEL:+4915251788263
+END:VCARD`;
+
+  const blob = new Blob([vcf], {type:"text/vcard"});
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "Noah_Brandt.vcf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 setTimeout(()=>{
