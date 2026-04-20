@@ -284,7 +284,7 @@ body{
   100%{opacity:0; transform:translateY(10px);}
 }
 
-/* ================= FOOTER (DEZENTER + UNTER CHAT) ================= */
+/* FOOTER */
 .footer{
   position:fixed;
   bottom:0;
@@ -297,7 +297,7 @@ body{
   background:rgba(255,255,255,0.45);
   backdrop-filter:blur(8px);
   border-top:1px solid rgba(148,163,184,.2);
-  z-index:5; /* bewusst unter Chat */
+  z-index:5;
   pointer-events:auto;
 }
 
@@ -313,7 +313,6 @@ body{
   opacity:1;
   text-decoration:underline;
 }
-
 </style>
 </head>
 
@@ -347,12 +346,12 @@ body{
     </div>
 
     <div class="tile"
-      onclick="window.open('https://wa.me/15251788263?text=Ich%20bin%20sehr%20an%20deinem%20Auto%20interessiert','_blank')">
+      onclick="window.open('wa.link/p1wpyq','_blank')">
       <div class="icon">💬</div><div class="title">WhatsApp</div><div class="value">Nachricht</div>
     </div>
 
     <div class="tile">
-      <div class="icon">📍</div><div class="title">Ort</div><div class="value">Deutschland</div>
+      <div class="icon">📍</div><div class="title">Ort</div><div class="value">Ittenbach, Deutschland</div>
     </div>
 
     <div class="tile span-2">
@@ -360,12 +359,13 @@ body{
       <div class="value">Noah Brandt ist ein deutsch-ostbelgischer Bibliothekar, Autor und Konsultant.</div>
     </div>
 
-    <div class="tile"> 
+    <!-- GEÄNDERT: Website-Kachel -->
+    <div class="tile" onclick="window.open('https://noahbrandt.de','_blank')">
       <div class="icon">🌐</div><div class="title">Website</div><div class="value">Portfolio</div>
     </div>
 
     <div class="tile">
-      <div class="icon">⚡</div><div class="title">Skills</div><div class="value">Bibliothekar • Autor • Konsultant</div>
+      <div class="icon">⚡</div><div class="title">Berufsbezeichnung</div><div class="value">Bibliothekar • Autor • Konsultant</div>
     </div>
 
   </div>
@@ -376,11 +376,10 @@ body{
   <div class="chat" id="chat"></div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
-  <a href="https://noahbrandt.de/impressum.html">Impressum</a>
-  <a href="https://noahbrandt.de/datenschutz.html">Datenschutz</a>
-  <a href="https://noahbrandt.de/nutzungsbedingungen.html">Nutzungsbedingungen</a>
+  <a href="#">Impressum</a>
+  <a href="#">Datenschutz</a>
+  <a href="#">Nutzungsbedingungen</a>
 </div>
 
 <script>
