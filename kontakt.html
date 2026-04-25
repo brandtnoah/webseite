@@ -179,20 +179,24 @@
 
 <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-top:6px;">
 
+    <div style="flex:1; min-width:140px;">
+    <label style="font-size:12px; color:#333;">Tag</label><br>
+        
     <!-- TAG -->
-    <div style="flex:1; min-width:120px;">
-        <label style="font-size:12px; color:#333;">Tag</label><br>
-        <select name="Tag" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
-            <option value="">—</option>
-            <option>Mo</option>
-            <option>Di</option>
-            <option>Mi</option>
-            <option>Do</option>
-            <option>Fr</option>
-            <option>Sa</option>
-            <option>So</option>
-        </select>
-    </div>
+        
+    <select id="tagSelect" onchange="updateDatum()" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
+        <option value="">—</option>
+        <option value="1">Mo</option>
+        <option value="2">Di</option>
+        <option value="3">Mi</option>
+        <option value="4">Do</option>
+        <option value="5">Fr</option>
+        <option value="6">Sa</option>
+        <option value="0">So</option>
+    </select>
+
+    <div id="datumAnzeige" style="font-size:11px; margin-top:4px; color:#555;"></div>
+</div>
 
     <!-- ZEIT -->
     <div style="flex:1; min-width:100px;">
@@ -211,6 +215,8 @@
             <option>17:00</option>
             <option>18:00</option>
             <option>19:00</option>
+            <option>20:00</option>
+            <option>21:00</option>
         </select>
     </div>
 
@@ -466,7 +472,37 @@
             <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Terms of Use</a>
         </span>
     </footer>
+<script>
+function updateDatum() {
+    const select = document.getElementById("tagSelect");
+    const output = document.getElementById("datumAnzeige");
 
+    const wochentag = parseInt(select.value);
+
+    if (isNaN(wochentag)) {
+        output.innerText = "";
+        return;
+    }
+
+    const heute = new Date();
+    const heuteTag = heute.getDay();
+
+    let diff = wochentag - heuteTag;
+    if (diff < 0) diff += 7;
+
+    const datum = new Date();
+    datum.setDate(heute.getDate() + diff);
+
+    const formatiert = datum.toLocaleDateString("de-DE", {
+        weekday: "long",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+
+    output.innerText = "→ " + formatiert;
+}
+</script>
     <script>
         let fontSize = 16;
         let highContrast = false;
