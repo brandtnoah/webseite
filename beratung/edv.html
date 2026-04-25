@@ -150,50 +150,108 @@
 
                 <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 1: Einführung in die PC-Bedienung</h3>
-                        <p>Grundlagen im Umgang mit dem Personal Computer</p>
-                        <select id="termin1" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Montag 10:00</option>
-                            <option>Dienstag 14:00</option>
-                            <option>Samstag 10:00</option>
-                            <option>Sonntag 11:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 1: Einführung in die PC-Bedienung','termin1')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+<div style="display:flex; gap:20px; flex-wrap:wrap;">
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 2: Internet sicher nutzen</h3>
-                        <p>Grundlagen zu Internet-Browser, URL-Suche und Webseite</p>
-                        <select id="termin2" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Montag 13:00</option>
-                            <option>Dienstag 11:00</option>
-                            <option>Samstag 15:00</option>
-                            <option>Sonntag 12:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 2: Internet sicher nutzen','termin2')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
+        <h3>Beratungsmodul 1: Einführung in die PC-Bedienung</h3>
+        <p>Grundlagen im Umgang mit dem Personal Computer</p>
+        <select id="termin1" style="width:100%; margin-bottom:10px;"></select>
+        <button onclick="anmelden('Beratungsmodul 1: Einführung in die PC-Bedienung','termin1')" style="width:100%;">
+            Kostenfrei anmelden
+        </button>
+    </div>
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen</h3>
-                        <p>Umgang mit elektronischen Bibliotheksdatenbanken</p>
-                        <select id="termin3" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Dienstag 10:00</option>
-                            <option>Samstag 09:00</option>
-                            <option>Sonntag 14:00</option>
-                            <option>Montag 16:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen','termin3')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
+        <h3>Beratungsmodul 2: Internet sicher nutzen</h3>
+        <p>Grundlagen zu Internet-Browser, URL-Suche und Webseite</p>
+        <select id="termin2" style="width:100%; margin-bottom:10px;"></select>
+        <button onclick="anmelden('Beratungsmodul 2: Internet sicher nutzen','termin2')" style="width:100%;">
+            Kostenfrei anmelden
+        </button>
+    </div>
+
+    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
+        <h3>Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen</h3>
+        <p>Umgang mit elektronischen Bibliotheksdatenbanken</p>
+        <select id="termin3" style="width:100%; margin-bottom:10px;"></select>
+        <button onclick="anmelden('Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen','termin3')" style="width:100%;">
+            Kostenfrei anmelden
+        </button>
+    </div>
+
+</div>
+
+<script>
+// 🔹 Termine je Modul
+const moduleTermine = {
+    termin1: [
+        { tag: "Montag", uhrzeit: "10:00", wochentag: 1 },
+        { tag: "Dienstag", uhrzeit: "14:00", wochentag: 2 },
+        { tag: "Samstag", uhrzeit: "10:00", wochentag: 6 },
+        { tag: "Sonntag", uhrzeit: "11:00", wochentag: 0 }
+    ],
+    termin2: [
+        { tag: "Montag", uhrzeit: "13:00", wochentag: 1 },
+        { tag: "Dienstag", uhrzeit: "11:00", wochentag: 2 },
+        { tag: "Samstag", uhrzeit: "15:00", wochentag: 6 },
+        { tag: "Sonntag", uhrzeit: "12:00", wochentag: 0 }
+    ],
+    termin3: [
+        { tag: "Dienstag", uhrzeit: "10:00", wochentag: 2 },
+        { tag: "Samstag", uhrzeit: "09:00", wochentag: 6 },
+        { tag: "Sonntag", uhrzeit: "14:00", wochentag: 0 },
+        { tag: "Montag", uhrzeit: "16:00", wochentag: 1 }
+    ]
+};
+
+function naechstesDatum(wochentag, uhrzeit) {
+    const jetzt = new Date();
+    const heute = jetzt.getDay();
+    let diff = wochentag - heute;
+
+    if (diff < 0) diff += 7;
+
+    const terminDatum = new Date(jetzt);
+    terminDatum.setDate(jetzt.getDate() + diff);
+
+    const [stunden, minuten] = uhrzeit.split(":");
+    terminDatum.setHours(stunden, minuten, 0, 0);
+
+    if (diff === 0 && terminDatum < jetzt) {
+        terminDatum.setDate(terminDatum.getDate() + 7);
+    }
+
+    return terminDatum;
+}
+
+function formatDatum(datum) {
+    return datum.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+}
+
+// 🔥 Alle Selects befüllen
+Object.keys(moduleTermine).forEach(id => {
+    const select = document.getElementById(id);
+
+    const placeholder = document.createElement("option");
+    placeholder.textContent = "Termin wählen";
+    placeholder.value = "";
+    select.appendChild(placeholder);
+
+    moduleTermine[id].forEach(t => {
+        const datum = naechstesDatum(t.wochentag, t.uhrzeit);
+        const option = document.createElement("option");
+
+        option.textContent = `${t.tag} (${formatDatum(datum)}) ${t.uhrzeit}`;
+        option.value = option.textContent;
+
+        select.appendChild(option);
+    });
+});
+</script>
 
                 </div>
             </div>
