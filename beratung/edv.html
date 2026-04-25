@@ -190,11 +190,54 @@
 
 <div class="container">
 
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Beratungsmodule</title>
+
+<style>
+.container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: stretch; /* 🔥 gleiche Höhe pro Reihe */
+}
+
+.box {
+    background: #f9f9f9;
+    border: 2px solid #000;
+    padding: 15px;
+    width: 250px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* 🔥 sorgt dafür, dass Inhalt oben wächst */
+.box .content {
+    flex: 1;
+}
+
+/* Button bleibt unten */
+.box button {
+    width: 100%;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
     <div class="box">
-        <div>
+        <div class="content">
             <h3>Beratungsmodul 1: Einführung in die PC-Bedienung</h3>
             <p>Grundlagen im Umgang mit dem Personal Computer</p>
         </div>
+
         <div>
             <select id="termin1" style="width:100%; margin-bottom:10px;"></select>
             <button onclick="anmelden('Beratungsmodul 1: Einführung in die PC-Bedienung','termin1')">
@@ -204,10 +247,11 @@
     </div>
 
     <div class="box">
-        <div>
+        <div class="content">
             <h3>Beratungsmodul 2: Internet sicher nutzen</h3>
             <p>Grundlagen zu Internet-Browser, URL-Suche und Webseite</p>
         </div>
+
         <div>
             <select id="termin2" style="width:100%; margin-bottom:10px;"></select>
             <button onclick="anmelden('Beratungsmodul 2: Internet sicher nutzen','termin2')">
@@ -217,10 +261,11 @@
     </div>
 
     <div class="box">
-        <div>
+        <div class="content">
             <h3>Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen</h3>
             <p>Umgang mit elektronischen Bibliotheksdatenbanken</p>
         </div>
+
         <div>
             <select id="termin3" style="width:100%; margin-bottom:10px;"></select>
             <button onclick="anmelden('Beratungsmodul 3: Recherche in Bibliotheksdatenbanken und Fachportalen','termin3')">
@@ -317,6 +362,9 @@ function anmelden(titel, terminId) {
 }
 </script>
 
+</body>
+</html>
+    
 </body>
 </html>
 
