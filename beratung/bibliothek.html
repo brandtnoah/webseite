@@ -212,50 +212,130 @@ termine.forEach(t => {
 });
 </script>
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 1: Auskunftsdienst und Literaturberatung</h3>
-                        <p>Klassische zentrale Bibliotheksauskunft</p>
-                        <select id="termin1" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Montag 10:00</option>
-                            <option>Dienstag 14:00</option>
-                            <option>Samstag 10:00</option>
-                            <option>Sonntag 11:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 1: Auskunftsdienst und Literaturberatung','termin1')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+                                        <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
+    <h3 id="titel1">Beratungsmodul 2: Einführung in den Kataloggebrauch</h3>
+    <p>Zettelkatalog / Online-Katalog / Schlagwortkatalog / Systematischer Katalog</p>
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 2: Einführung in den Kataloggebrauch</h3>
-                        <p>Zettelkatalog / Online-Katalog / Schlagwortkatalog / Systematischer Katalog</p>
-                        <select id="termin2" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Montag 13:00</option>
-                            <option>Dienstag 11:00</option>
-                            <option>Samstag 15:00</option>
-                            <option>Sonntag 12:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 2: Einführung in den Kataloggebrauch','termin2')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+    <select id="termin1" style="width:100%; margin-bottom:10px;">
+        <option value="">Termin wählen</option>
+    </select>
 
-                    <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
-                        <h3>Beratungsmodul 3: Nutzung elektronischer Datenbanken</h3>
-                        <p>Zugriff auf digitale Literatur- und Fachsysteme</p>
-                        <select id="termin3" style="width:100%; margin-bottom:10px;">
-                            <option value="">Termin wählen</option>
-                            <option>Dienstag 10:00</option>
-                            <option>Samstag 09:00</option>
-                            <option>Sonntag 14:00</option>
-                            <option>Montag 16:00</option>
-                        </select>
-                        <button onclick="anmelden('Beratungsmodul 3: Nutzung elektronischer Datenbanken','termin3')" style="width:100%;">
-                            Kostenfrei anmelden
-                        </button>
-                    </div>
+    <button onclick="anmelden(document.getElementById('titel1').innerText,'termin1')" style="width:100%;">
+        Kostenfrei anmelden
+    </button>
+</div>
+
+<script>
+const termine = [
+    { tag: "Montag", uhrzeit: "10:00", wochentag: 1 },
+    { tag: "Dienstag", uhrzeit: "14:00", wochentag: 2 },
+    { tag: "Samstag", uhrzeit: "10:00", wochentag: 6 },
+    { tag: "Sonntag", uhrzeit: "11:00", wochentag: 0 }
+];
+
+function naechstesDatum(wochentag, uhrzeit) {
+    const jetzt = new Date();
+    const heute = jetzt.getDay();
+    let diff = wochentag - heute;
+
+    if (diff < 0) diff += 7;
+
+    const terminDatum = new Date(jetzt);
+    terminDatum.setDate(jetzt.getDate() + diff);
+
+    const [stunden, minuten] = uhrzeit.split(":");
+    terminDatum.setHours(stunden, minuten, 0, 0);
+
+    if (diff === 0 && terminDatum < jetzt) {
+        terminDatum.setDate(terminDatum.getDate() + 7);
+    }
+
+    return terminDatum;
+}
+
+function formatDatum(datum) {
+    return datum.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+}
+
+const select = document.getElementById("termin1");
+
+termine.forEach(t => {
+    const datum = naechstesDatum(t.wochentag, t.uhrzeit);
+    const option = document.createElement("option");
+
+    option.textContent = `${t.tag} (${formatDatum(datum)}) ${t.uhrzeit}`;
+    option.value = option.textContent;
+
+    select.appendChild(option);
+});
+</script>
+
+                    
+                                        <div style="background:#f9f9f9; border:2px solid #000; padding:15px; width:250px;">
+    <h3 id="titel1">Beratungsmodul 3: Nutzung elektronischer Datenbanken</h3>
+    <p>Beratungsmodul 3: Nutzung elektronischer Datenbanken</p>
+
+    <select id="termin1" style="width:100%; margin-bottom:10px;">
+        <option value="">Termin wählen</option>
+    </select>
+
+    <button onclick="anmelden(document.getElementById('titel1').innerText,'termin1')" style="width:100%;">
+        Kostenfrei anmelden
+    </button>
+</div>
+
+<script>
+const termine = [
+    { tag: "Montag", uhrzeit: "10:00", wochentag: 1 },
+    { tag: "Dienstag", uhrzeit: "14:00", wochentag: 2 },
+    { tag: "Samstag", uhrzeit: "10:00", wochentag: 6 },
+    { tag: "Sonntag", uhrzeit: "11:00", wochentag: 0 }
+];
+
+function naechstesDatum(wochentag, uhrzeit) {
+    const jetzt = new Date();
+    const heute = jetzt.getDay();
+    let diff = wochentag - heute;
+
+    if (diff < 0) diff += 7;
+
+    const terminDatum = new Date(jetzt);
+    terminDatum.setDate(jetzt.getDate() + diff);
+
+    const [stunden, minuten] = uhrzeit.split(":");
+    terminDatum.setHours(stunden, minuten, 0, 0);
+
+    if (diff === 0 && terminDatum < jetzt) {
+        terminDatum.setDate(terminDatum.getDate() + 7);
+    }
+
+    return terminDatum;
+}
+
+function formatDatum(datum) {
+    return datum.toLocaleDateString("de-DE", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+    });
+}
+
+const select = document.getElementById("termin1");
+
+termine.forEach(t => {
+    const datum = naechstesDatum(t.wochentag, t.uhrzeit);
+    const option = document.createElement("option");
+
+    option.textContent = `${t.tag} (${formatDatum(datum)}) ${t.uhrzeit}`;
+    option.value = option.textContent;
+
+    select.appendChild(option);
+});
+</script>
 
                 </div>
             </div>
