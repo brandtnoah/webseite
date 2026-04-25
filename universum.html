@@ -136,16 +136,44 @@
 
             <!-- Mittlere Spalte (Lebenslauf) -->
             <div class="middle-box">
-          <h2 style="color:#fff; margin-top:0; text-align:center; animation:blink 1.5s infinite;">
+    <h2 style="color:#fff; margin-top:0; text-align:center; position:relative; animation:blink 3s infinite;">
   Noah Brandt's Universum
+  <span class="spark s1"></span>
+  <span class="spark s2"></span>
+  <span class="spark s3"></span>
+  <span class="spark s4"></span>
 </h2>
 
 <style>
 @keyframes blink{
   0%{opacity:1;}
-  50%{opacity:0.2;}
+  50%{opacity:0.4;}
   100%{opacity:1;}
 }
+
+/* Glitzerpunkte */
+.spark{
+  position:absolute;
+  width:3px;
+  height:3px;
+  background:#fff;
+  border-radius:50%;
+  box-shadow:0 0 6px #fff, 0 0 12px #4facfe;
+  animation:sparkle 2s infinite ease-in-out;
+  opacity:0;
+}
+
+@keyframes sparkle{
+  0%{transform:scale(0); opacity:0;}
+  50%{opacity:1;}
+  100%{transform:scale(1.5); opacity:0;}
+}
+
+/* Positionen der Funken */
+.s1{top:5px; left:20%;}
+.s2{top:15px; right:25%; animation-delay:0.5s;}
+.s3{bottom:0px; left:40%; animation-delay:1s;}
+.s4{top:10px; right:10%; animation-delay:1.5s;}
 </style>
                 <p><!DOCTYPE html> 
 <html lang="de">
