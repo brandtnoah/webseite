@@ -406,6 +406,123 @@
             <input type="email" id="email_en" name="Email"
                    style="width:100%; margin-bottom:10px;" required>
 
+            
+            <div style="margin-top:10px; font-weight:bold;">Termin vorschlagen:</div>
+
+<div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-top:6px;">
+
+    <div style="flex:1; min-width:140px;">
+    <label style="font-size:12px; color:#333;">Tag</label><br>
+        
+    <!-- TAG -->
+        
+    <select id="tagSelect" onchange="updateDatum()" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
+        <option value="">—</option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+        <option value="0">Sunday</option>
+    </select>
+
+    <div id="datumAnzeige" style="font-size:11px; margin-top:4px; color:#555;"></div>
+</div>
+
+    <!-- ZEIT -->
+    <div style="flex:1; min-width:100px;">
+        <label style="font-size:12px; color:#333;">Time</label><br>
+        <select name="Uhrzeit" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
+            <option value="">—</option>
+            <option>08:00</option>
+            <option>09:00</option>
+            <option>10:00</option>
+            <option>11:00</option>
+            <option>12:00</option>
+            <option>13:00</option>
+            <option>14:00</option>
+            <option>15:00</option>
+            <option>16:00</option>
+            <option>17:00</option>
+            <option>18:00</option>
+            <option>19:00</option>
+            <option>20:00</option>
+            <option>21:00</option>
+            <option>Arrange a time appointment</option>
+        </select>
+    </div>
+
+    <!-- ORT -->
+    <div style="flex:2; min-width:200px;">
+        <label style="font-size:12px; color:#333;">Location</label><br>
+        <select name="Treffpunkt" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
+            <option value="">—</option>
+            <option>Online</option>
+            <option>Bonn</option>
+            <option>Sankt Augustin</option>
+            <option>Königswinter</option>
+            <option>Hellenthal</option>
+            <option>Prüm</option>
+            <option>Bad Honnef</option>
+            <option>Unkel</option>
+            <option>St. Vith</option>
+            <option>Eupen</option>
+            <option>Arrange a meeting point</option>
+        </select>
+    </div>
+
+    <!-- EXAKTER TREFFPUNKT -->
+    <div style="flex:3; min-width:240px;">
+        <label style="font-size:12px; color:#333;">Exact meeting point</label><br>
+        <select name="ExakterTreffpunkt" style="width:100%; padding:5px; border:none; border-bottom:1px solid #000; background:transparent;">
+            <option value="">—</option>
+
+            <option>Online – Zoom link will be sent if applicable</option>
+            <option>Online – Microsoft Teams link will be sent if applicable</option>
+
+            <option>Bonn – Central station</option>
+            <option>Bonn – Bertha-von-Suttner-Platz (Tram stop)</option>
+            <option>Bonn – Konrad-Adenauer-Platz (Tram stop)</option>
+            <option>Bonn – Pützchen (at the church)</option>
+            <option>Bonn – Hoholz (bus stop "Gielgen")</option>
+
+            <option>Sankt Augustin – town hall</option>
+            <option>Sankt Augustin - HUMA (shopping mall)</option>
+            <option>Sankt Augustin – Airport Hangelar (Rest.)</option>
+
+            <option>Königswinter – Central station</option>
+            <option>Königswinter – Drachenfels cable car valley station</option>
+            <option>Königswinter - Oberdollendorf Nord (Tram stop)</option>
+            <option>Königswinter - Niederdollendorf (DB train station)</option>
+            <option>Königswinter - Ittenbach (bus station)
+
+            <option>Hellenthal – town center (at the ice cream parlor)</option>
+            <option>Hellenthal - Kehr (at the church)</option>
+            <option>Hellenthal - Kehr (at the cemetery)</option>
+
+            <option>Prüm – Marktplatz (ice cream parlor)</option>
+            <option>Prüm – Roth bei Prüm (former Hotel Mooshaus)</option>
+            <option>Prüm - Prüm Air Station (hiking parking lot)</option>
+
+            <option>Bad Honnef – Central station</option>
+            <option>Bad Honnef - Hospital</option>
+            <option>Bad Honnef - Bus station ("Städtisches Kurhaus")</option>
+            <option>Bad Honnef - HIT-Supermarket (Eingang)</option>
+            
+            <option>Unkel – Train station</option>
+            <option>Unkel - Town center (ice cream parlor)</option>
+
+            <option>St. Vith – Öffentliche Pfarrbibliothek (Belgien)</option>
+            <option>Eupen – Medienzentrum (Belgien)</option>
+            <option>Einvernehmlicher Treffpunkt (via E-Mail zu vereinbaren)</option>
+        </select>
+    </div>
+
+</div>
+
+<hr>
+
             <!-- Freitextfeld für Sachverhalt / Thematik -->
             <label for="message_en">Subject / Details:</label><br>
             <textarea id="message_en" name="Message"
