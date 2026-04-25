@@ -324,23 +324,28 @@ function anmelden(button) {
         </span>
     </footer>
 
-    <script>
-        function anmelden(titel, terminId) {
-            const termin = document.getElementById(terminId).value;
-            if (!termin) {
-                alert("Bitte wählen Sie zuerst einen Termin.");
-                return;
-            }
-            const email = "brandtnoah@outlook.de";
-            const subject = encodeURIComponent("Anmeldung: " + titel);
-            const body = encodeURIComponent(
-                "Guten Tag,\n\nIch möchte mich anmelden:\n\n" +
-                "Beratung: " + titel + "\nTermin: " + termin +
-                "\n\nHinweis: Unverbindliche Anfrage, Bestätigung erfolgt per E-Mail."
-            );
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-    </script>
+<script>
+function anmelden(button) {
+    const modul = button.closest(".modul");
+    const titel = modul.querySelector("h3").innerText;
+    const termin = modul.querySelector(".termin").value;
+
+    if (!termin) {
+        alert("Bitte wählen Sie zuerst einen Termin.");
+        return;
+    }
+
+    const email = "brandtnoah@outlook.de";
+    const subject = encodeURIComponent("Anmeldung: " + titel);
+    const body = encodeURIComponent(
+        "Guten Tag,\n\nIch möchte mich anmelden:\n\n" +
+        "Beratung: " + titel + "\nTermin: " + termin +
+        "\n\nHinweis: Unverbindliche Anfrage, Bestätigung erfolgt per E-Mail."
+    );
+
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+}
+</script>
 
 </body>
 </html>
