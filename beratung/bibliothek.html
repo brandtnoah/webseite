@@ -59,7 +59,6 @@
             text-align:justify;
         }
 
-        /* ⭐ HOVER EFFEKT (neu, sonst nichts verändert) */
         .middle-box > div > div {
             transition: all 0.25s ease;
         }
@@ -102,7 +101,6 @@
 
 <body id="body">
 
-    <!-- Obere Leiste -->
     <div style="text-align:right; padding:10px 20px;">
         <button onclick="showDE()" style="font-weight:bold;">Deutsch</button>
         <button onclick="showEN()" style="font-weight:bold;">English</button>
@@ -142,10 +140,13 @@
             <div class="middle-box">
                 <h2 style="margin-top:0; text-align:center;">Bibliothek</h2>
 
-                <p style="text-align:center; font-size:14px;">
-                    Ehrenamtliche Beratungsangebote • Dauer ca. 120 Minuten • Vor-Ort oder virtuell (Zoom / Teams)<br>
-                    <strong>Hinweis:</strong> Terminbuchung ist unverbindlich und wird erst im E-Mail-Verkehr bestätigt.
-                </p>
+                <!-- NEU: Box um den oberen Text -->
+                <div style="border:2px solid #000; padding:12px; margin:15px 0; background:#f2f2f2;">
+                    <p style="text-align:center; font-size:14px; margin:0;">
+                        Ehrenamtliche Beratungsangebote • Dauer ca. 120 Minuten • Vor-Ort oder virtuell (Zoom / Teams)<br>
+                        <strong>Hinweis:</strong> Terminbuchung ist unverbindlich und wird erst im E-Mail-Verkehr bestätigt.
+                    </p>
+                </div>
 
                 <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
 
@@ -156,7 +157,8 @@
                             <option value="">Termin wählen</option>
                             <option>Montag 10:00</option>
                             <option>Dienstag 14:00</option>
-                            <option>Freitag 09:00</option>
+                            <option>Samstag 10:00</option>
+                            <option>Sonntag 11:00</option>
                         </select>
                         <button onclick="anmelden('Karriereberatung','termin1')" style="width:100%;">
                             Kostenfrei anmelden
@@ -169,8 +171,9 @@
                         <select id="termin2" style="width:100%; margin-bottom:10px;">
                             <option value="">Termin wählen</option>
                             <option>Montag 13:00</option>
-                            <option>Mittwoch 11:00</option>
-                            <option>Donnerstag 15:00</option>
+                            <option>Dienstag 11:00</option>
+                            <option>Samstag 15:00</option>
+                            <option>Sonntag 12:00</option>
                         </select>
                         <button onclick="anmelden('Gründungsberatung','termin2')" style="width:100%;">
                             Kostenfrei anmelden
@@ -183,8 +186,9 @@
                         <select id="termin3" style="width:100%; margin-bottom:10px;">
                             <option value="">Termin wählen</option>
                             <option>Dienstag 10:00</option>
-                            <option>Donnerstag 09:00</option>
-                            <option>Freitag 14:00</option>
+                            <option>Samstag 09:00</option>
+                            <option>Sonntag 14:00</option>
+                            <option>Montag 16:00</option>
                         </select>
                         <button onclick="anmelden('Finanzberatung','termin3')" style="width:100%;">
                             Kostenfrei anmelden
