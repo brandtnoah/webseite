@@ -173,6 +173,64 @@
             <input type="email" id="email" name="Email"
                    style="width:100%; margin-bottom:10px;" required>
 
+            <hr>
+
+<label style="font-weight:bold;">Termin vorschlagen:</label><br><br>
+
+<!-- TAG -->
+<label for="tag">Tag:</label><br>
+<select id="tag" name="Tag" style="width:100%; margin-bottom:10px;" required>
+    <option value="">Bitte wählen</option>
+    <option>Montag</option>
+    <option>Dienstag</option>
+    <option>Mittwoch</option>
+    <option>Donnerstag</option>
+    <option>Freitag</option>
+    <option>Samstag</option>
+    <option>Sonntag</option>
+</select>
+
+<!-- UHRZEIT -->
+<label for="zeit">Uhrzeit:</label><br>
+<select id="zeit" name="Uhrzeit" style="width:100%; margin-bottom:10px;" required>
+    <option value="">Bitte wählen</option>
+    <option>08:00</option>
+    <option>09:00</option>
+    <option>10:00</option>
+    <option>11:00</option>
+    <option>12:00</option>
+    <option>13:00</option>
+    <option>14:00</option>
+    <option>15:00</option>
+    <option>16:00</option>
+    <option>17:00</option>
+    <option>18:00</option>
+    <option>19:00</option>
+</select>
+
+<!-- TREFFPUNKT -->
+<label for="ort">Treffpunkt:</label><br>
+<select id="ort" name="Treffpunkt" style="width:100%; margin-bottom:10px;" required>
+    <option value="">Bitte wählen</option>
+    <option>Online (Zoom / Teams)</option>
+    <option>Hoholz (Bonn)</option>
+    <option>Bertha-von-Suttner-Platz (Bonn)</option>
+    <option>Konrad-Adenauer-Platz (Bonn)</option>
+    <option>Oberkassel (Bonn)</option>
+    <option>Birlinghoven (Sankt Augustin)</option>
+    <option>Ittenbach (Königswinter)</option>
+    <option>Niederdollendorf (Königswinter)</option>
+    <option>Kehr (Hellenthal)</option>
+    <option>Roth bei Prüm (Prüm)</option>
+    <option>Prüm (Stadt)</option>
+    <option>Bad Honnef (Stadt)</option>
+    <option>Unkel (Stadt)</option>
+    <option>St. Vith (Belgien)</option>
+    <option>Eupen (Belgien)</option>
+</select>
+
+<hr>
+
             <!-- Freitextfeld für Sachverhalt / Thematik -->
             <label for="message">Sachverhalt / Thematik:</label><br>
             <textarea id="message" name="Nachricht"
