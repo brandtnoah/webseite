@@ -150,40 +150,69 @@
 
                 <div style="display:flex; flex-wrap:wrap; gap:20px; justify-content:center;">
 
-<div class="modul" data-termine='[
-    {"tag":"Montag","uhrzeit":"10:00","wochentag":1},
-    {"tag":"Dienstag","uhrzeit":"14:00","wochentag":2},
-    {"tag":"Samstag","uhrzeit":"10:00","wochentag":6},
-    {"tag":"Sonntag","uhrzeit":"11:00","wochentag":0}
-]'>
-    <h3>Beratungsmodul 1: Auskunftsdienst und Literaturberatung</h3>
-    <p>Klassische zentrale Bibliotheksauskunft</p>
-    <select class="termin"></select>
-    <button onclick="anmelden(this)">Kostenfrei anmelden</button>
-</div>
+<style>
+.container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-<div class="modul" data-termine='[
-    {"tag":"Montag","uhrzeit":"16:00","wochentag":1},
-    {"tag":"Dienstag","uhrzeit":"18:00","wochentag":2},
-    {"tag":"Samstag","uhrzeit":"18:00","wochentag":6},
-    {"tag":"Sonntag","uhrzeit":"17:00","wochentag":0}
-]'>
-    <h3>Beratungsmodul 2: Einführung in den Kataloggebrauch</h3>
-    <p>Zettelkatalog / Online-Katalog ...</p>
-    <select class="termin"></select>
-    <button onclick="anmelden(this)">Kostenfrei anmelden</button>
-</div>
+.modul {
+    background: #f9f9f9;
+    border: 2px solid #000;
+    padding: 15px;
+    width: 250px;
+    box-sizing: border-box;
+}
 
-<div class="modul" data-termine='[
-    {"tag":"Montag","uhrzeit":"20:00","wochentag":1},
-    {"tag":"Dienstag","uhrzeit":"17:00","wochentag":2},
-    {"tag":"Samstag","uhrzeit":"20:00","wochentag":6},
-    {"tag":"Sonntag","uhrzeit":"17:00","wochentag":0}
-]'>
-    <h3>Beratungsmodul 3: Nutzung elektronischer Datenbanken</h3>
-    <p>Nutzung elektronischer Datenbanken</p>
-    <select class="termin"></select>
-    <button onclick="anmelden(this)">Kostenfrei anmelden</button>
+.modul h3 {
+    margin-top: 0;
+}
+
+.modul button {
+    width: 100%;
+    margin-top: 10px;
+}
+</style>
+
+<div class="container">
+
+    <div class="modul" data-termine='[
+        {"tag":"Montag","uhrzeit":"10:00","wochentag":1},
+        {"tag":"Dienstag","uhrzeit":"14:00","wochentag":2},
+        {"tag":"Samstag","uhrzeit":"10:00","wochentag":6},
+        {"tag":"Sonntag","uhrzeit":"11:00","wochentag":0}
+    ]'>
+        <h3>Beratungsmodul 1: Auskunftsdienst und Literaturberatung</h3>
+        <p>Klassische zentrale Bibliotheksauskunft</p>
+        <select class="termin"></select>
+        <button onclick="anmelden(this)">Kostenfrei anmelden</button>
+    </div>
+
+    <div class="modul" data-termine='[
+        {"tag":"Montag","uhrzeit":"16:00","wochentag":1},
+        {"tag":"Dienstag","uhrzeit":"18:00","wochentag":2},
+        {"tag":"Samstag","uhrzeit":"18:00","wochentag":6},
+        {"tag":"Sonntag","uhrzeit":"17:00","wochentag":0}
+    ]'>
+        <h3>Beratungsmodul 2: Einführung in den Kataloggebrauch</h3>
+        <p>Zettelkatalog / Online-Katalog / Schlagwortkatalog / Systematischer Katalog</p>
+        <select class="termin"></select>
+        <button onclick="anmelden(this)">Kostenfrei anmelden</button>
+    </div>
+
+    <div class="modul" data-termine='[
+        {"tag":"Montag","uhrzeit":"20:00","wochentag":1},
+        {"tag":"Dienstag","uhrzeit":"17:00","wochentag":2},
+        {"tag":"Samstag","uhrzeit":"20:00","wochentag":6},
+        {"tag":"Sonntag","uhrzeit":"17:00","wochentag":0}
+    ]'>
+        <h3>Beratungsmodul 3: Nutzung elektronischer Datenbanken</h3>
+        <p>Nutzung elektronischer Datenbanken</p>
+        <select class="termin"></select>
+        <button onclick="anmelden(this)">Kostenfrei anmelden</button>
+    </div>
+
 </div>
 
 <script>
@@ -215,7 +244,7 @@ function formatDatum(datum) {
     });
 }
 
-// 🔥 ALLE Module automatisch befüllen
+// 🔥 Alle Boxen befüllen
 document.querySelectorAll(".modul").forEach(modul => {
     const termine = JSON.parse(modul.dataset.termine);
     const select = modul.querySelector(".termin");
@@ -236,11 +265,15 @@ document.querySelectorAll(".modul").forEach(modul => {
     });
 });
 
-// Button-Funktion
 function anmelden(button) {
     const modul = button.closest(".modul");
     const titel = modul.querySelector("h3").innerText;
     const termin = modul.querySelector(".termin").value;
+
+    if (!termin) {
+        alert("Bitte Termin wählen!");
+        return;
+    }
 
     alert(`Anmeldung für:\n${titel}\nTermin: ${termin}`);
 }
