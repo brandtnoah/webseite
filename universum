@@ -137,9 +137,262 @@
             <!-- Mittlere Spalte (Lebenslauf) -->
             <div class="middle-box">
                 <h2 style="margin-top:0; text-align:center;">Noah Brandt's Universum</h2>
-                <p>Box ..... TEXT
+                <p><!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Universum</title>
 
-TEXT</p>
+<style>
+body {
+  background: #000;
+  display: flex;
+  justify-content: center;
+  padding-top: 40px;
+  font-family: Arial;
+  color: white;
+}
+
+.universe {
+  width: 600px;
+  height: 450px;
+  border: 1px solid #222;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(255,255,255,0.06), transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.05), transparent 50%),
+    radial-gradient(circle at center, #02020a, #000);
+}
+
+/* Titel */
+.title {
+  text-align: center;
+  padding: 10px;
+  letter-spacing: 3px;
+  font-weight: bold;
+  position: relative;
+  z-index: 2;
+}
+
+/* 🌙 Mond */
+.moon {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff, #aaa 60%, #555);
+  box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6),
+              0 0 20px rgba(255,255,255,0.2);
+}
+
+/* ⭐ Sterne */
+.star {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* 🪐 Planeten */
+.planet {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  cursor: pointer;
+  box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6),
+              0 0 15px rgba(255,255,255,0.2);
+  transition: transform 0.2s;
+}
+
+.planet:hover {
+  transform: scale(1.1);
+}
+
+.p1 { background: radial-gradient(circle at 30% 30%, #4facfe, #001f3f); }
+.p2 { background: radial-gradient(circle at 30% 30%, #ff9966, #4a0f00); }
+.p3 { background: radial-gradient(circle at 30% 30%, #66ffcc, #002b2b); }
+.p4 { background: radial-gradient(circle at 30% 30%, #ddd, #222); }
+
+.label {
+  position: absolute;
+  top: 45px;
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+}
+
+/* ☄️ Komet */
+.comet {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px white, 0 0 20px orange, 0 0 40px red;
+}
+
+.comet::after {
+  content: "";
+  position: absolute;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(to right,
+    rgba(255,255,255,1),
+    rgba(255,150,0,0.8),
+    rgba(255,0,0,0.3),
+    transparent);
+  transform: translate(-100%, 0);
+  filter: blur(1px);
+}
+
+@keyframes fly {
+  from { transform: translate(0,0); opacity: 1; }
+  to { transform: translate(700px, 350px); opacity: 0; }
+}
+
+/* 🛸 UFO */
+.ufo {
+  position: absolute;
+  width: 40px;
+  height: 18px;
+  background: radial-gradient(circle at 50% 30%, #fff, #aaa 60%, #444);
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(180,255,255,0.6),
+              0 0 25px rgba(100,200,255,0.4);
+  z-index: 5;
+}
+
+.ufo::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 60px;
+  background: linear-gradient(to bottom,
+    rgba(120,255,255,0.25),
+    rgba(120,255,255,0.05),
+    transparent);
+  clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
+  filter: blur(1px);
+}
+
+@keyframes flyUfo {
+  from {
+    transform: translateX(-80px) translateY(0px);
+    opacity: 0;
+  }
+  10% { opacity: 1; }
+  to {
+    transform: translateX(700px) translateY(-120px);
+    opacity: 0;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="universe" id="universe">
+  <div class="title">UNIVERSUM</div>
+
+  <div class="moon"></div>
+
+  <!-- Planeten -->
+  <div class="planet p1" style="top:80px; left:120px;" onclick="go('https://example.com/1')">
+    <div class="label">Planet 1</div>
+  </div>
+
+  <div class="planet p2" style="top:200px; left:320px;" onclick="go('https://example.com/2')">
+    <div class="label">Planet 2</div>
+  </div>
+
+  <div class="planet p3" style="top:320px; left:200px;" onclick="go('https://example.com/3')">
+    <div class="label">Planet 3</div>
+  </div>
+
+  <div class="planet p4" style="top:260px; left:60px;" onclick="go('https://example.com/4')">
+    <div class="label">Planet 4</div>
+  </div>
+
+</div>
+
+<script>
+const universe = document.getElementById("universe");
+
+/* ⭐ zufällige Sterne */
+for (let i = 0; i < 120; i++) {
+  const star = document.createElement("div");
+  star.classList.add("star");
+
+  star.style.top = Math.random() * 100 + "%";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.opacity = Math.random();
+
+  universe.appendChild(star);
+}
+
+/* ☄️ Komet */
+function spawnComet() {
+  const comet = document.createElement("div");
+  comet.classList.add("comet");
+
+  comet.style.top = Math.random() * 200 + "px";
+  comet.style.left = "-60px";
+
+  comet.style.animation = "fly 2s linear forwards";
+
+  universe.appendChild(comet);
+
+  setTimeout(() => comet.remove(), 2000);
+}
+
+/* 🛸 UFO */
+function spawnUfo() {
+  const ufo = document.createElement("div");
+  ufo.classList.add("ufo");
+
+  const y = Math.random() * 250 + 50;
+  ufo.style.top = y + "px";
+  ufo.style.left = "-80px";
+
+  const duration = 3 + Math.random() * 2;
+  ufo.style.animation = `flyUfo ${duration}s linear forwards`;
+
+  universe.appendChild(ufo);
+
+  setTimeout(() => ufo.remove(), duration * 1000);
+}
+
+/* Events */
+setInterval(spawnComet, 60000);
+setInterval(spawnUfo, 45000);
+
+setTimeout(spawnComet, 4000);
+setTimeout(spawnUfo, 6000);
+
+/* Navigation */
+function go(link) {
+  window.location.href = link;
+}
+</script>
+
+</body>
+</html></p>
             </div>
 
             <!-- Rechte Spalte (Login + Aktuelles) -->
