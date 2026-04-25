@@ -137,87 +137,9 @@
             <!-- Mittlere Spalte (Lebenslauf) -->
             <div class="middle-box">
                 <h2 style="margin-top:0; text-align:center;">Noah Brandt's Universum</h2>
-                <p>Bibliothekar, Autor und Konsultant Noah Brandt, im Jahre 2002 in Bonn-Gronau geboren und gegenwärtig ansässig, verfügt über umfangreiche bibliothekarische Erfahrung. Zu seinen beruflichen Stationen zählen unter anderem Arbeit in renommierten Einrichtungen wie der Spezialbibliothek der Friedrich-Ebert-Stiftung. Er sammelte wertvolle Erfahrungen in der Mediothek der AHS in Eupen, der pädagogischen Mediothek in St. Vith sowie in der Öffentlichen Pfarrbibliothek Bütgenbach. Zusätzlich ist Herr Brandt als Autor tätig sowie konsultiert - als Berater - Bibliotheken und engagiert sich ehrenamtlich in verschiedenen Bibliotheken. Es handelt sich um eine private Internetpräsenz. <!-- Zwei dezente Boxen -->
+                <p>Box ..... TEXT
 
-<div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:20px;">
-
-    <!-- BOX 1: VISITENKARTE -->
-
-    <a href="https://www.noahbrandt.de/visitenkarte.html" style="flex:1; min-width:220px; text-decoration:none;">
-
-        <div style="
-
-            background:#f2f2f2;
-
-            border:1px solid #bbb;
-
-            padding:15px;
-
-            height:100px;
-
-            box-sizing:border-box;
-
-            display:flex;
-
-            flex-direction:column;
-
-            justify-content:center;
-
-            color:#000;
-
-        ">
-
-            <div style="font-weight:bold; font-size:15px;">Persönliche Besuchskarte</div>
-
-            <div style="font-size:13px; margin-top:5px; color:#333;">
-
-                Kontaktdaten und Profilübersicht anzeigen
-
-            </div>
-
-        </div>
-
-    </a>
-
-    <!-- BOX 2: TERMIN -->
-
-    <a href="https://www.noahbrandt.de/kontakt.html" style="flex:1; min-width:220px; text-decoration:none;">
-
-        <div style="
-
-            background:#f2f2f2;
-
-            border:1px solid #bbb;
-
-            padding:15px;
-
-            height:100px;
-
-            box-sizing:border-box;
-
-            display:flex;
-
-            flex-direction:column;
-
-            justify-content:center;
-
-            color:#000;
-
-        ">
-
-            <div style="font-weight:bold; font-size:15px;">Termin vereinbaren</div>
-
-            <div style="font-size:13px; margin-top:5px; color:#333;">
-
-                Beratungstermin online oder vor Ort buchen
-
-            </div>
-
-        </div>
-
-    </a>
-
-</div></p>
+TEXT</p>
             </div>
 
             <!-- Rechte Spalte (Login + Aktuelles) -->
