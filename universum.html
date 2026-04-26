@@ -86,7 +86,6 @@ header{
   background:#111;
   border:1px solid #444;
   padding:12px;
-  z-index:2;
 }
 
 #quizBox button{
@@ -172,7 +171,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 
 <header>NOAH BRANDT’S UNIVERSUM</header>
 
-<!-- ================= UNIVERSE ================= -->
 <div class="universe">
 
 <div class="moon"></div>
@@ -215,6 +213,10 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 
 <canvas id="game" width="700" height="400"></canvas>
 
+<p>
+Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
+</p>
+
 <div class="controls">
 <div class="btn" onmousedown="up=true" onmouseup="up=false" ontouchstart="up=true" ontouchend="up=false">⬆</div>
 <div class="btn" onmousedown="down=true" onmouseup="down=false" ontouchstart="down=true" ontouchend="up=false">⬇</div>
@@ -224,7 +226,15 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 <!-- WIN POPUPS -->
 <div id="winPong" class="popup">
 <h1>PONG GEWONNEN</h1>
+<p>10 Punkte erreicht!</p>
 <p>Screenshot erstellen & Noah Brandt senden</p>
+<button onclick="location.reload()">Neustart</button>
+</div>
+
+<div id="winQuiz" class="popup">
+<h1>QUIZ GEWONNEN</h1>
+<p>Alle Fragen korrekt beantwortet!</p>
+<p>Bitte Screenshot erstellen und senden.</p>
 <button onclick="location.reload()">Neustart</button>
 </div>
 
@@ -253,6 +263,11 @@ const quiz=[
 let qi=0;
 
 function loadQ(){
+if(qi>=quiz.length){
+document.getElementById("winQuiz").style.display="block";
+return;
+}
+
 let q=quiz[qi];
 document.getElementById("qText").innerText=q.q;
 let b=document.querySelectorAll("#quizBox button");
@@ -264,7 +279,6 @@ b[2].innerText=q.a[2];
 function ans(i){
 if(i===quiz[qi].c){
 qi++;
-if(qi>=quiz.length) qi=0;
 loadQ();
 }else{
 qi=0;
@@ -273,7 +287,7 @@ loadQ();
 }
 loadQ();
 
-/* ================= REACTION GAME ================= */
+/* ================= REACTION ================= */
 let score=0,time=20,run=false,timer;
 
 function startReaction(){
@@ -292,9 +306,7 @@ if(score>=70)document.getElementById("winReaction").style.display="block";
 }
 
 function clickBox(){
-if(run){
-score++;
-}
+if(run)score++;
 }
 
 /* ================= PONG ================= */
@@ -302,7 +314,7 @@ let c=document.getElementById("game");
 let ctx=c.getContext("2d");
 
 let p={x:20,y:150,w:10,h:80,score:0};
-let ai={x:670,y:150,w:10,h:80};
+let ai={x:670,y:150,w:10,h:80,score:0};
 let b={x:350,y:200,dx:4,dy:3,r:8};
 
 let up=false,down=false,runP=false;
@@ -338,7 +350,10 @@ if(b.x>ai.x&&b.y>ai.y&&b.y<ai.y+80)b.dx*=-1;
 if(b.x<0){ai.score++;reset();}
 if(b.x>700){p.score++;reset();}
 
-if(p.score>=5)document.getElementById("winPong").style.display="block";
+document.getElementById("pScore").innerText=p.score;
+document.getElementById("aiScore").innerText=ai.score;
+
+if(p.score>=10)document.getElementById("winPong").style.display="block";
 }
 
 ctx.fillStyle="black";
