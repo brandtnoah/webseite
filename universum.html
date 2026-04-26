@@ -307,6 +307,8 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 <script>
 
 /* QUIZ */
+
+  /* QUIZ */
 const quiz=[
 {q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:[0]},
 
@@ -352,32 +354,45 @@ const quiz=[
 ];
 
 let qi=0;
+let finished=false;
 
 function loadQ(){
+
+if(finished) return;
+
 if(qi>=quiz.length){
+finished=true;
 document.getElementById("winQuiz").style.display="block";
 return;
 }
 
 let q=quiz[qi];
 document.getElementById("qText").innerText=q.q;
+
 let b=document.querySelectorAll("#quizBox button");
 b[0].innerText=q.a[0];
 b[1].innerText=q.a[1];
 b[2].innerText=q.a[2];
+
+// optional Feedback löschen (falls du später UI ergänzt)
 }
 
 function ans(i){
+
+if(finished) return;
+
+// richtig?
 if(quiz[qi].c.includes(i)){
 qi++;
 loadQ();
 }else{
-qi=0;
-loadQ();
-}
-}
 
+// ❌ KEIN RESET MEHR
+// nur kurzer Hinweis optional (wenn du willst später UI)
+alert("❌ Falsch – versuch es nochmal!");
 loadQ();
+}
+}
 
 /* REACTION */
 let score=0,time=20,run=false,timer;
