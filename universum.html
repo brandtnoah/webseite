@@ -164,6 +164,73 @@ footer{
   font-size:12px;
 }
 footer a{color:#aaa;margin:0 10px;text-decoration:none;}
+
+/* ================= MOBILE OPTIMIZATION ================= */
+@media (max-width: 768px){
+
+header{
+  font-size:20px;
+}
+
+.universe{
+  height:900px;
+}
+
+/* Planeten skalieren statt Layout zerstören */
+.planet{
+  transform:scale(0.75);
+}
+
+.moon{
+  width:60px;
+  height:60px;
+  top:20px;
+  right:20px;
+}
+
+#quizBox{
+  position:relative;
+  top:auto;
+  right:auto;
+  width:90%;
+  margin:20px auto;
+}
+
+#clickBox{
+  width:160px;
+  height:160px;
+}
+
+canvas{
+  width:100%;
+  height:auto;
+}
+
+.controls{
+  flex-direction:row;
+}
+
+.btn{
+  padding:14px;
+  font-size:18px;
+}
+}
+
+@media (max-width: 480px){
+
+.planet{
+  transform:scale(0.6);
+}
+
+#reactionSection, #pongSection{
+  padding:10px;
+}
+
+header{
+  letter-spacing:1px;
+}
+}
+
 </style>
 </head>
 
@@ -184,7 +251,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 <div class="planet p7" style="top:80px;left:420px"><a href="eigenverlag.html">Eigenverlag</a></div>
 <div class="planet p8" style="top:500px;left:540px"><a href="strand.html">Strand</a></div>
 
-<!-- QUIZ -->
 <div id="quizBox">
 <h3>Quiz</h3>
 <div id="qText"></div>
@@ -195,7 +261,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 
 </div>
 
-<!-- ================= REACTION GAME ================= -->
 <div id="reactionSection">
 <h2>Reaktionsspiel (20 Sekunden)</h2>
 <p>Klicke so schnell wie möglich. Ziel: 70 Punkte</p>
@@ -206,7 +271,6 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 <div id="reactionScore">Score: 0 | Zeit: 20</div>
 </div>
 
-<!-- ================= PONG ================= -->
 <div id="pongSection">
 <h2>PONG</h2>
 <button onclick="startPong()">START</button>
@@ -223,7 +287,6 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 </div>
 </div>
 
-<!-- WIN POPUPS -->
 <div id="winPong" class="popup">
 <h1>PONG GEWONNEN</h1>
 <p>10 Punkte erreicht!</p>
@@ -244,7 +307,6 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 <button onclick="location.reload()">Neustart</button>
 </div>
 
-<!-- FOOTER -->
 <footer>
 <a href="impressum.html">Impressum</a>
 <a href="datenschutz.html">Datenschutz</a>
@@ -253,7 +315,7 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 
 <script>
 
-/* ================= QUIZ ================= */
+/* QUIZ */
 const quiz=[
 {q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
 {q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:0},
@@ -287,7 +349,7 @@ loadQ();
 }
 loadQ();
 
-/* ================= REACTION ================= */
+/* REACTION */
 let score=0,time=20,run=false,timer;
 
 function startReaction(){
@@ -309,7 +371,7 @@ function clickBox(){
 if(run)score++;
 }
 
-/* ================= PONG ================= */
+/* PONG */
 let c=document.getElementById("game");
 let ctx=c.getContext("2d");
 
