@@ -2,369 +2,219 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Noah Brandt's Universum</title>
+<title>Noah Brandt Universum</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-    margin:0;
-    font-family:Arial;
-    background: radial-gradient(circle at 30% 20%, #ff8a2a, #0b0015);
-    color:white;
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:#070a14;
+  color:#fff;
 }
 
-/* HEADER */
 header{
-    text-align:center;
-    font-size:30px;
-    padding:15px;
-    letter-spacing:2px;
+  text-align:center;
+  padding:20px;
+  font-size:26px;
+  letter-spacing:3px;
 }
 
-/* UNIVERSUM */
+/* UNIVERSE */
 .universe{
-    position:relative;
-    height:650px;
-    background:#05010a;
-    overflow:hidden;
+  position:relative;
+  height:700px;
+  background:radial-gradient(circle at center,#0b1020,#000);
+  overflow:hidden;
 }
 
-/* MOND */
-.moon{
-    position:absolute;
-    top:30px;
-    right:60px;
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    background: radial-gradient(circle at 30% 30%, #fff, #777);
-    box-shadow:0 0 20px rgba(255,255,255,0.2);
-    animation:moonFlash 10s infinite;
-}
-
-@keyframes moonFlash{
-    0%,92%{box-shadow:0 0 10px rgba(255,255,255,0.2);}
-    95%{box-shadow:0 0 70px rgba(255,255,255,0.9);}
-    100%{box-shadow:0 0 10px rgba(255,255,255,0.2);}
-}
-
-/* PLANETEN */
+/* PLANETS */
 .planet{
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    position:absolute;
-    cursor:pointer;
-    box-shadow: inset -18px -18px 40px rgba(0,0,0,0.6),
-                0 10px 20px rgba(0,0,0,0.4);
-    transition:0.3s;
+  position:absolute;
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  cursor:pointer;
+  box-shadow:inset -10px -10px 20px rgba(0,0,0,0.6),
+             0 0 15px rgba(255,255,255,0.2);
 }
 
-.planet:hover{transform:scale(1.1);}
-
-/* REALISTISCHE FARBEN */
-.p1{background:radial-gradient(circle,#4facfe,#001b3a);}
-.p2{background:radial-gradient(circle,#ff9966,#2a0b00);}
-.p3{background:radial-gradient(circle,#66ffcc,#003b2f);}
+.p1{background:radial-gradient(circle,#4facfe,#001a33);}
+.p2{background:radial-gradient(circle,#ff9966,#3a1a10);}
+.p3{background:radial-gradient(circle,#66ffcc,#003333);}
 .p4{background:radial-gradient(circle,#ddd,#222);}
-.p5{background:radial-gradient(circle,#a86bff,#1a0030);}
-.p6{background:radial-gradient(circle,#00ffd5,#003333);}
-.p7{background:radial-gradient(circle,#ff3c3c,#200000);}
+.p5{background:radial-gradient(circle,#8b5cf6,#1a0033);}
+.p6{background:radial-gradient(circle,#00ff88,#002211);}
+.p7{background:radial-gradient(circle,#ffcc00,#332200);}
+.p8{background:linear-gradient(to bottom,#0077ff 50%,#f4d03f 50%);}
 
-/* STRANDPLANET */
-.beach{
-    width:75px;
-    height:75px;
-    border-radius:50%;
-    position:absolute;
-    background:radial-gradient(circle,#ffe08a,#0077aa);
-    box-shadow: inset -10px -10px 30px rgba(0,0,0,0.4);
-}
-
-/* LABELS */
 .label{
-    position:absolute;
-    top:80px;
-    width:100%;
-    text-align:center;
-    font-size:12px;
+  position:absolute;
+  top:65px;
+  width:100%;
+  text-align:center;
+  font-size:11px;
 }
 
-/* UFO */
-.ufo{
-    position:absolute;
-    width:45px;
-    height:18px;
-    border-radius:50%;
-    background:radial-gradient(circle,#fff,#666);
-    animation:ufoMove 14s linear infinite;
+/* MOON */
+.moon{
+  position:absolute;
+  top:40px;
+  right:80px;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:radial-gradient(circle,#fff,#aaa,#444);
+  animation:moonGlow 6s infinite;
+  z-index:1;
 }
 
-@keyframes ufoMove{
-    from{left:-100px; top:120px;}
-    to{left:110%; top:200px;}
+@keyframes moonGlow{
+  0%{box-shadow:0 0 5px #fff;}
+  50%{box-shadow:0 0 35px #fff;}
+  100%{box-shadow:0 0 5px #fff;}
 }
 
-/* KOMET */
-.comet{
-    position:absolute;
-    width:4px;
-    height:4px;
-    background:white;
-    box-shadow:0 0 20px white;
-    animation:fly 8s linear infinite;
+/* ===== QUIZ (UNTER DEM MOND, NICHT ÜBERLAPPEND) ===== */
+#quizBox{
+  position:absolute;
+  top:150px;              /* <<< UNTER MOND */
+  right:30px;
+  width:300px;
+  background:#111;
+  border:1px solid #444;
+  padding:15px;
+  z-index:2;
 }
 
-@keyframes fly{
-    from{transform:translate(-100px,50px);}
-    to{transform:translate(120vw,400px);}
+button{
+  width:100%;
+  margin-top:5px;
+  padding:8px;
+  cursor:pointer;
 }
 
-/* CHAT BUTTON */
-.chat-toggle{
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    background:#ff9a33;
-    color:black;
-    padding:10px 14px;
-    font-weight:bold;
-    cursor:pointer;
-    border-radius:8px;
+#result{
+  margin-top:10px;
+  font-size:12px;
+  color:#aaa;
 }
 
-/* CHAT WINDOW */
-#chat{
-    position:fixed;
-    bottom:70px;
-    right:20px;
-    width:340px;
-    height:460px;
-    background:#111;
-    border:2px solid #ff9a33;
-    display:none;
-    flex-direction:column;
-    box-shadow:0 0 20px rgba(255,154,51,0.3);
+/* END-EFFEKT */
+#endScreen{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.9);
+  z-index:999;
+  text-align:center;
+  padding-top:200px;
 }
 
-.chat-header{
-    background:#ff9a33;
-    color:black;
-    padding:8px;
-    font-weight:bold;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    cursor:pointer;
+#endScreen h1{
+  font-size:28px;
 }
-
-.chat-body{
-    flex:1;
-    padding:10px;
-    font-size:13px;
-    overflow:auto;
-    white-space:pre-line;
-}
-
-.chat-questions{
-    padding:8px;
-    background:#1a1a1a;
-}
-
-.qbtn{
-    display:block;
-    padding:6px;
-    margin:3px 0;
-    background:#333;
-    cursor:pointer;
-    font-size:12px;
-}
-
-.qbtn:hover{background:#555;}
-
-.chat-input{
-    display:flex;
-}
-
-.chat-input input{
-    flex:1;
-    padding:8px;
-    border:none;
-}
-
-.chat-input button{
-    background:#ff9a33;
-    border:none;
-    padding:8px;
-    cursor:pointer;
-}
-
-/* FOOTER */
-footer{
-    background:#000;
-    text-align:center;
-    padding:10px;
-    font-size:12px;
-}
-footer a{color:white;margin:0 10px;text-decoration:none;}
 
 </style>
 </head>
 
 <body>
 
-<header>Noah Brandt's Universum</header>
+<header>NOAH BRANDT’S UNIVERSUM</header>
 
 <div class="universe">
 
-    <div class="moon"></div>
-    <div class="ufo"></div>
-    <div class="comet"></div>
+<div class="moon"></div>
 
-    <!-- PLANETEN -->
-    <div class="planet p1" style="top:110px;left:120px;" onclick="go('lebenslauf.html')">
-        <div class="label">Lebenslauf</div>
-    </div>
+<!-- PLANETEN -->
+<div class="planet p1" style="top:120px;left:100px"><div class="label">Lebenslauf</div></div>
+<div class="planet p2" style="top:200px;left:260px"><div class="label">Beratung</div></div>
+<div class="planet p3" style="top:320px;left:420px"><div class="label">Projekte</div></div>
+<div class="planet p4" style="top:160px;left:520px"><div class="label">Kontakt</div></div>
+<div class="planet p5" style="top:360px;left:140px"><div class="label">Archiv</div></div>
+<div class="planet p6" style="top:420px;left:320px"><div class="label">Experiment</div></div>
+<div class="planet p7" style="top:80px;left:420px"><div class="label">Forschung</div></div>
+<div class="planet p8" style="top:500px;left:540px"><div class="label">Strand</div></div>
 
-    <div class="planet p2" style="top:230px;left:300px;" onclick="go('beratung.html')">
-        <div class="label">Beratung</div>
-    </div>
+<!-- QUIZ -->
+<div id="quizBox">
+<h3>Quiz: Noah Brandt</h3>
 
-    <div class="planet p3" style="top:350px;left:180px;" onclick="go('projekte.html')">
-        <div class="label">Projekte</div>
-    </div>
+<div id="question">Lade...</div>
 
-    <div class="planet p4" style="top:250px;left:60px;" onclick="go('kontakt.html')">
-        <div class="label">Kontakt</div>
-    </div>
+<button onclick="answer(0)">A</button>
+<button onclick="answer(1)">B</button>
+<button onclick="answer(2)">C</button>
 
-    <div class="planet p5" style="top:130px;left:450px;" onclick="go('archiv.html')">
-        <div class="label">Archiv</div>
-    </div>
-
-    <div class="planet p6" style="top:410px;left:110px;" onclick="go('publikationen.html')">
-        <div class="label">Publikationen</div>
-    </div>
-
-    <div class="planet p7" style="top:460px;left:350px;" onclick="openChat()">
-        <div class="label">Experiment</div>
-    </div>
-
-    <div class="beach" style="top:300px;left:520px;" onclick="go('strand.html')">
-        <div class="label">Strand</div>
-    </div>
+<div id="result"></div>
+</div>
 
 </div>
 
-<!-- CHAT -->
-<div id="chat">
-
-    <div class="chat-header" onclick="toggleChat()">
-        Experiment Interface
-        <span>▾</span>
-    </div>
-
-    <div class="chat-body" id="chatBody"></div>
-
-    <div class="chat-questions" id="questions"></div>
-
-    <div class="chat-input">
-        <input id="input" placeholder="Nachricht...">
-        <button onclick="sendMsg()">→</button>
-    </div>
-
+<!-- END SCREEN -->
+<div id="endScreen">
+<h1>Herzlichen Glückwunsch!</h1>
+<p>Alles richtig beantwortet.</p>
+<p>Bitte Screenshot erstellen und an Noah Brandt senden.</p>
+<p>Eine kleine Belohnung ist ggf. möglich.</p>
+<button onclick="location.reload()">Neustart</button>
 </div>
-
-<div class="chat-toggle" onclick="openChat()">Chat</div>
-
-<footer>
-    <a href="#">Impressum</a>
-    <a href="#">Datenschutz</a>
-    <a href="#">Nutzungsbedingungen</a>
-</footer>
 
 <script>
 
-function go(url){
-    window.location.href=url;
-}
+/* ===== QUIZ ===== */
 
-/* CHAT OPEN / CLOSE */
-function openChat(){
-    document.getElementById("chat").style.display="flex";
-    generateQuestions();
-}
-
-function toggleChat(){
-    let c=document.getElementById("chat");
-    c.style.display = (c.style.display==="none") ? "flex" : "none";
-}
-
-/* QUESTIONS */
-let pool=[
-"Was ist das Universum?",
-"Wer bist du?",
-"Was ist Realität?",
-"Was ist Zeit?",
-"Was ist ein Planet?",
-"Was ist Experiment?",
-"Was passiert hier?",
-"Was ist der Mond?",
-"Was ist ein Komet?"
+const quiz = [
+{q:"Was ist Noah Brandt?",a:["Astronaut","Bibliothekar","Musiker"],correct:1},
+{q:"Wo arbeitet er?",a:["Bibliothek","Theater","Krankenhaus"],correct:0},
+{q:"Zusätzliche Tätigkeit?",a:["Pilot","Autor","Mechaniker"],correct:1},
+{q:"Hauptsprache?",a:["Deutsch","Japanisch","Italienisch"],correct:0},
+{q:"Kein Bereich?",a:["Beratung","Bibliothek","Raumfahrt"],correct:2},
+{q:"Projektart?",a:["Webprojekt","Spiel","Film"],correct:0},
+{q:"Rolle oft?",a:["Autor","Soldat","Sportler"],correct:0},
+{q:"Nicht dazu?",a:["Bibliothek","Architektur","Publikation"],correct:1},
+{q:"Planeten sind?",a:["Themen","Echte Planeten","Fehler"],correct:0},
+{q:"Letzte Frage korrekt?",a:["Ja","Nein","Vielleicht"],correct:0}
 ];
 
-function generateQuestions(){
-    let box=document.getElementById("questions");
-    box.innerHTML="";
+let index=0;
+let score=0;
 
-    let q=[...pool].sort(()=>0.5-Math.random()).slice(0,3);
-
-    q.forEach(t=>{
-        let d=document.createElement("div");
-        d.className="qbtn";
-        d.innerText=t;
-        d.onclick=()=>answer(t);
-        box.appendChild(d);
-    });
+function load(){
+if(index>=quiz.length){
+document.getElementById("endScreen").style.display="block";
+return;
 }
 
-/* TYPE EFFECT */
-function type(text){
-    let body=document.getElementById("chatBody");
-    body.innerHTML += "\n" + text;
-    body.scrollTop = body.scrollHeight;
+let q=quiz[index];
+document.getElementById("question").innerText=q.q;
+
+let buttons=document.querySelectorAll("#quizBox button");
+buttons[0].innerText=q.a[0];
+buttons[1].innerText=q.a[1];
+buttons[2].innerText=q.a[2];
 }
 
-/* ANSWERS */
-function answer(q){
+function answer(i){
+let q=quiz[index];
 
-    type("Du: " + q);
-
-    let r="";
-
-    if(q.includes("Universum")) r="Ein sich ausdehnendes System aus Licht und Struktur.";
-    else if(q.includes("Zeit")) r="Zeit ist eine Wahrnehmung im Inneren des Systems.";
-    else if(q.includes("Realität")) r="Realität stabilisiert sich durch Beobachtung.";
-    else if(q.includes("Mond")) r="Der Mond reflektiert Informationen, nicht nur Licht.";
-    else r="Antwort verfügbar.";
-
-    setTimeout(()=> {
-        type("System: " + r);
-        generateQuestions();
-    },600);
+if(i===q.correct){
+score++;
+index++;
+document.getElementById("result").innerText="✔ richtig";
+load();
+}else{
+score=0;
+index=0;
+document.getElementById("result").innerText="✖ falsch – Neustart";
+load();
+}
 }
 
-/* INPUT */
-function sendMsg(){
-    let v=document.getElementById("input").value;
-    if(!v) return;
-
-    type("Du: " + v);
-    type("System: Verarbeitung abgeschlossen.");
-
-    document.getElementById("input").value="";
-    setTimeout(generateQuestions,600);
-}
+load();
 
 </script>
 
