@@ -39,6 +39,14 @@ header{
              0 0 15px rgba(255,255,255,0.2);
 }
 
+.planet a{
+  color:inherit;
+  text-decoration:none;
+  display:block;
+  width:100%;
+  height:100%;
+}
+
 .p1{background:radial-gradient(circle,#4facfe,#001a33);}
 .p2{background:radial-gradient(circle,#ff9966,#3a1a10);}
 .p3{background:radial-gradient(circle,#66ffcc,#003333);}
@@ -75,10 +83,10 @@ header{
   100%{box-shadow:0 0 5px #fff;}
 }
 
-/* ===== QUIZ (UNTER DEM MOND, NICHT ÜBERLAPPEND) ===== */
+/* QUIZ */
 #quizBox{
   position:absolute;
-  top:150px;              /* <<< UNTER MOND */
+  top:150px;
   right:30px;
   width:300px;
   background:#111;
@@ -100,7 +108,7 @@ button{
   color:#aaa;
 }
 
-/* END-EFFEKT */
+/* END SCREEN */
 #endScreen{
   display:none;
   position:fixed;
@@ -114,8 +122,23 @@ button{
   padding-top:200px;
 }
 
-#endScreen h1{
-  font-size:28px;
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:12px;
+  background:#05070f;
+  border-top:1px solid #222;
+  font-size:12px;
+}
+
+footer a{
+  color:#aaa;
+  margin:0 10px;
+  text-decoration:none;
+}
+
+footer a:hover{
+  color:#fff;
 }
 
 </style>
@@ -129,15 +152,38 @@ button{
 
 <div class="moon"></div>
 
-<!-- PLANETEN -->
-<div class="planet p1" style="top:120px;left:100px"><div class="label">Lebenslauf</div></div>
-<div class="planet p2" style="top:200px;left:260px"><div class="label">Beratung</div></div>
-<div class="planet p3" style="top:320px;left:420px"><div class="label">Projekte</div></div>
-<div class="planet p4" style="top:160px;left:520px"><div class="label">Kontakt</div></div>
-<div class="planet p5" style="top:360px;left:140px"><div class="label">Archiv</div></div>
-<div class="planet p6" style="top:420px;left:320px"><div class="label">Experiment</div></div>
-<div class="planet p7" style="top:80px;left:420px"><div class="label">Forschung</div></div>
-<div class="planet p8" style="top:500px;left:540px"><div class="label">Strand</div></div>
+<!-- PLANETEN (VERLINKT) -->
+<div class="planet p1" style="top:120px;left:100px">
+  <a href="lebenslauf.html"><div class="label">Lebenslauf</div></a>
+</div>
+
+<div class="planet p2" style="top:200px;left:260px">
+  <a href="beratung.html"><div class="label">Beratung</div></a>
+</div>
+
+<div class="planet p3" style="top:320px;left:420px">
+  <a href="projekte.html"><div class="label">Projekte</div></a>
+</div>
+
+<div class="planet p4" style="top:160px;left:520px">
+  <a href="kontakt.html"><div class="label">Kontakt</div></a>
+</div>
+
+<div class="planet p5" style="top:360px;left:140px">
+  <a href="archiv.html"><div class="label">Archiv</div></a>
+</div>
+
+<div class="planet p6" style="top:420px;left:320px">
+  <a href="experiment.html"><div class="label">Experiment</div></a>
+</div>
+
+<div class="planet p7" style="top:80px;left:420px">
+  <a href="forschung.html"><div class="label">Forschung</div></a>
+</div>
+
+<div class="planet p8" style="top:500px;left:540px">
+  <a href="strand.html"><div class="label">Strand</div></a>
+</div>
 
 <!-- QUIZ -->
 <div id="quizBox">
@@ -163,9 +209,14 @@ button{
 <button onclick="location.reload()">Neustart</button>
 </div>
 
-<script>
+<!-- FOOTER -->
+<footer>
+  <a href="impressum.html">Impressum</a>
+  <a href="datenschutz.html">Datenschutz</a>
+  <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+</footer>
 
-/* ===== QUIZ ===== */
+<script>
 
 const quiz = [
 {q:"Was ist Noah Brandt?",a:["Astronaut","Bibliothekar","Musiker"],correct:1},
@@ -181,7 +232,6 @@ const quiz = [
 ];
 
 let index=0;
-let score=0;
 
 function load(){
 if(index>=quiz.length){
@@ -202,12 +252,10 @@ function answer(i){
 let q=quiz[index];
 
 if(i===q.correct){
-score++;
 index++;
 document.getElementById("result").innerText="✔ richtig";
 load();
 }else{
-score=0;
 index=0;
 document.getElementById("result").innerText="✖ falsch – Neustart";
 load();
