@@ -20,7 +20,7 @@ header{
   letter-spacing:3px;
 }
 
-/* UNIVERSE */
+/* ================= UNIVERSE ================= */
 .universe{
   position:relative;
   height:700px;
@@ -39,6 +39,17 @@ header{
              0 0 15px rgba(255,255,255,0.2);
 }
 
+.planet a{
+  display:block;
+  width:100%;
+  height:100%;
+  text-decoration:none;
+  color:white;
+  font-size:10px;
+  text-align:center;
+  padding-top:65px;
+}
+
 .p1{background:radial-gradient(circle,#4facfe,#001a33);}
 .p2{background:radial-gradient(circle,#ff9966,#3a1a10);}
 .p3{background:radial-gradient(circle,#66ffcc,#003333);}
@@ -47,14 +58,6 @@ header{
 .p6{background:radial-gradient(circle,#00ff88,#002211);}
 .p7{background:radial-gradient(circle,#ffcc00,#332200);}
 .p8{background:linear-gradient(to bottom,#0077ff 50%,#f4d03f 50%);}
-
-.label{
-  position:absolute;
-  top:65px;
-  width:100%;
-  text-align:center;
-  font-size:11px;
-}
 
 /* MOON */
 .moon{
@@ -79,20 +82,40 @@ header{
   position:absolute;
   top:150px;
   right:30px;
-  width:300px;
+  width:260px;
   background:#111;
   border:1px solid #444;
-  padding:15px;
+  padding:12px;
+  z-index:2;
 }
 
 #quizBox button{
   width:100%;
   margin-top:5px;
-  padding:8px;
+  padding:6px;
+}
+
+/* ================= REACTION GAME ================= */
+#reactionSection{
+  padding:20px;
+  text-align:center;
+  background:#0b0f1f;
+}
+
+#clickBox{
+  width:200px;
+  height:200px;
+  margin:20px auto;
+  background:#222;
+  border:2px solid #555;
+  cursor:pointer;
+}
+
+#reactionScore{
+  font-size:18px;
 }
 
 /* ================= PONG ================= */
-
 #pongSection{
   padding:20px;
   text-align:center;
@@ -119,15 +142,8 @@ canvas{
   user-select:none;
 }
 
-.btn:active{background:#444;}
-
-#startBtn{
-  padding:10px 20px;
-  margin:10px;
-}
-
-/* WIN */
-#win{
+/* WIN POPUP */
+.popup{
   display:none;
   position:fixed;
   top:0;
@@ -140,6 +156,7 @@ canvas{
   z-index:999;
 }
 
+/* FOOTER */
 footer{
   text-align:center;
   padding:12px;
@@ -147,12 +164,7 @@ footer{
   border-top:1px solid #222;
   font-size:12px;
 }
-
-footer a{
-  color:#aaa;
-  margin:0 10px;
-  text-decoration:none;
-}
+footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 </style>
 </head>
 
@@ -160,105 +172,99 @@ footer a{
 
 <header>NOAH BRANDT’S UNIVERSUM</header>
 
+<!-- ================= UNIVERSE ================= -->
 <div class="universe">
 
 <div class="moon"></div>
 
-<div class="planet p1" style="top:120px;left:100px"></div>
-<div class="planet p2" style="top:200px;left:260px"></div>
-<div class="planet p3" style="top:320px;left:420px"></div>
-<div class="planet p4" style="top:160px;left:520px"></div>
-<div class="planet p5" style="top:360px;left:140px"></div>
-<div class="planet p6" style="top:420px;left:320px"></div>
-<div class="planet p7" style="top:80px;left:420px"></div>
-<div class="planet p8" style="top:500px;left:540px"></div>
+<div class="planet p1" style="top:120px;left:100px"><a href="lebenslauf.html">Lebenslauf</a></div>
+<div class="planet p2" style="top:200px;left:260px"><a href="beratung.html">Beratung</a></div>
+<div class="planet p3" style="top:320px;left:420px"><a href="projekte.html">Projekte</a></div>
+<div class="planet p4" style="top:160px;left:520px"><a href="kontakt.html">Kontakt</a></div>
+<div class="planet p5" style="top:360px;left:140px"><a href="archiv.html">Archiv</a></div>
+<div class="planet p6" style="top:420px;left:320px"><a href="experiment.html">Experiment</a></div>
+<div class="planet p7" style="top:80px;left:420px"><a href="forschung.html">Forschung</a></div>
+<div class="planet p8" style="top:500px;left:540px"><a href="strand.html">Strand</a></div>
 
+<!-- QUIZ -->
 <div id="quizBox">
 <h3>Quiz</h3>
-<div id="question"></div>
-<button onclick="answer(0)"></button>
-<button onclick="answer(1)"></button>
-<button onclick="answer(2)"></button>
+<div id="qText"></div>
+<button onclick="ans(0)"></button>
+<button onclick="ans(1)"></button>
+<button onclick="ans(2)"></button>
 </div>
 
 </div>
 
-<!-- PONG -->
+<!-- ================= REACTION GAME ================= -->
+<div id="reactionSection">
+<h2>Reaktionsspiel (20 Sekunden)</h2>
+<p>Klicke so schnell wie möglich. Ziel: 70 Punkte</p>
+
+<button onclick="startReaction()">START</button>
+<div id="clickBox" onclick="clickBox()"></div>
+
+<div id="reactionScore">Score: 0 | Zeit: 20</div>
+</div>
+
+<!-- ================= PONG ================= -->
 <div id="pongSection">
-
 <h2>PONG</h2>
-
-<button id="startBtn" onclick="startGame()">START</button>
+<button onclick="startPong()">START</button>
 
 <canvas id="game" width="700" height="400"></canvas>
 
 <div class="controls">
-  <div class="btn" onmousedown="up=true" onmouseup="up=false" ontouchstart="up=true" ontouchend="up=false">⬆</div>
-  <div class="btn" onmousedown="down=true" onmouseup="down=false" ontouchstart="down=true" ontouchend="down=false">⬇</div>
+<div class="btn" onmousedown="up=true" onmouseup="up=false" ontouchstart="up=true" ontouchend="up=false">⬆</div>
+<div class="btn" onmousedown="down=true" onmouseup="down=false" ontouchstart="down=true" ontouchend="up=false">⬇</div>
+</div>
 </div>
 
-<p>Punkte Spieler: <span id="ps">0</span> | KI: <span id="ai">0</span></p>
-
-</div>
-
-<div id="win">
-<h1>Gewonnen!</h1>
-<p>Kennenlernen mit Noah Brandt im Café möglich.</p>
+<!-- WIN POPUPS -->
+<div id="winPong" class="popup">
+<h1>PONG GEWONNEN</h1>
+<p>Screenshot erstellen & Noah Brandt senden</p>
 <button onclick="location.reload()">Neustart</button>
 </div>
 
+<div id="winReaction" class="popup">
+<h1>REAKTION GEWONNEN</h1>
+<p>70 Punkte erreicht!</p>
+<button onclick="location.reload()">Neustart</button>
+</div>
+
+<!-- FOOTER -->
 <footer>
-<a href="#">Impressum</a>
-<a href="#">Datenschutz</a>
-<a href="#">Nutzungsbedingungen</a>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
 </footer>
 
 <script>
 
-/* ================= KEY FIX ================= */
-/* 👉 WICHTIG: Pfeiltasten jetzt global + verhindern Scrollen */
-
-window.addEventListener("keydown",function(e){
-  if(["ArrowUp","ArrowDown"].includes(e.key)){
-    e.preventDefault();
-  }
-
-  if(e.key==="ArrowUp") up=true;
-  if(e.key==="ArrowDown") down=true;
-});
-
-window.addEventListener("keyup",function(e){
-  if(e.key==="ArrowUp") up=false;
-  if(e.key==="ArrowDown") down=false;
-});
-
 /* ================= QUIZ ================= */
-
 const quiz=[
 {q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
 {q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:0},
 {q:"Er ist auch?",a:["Autor","Musiker","Bäcker"],c:0}
-{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
-{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
-{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
 ];
 
 let qi=0;
 
 function loadQ(){
 let q=quiz[qi];
-document.getElementById("question").innerText=q.q;
+document.getElementById("qText").innerText=q.q;
 let b=document.querySelectorAll("#quizBox button");
 b[0].innerText=q.a[0];
 b[1].innerText=q.a[1];
 b[2].innerText=q.a[2];
-b[3].innerText=q.a[3];
-b[4].innerText=q.a[4];
 }
 
-function answer(i){
+function ans(i){
 if(i===quiz[qi].c){
 qi++;
+if(qi>=quiz.length) qi=0;
 loadQ();
 }else{
 qi=0;
@@ -267,36 +273,59 @@ loadQ();
 }
 loadQ();
 
-/* ================= PONG ================= */
+/* ================= REACTION GAME ================= */
+let score=0,time=20,run=false,timer;
 
+function startReaction(){
+score=0;time=20;run=true;
+document.getElementById("reactionScore").innerText="Score: 0 | Zeit: 20";
+
+timer=setInterval(()=>{
+time--;
+document.getElementById("reactionScore").innerText=`Score: ${score} | Zeit: ${time}`;
+if(time<=0){
+clearInterval(timer);
+run=false;
+if(score>=70)document.getElementById("winReaction").style.display="block";
+}
+},1000);
+}
+
+function clickBox(){
+if(run){
+score++;
+}
+}
+
+/* ================= PONG ================= */
 let c=document.getElementById("game");
 let ctx=c.getContext("2d");
 
 let p={x:20,y:150,w:10,h:80,score:0};
-let ai={x:670,y:150,w:10,h:80,score:0,fail:0};
+let ai={x:670,y:150,w:10,h:80};
 let b={x:350,y:200,dx:4,dy:3,r:8};
 
-let up=false,down=false;
-let running=false;
+let up=false,down=false,runP=false;
 
-function startGame(){running=true;}
+function startPong(){runP=true;}
 
-function move(){
+window.addEventListener("keydown",e=>{
+if(e.key==="ArrowUp")up=true;
+if(e.key==="ArrowDown")down=true;
+});
+window.addEventListener("keyup",e=>{
+if(e.key==="ArrowUp")up=false;
+if(e.key==="ArrowDown")down=false;
+});
+
+function loop(){
+if(runP){
+
 if(up)p.y-=6;
 if(down)p.y+=6;
-
 p.y=Math.max(0,Math.min(320,p.y));
 
-ai.fail++;
-let mistake = ai.fail % 4 === 0;
-
-if(!mistake){
-ai.y += (ai.y < b.y ? 3 : -3);
-}else{
-ai.y += (Math.random()>0.5?8:-8);
-}
-
-ai.y=Math.max(0,Math.min(320,ai.y));
+ai.y += (b.y>ai.y?3:-3);
 
 b.x+=b.dx;
 b.y+=b.dy;
@@ -309,18 +338,9 @@ if(b.x>ai.x&&b.y>ai.y&&b.y<ai.y+80)b.dx*=-1;
 if(b.x<0){ai.score++;reset();}
 if(b.x>700){p.score++;reset();}
 
-document.getElementById("ps").innerText=p.score;
-document.getElementById("ai").innerText=ai.score;
-
-if(p.score>=5)document.getElementById("win").style.display="block";
+if(p.score>=5)document.getElementById("winPong").style.display="block";
 }
 
-function reset(){
-b.x=350;b.y=200;
-b.dx*=-1;
-}
-
-function draw(){
 ctx.fillStyle="black";
 ctx.fillRect(0,0,700,400);
 
@@ -334,16 +354,15 @@ ctx.fillStyle="white";
 ctx.beginPath();
 ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
 ctx.fill();
-}
 
-function loop(){
-if(running){
-move();
-draw();
-}
 requestAnimationFrame(loop);
 }
 loop();
+
+function reset(){
+b.x=350;b.y=200;
+b.dx*=-1;
+}
 
 </script>
 
