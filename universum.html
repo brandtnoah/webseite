@@ -366,7 +366,8 @@ b[0].innerText=q.a[0];
 b[1].innerText=q.a[1];
 b[2].innerText=q.a[2];
 }
-  function ans(i){
+
+function ans(i){
 if(quiz[qi].c.includes(i)){
 qi++;
 loadQ();
@@ -375,6 +376,8 @@ qi=0;
 loadQ();
 }
 }
+
+loadQ();
 
 /* REACTION */
 let score=0,time=20,run=false,timer;
