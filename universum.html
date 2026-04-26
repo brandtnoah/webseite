@@ -8,9 +8,9 @@
 <style>
 body{
   margin:0;
-  font-family:Arial;
+  font-family:Arial, sans-serif;
   background:#070a14;
-  color:white;
+  color:#fff;
 }
 
 header{
@@ -20,28 +20,34 @@ header{
   letter-spacing:3px;
 }
 
+/* ================= UNIVERSE ================= */
 .universe{
   position:relative;
   height:700px;
-  background:radial-gradient(circle,#0b1020,#000);
+  background:radial-gradient(circle at center,#0b1020,#000);
   overflow:hidden;
 }
 
+/* PLANETS */
 .planet{
   position:absolute;
   width:60px;
   height:60px;
   border-radius:50%;
   cursor:pointer;
+  box-shadow:inset -10px -10px 20px rgba(0,0,0,0.6),
+             0 0 15px rgba(255,255,255,0.2);
 }
 
 .planet a{
   display:block;
-  color:white;
-  text-align:center;
-  font-size:10px;
-  padding-top:65px;
+  width:100%;
+  height:100%;
   text-decoration:none;
+  color:white;
+  font-size:10px;
+  text-align:center;
+  padding-top:65px;
 }
 
 .p1{background:radial-gradient(circle,#4facfe,#001a33);}
@@ -51,40 +57,64 @@ header{
 .p5{background:radial-gradient(circle,#8b5cf6,#1a0033);}
 .p6{background:radial-gradient(circle,#00ff88,#002211);}
 .p7{background:radial-gradient(circle,#ffcc00,#332200);}
-.p8{background:linear-gradient(#0077ff,#f4d03f);}
+.p8{background:linear-gradient(to bottom,#0077ff 50%,#f4d03f 50%);}
 
+/* MOON */
 .moon{
   position:absolute;
   top:40px;
   right:80px;
-  width:80px;height:80px;
+  width:80px;
+  height:80px;
   border-radius:50%;
-  background:white;
+  background:radial-gradient(circle,#fff,#aaa,#444);
+  animation:moonGlow 6s infinite;
 }
 
+@keyframes moonGlow{
+  0%{box-shadow:0 0 5px #fff;}
+  50%{box-shadow:0 0 35px #fff;}
+  100%{box-shadow:0 0 5px #fff;}
+}
+
+/* QUIZ */
 #quizBox{
   position:absolute;
   top:150px;
   right:30px;
   width:260px;
   background:#111;
-  padding:10px;
+  border:1px solid #444;
+  padding:12px;
 }
 
-#quizBox button{width:100%;margin-top:5px;}
+#quizBox button{
+  width:100%;
+  margin-top:5px;
+  padding:6px;
+}
 
+/* ================= INFO BOX ================= */
 #infoBox{
   margin:20px auto;
   width:90%;
   max-width:700px;
   background:#111;
+  border:1px solid #444;
   padding:15px;
   text-align:center;
+  line-height:1.5;
 }
 
-#reactionSection,#pongSection{
-  text-align:center;
+#infoBox strong{
+  color:#00ffcc;
+}
+
+/* ================= REACTION GAME ================= */
+#reactionSection{
   padding:20px;
+  text-align:center;
+  background:#0b0f1f;
 }
 
 #clickBox{
@@ -96,11 +126,21 @@ header{
   cursor:pointer;
 }
 
+#reactionScore{
+  font-size:18px;
+}
+
+/* ================= PONG ================= */
+#pongSection{
+  padding:20px;
+  text-align:center;
+}
+
 canvas{
   background:black;
-  display:block;
-  margin:auto;
   border:2px solid #333;
+  display:block;
+  margin:10px auto;
 }
 
 .controls{
@@ -110,19 +150,72 @@ canvas{
 }
 
 .btn{
-  padding:12px;
   background:#222;
   border:1px solid #555;
+  padding:12px 18px;
+  cursor:pointer;
   user-select:none;
 }
 
-/* MOBILE */
-@media(max-width:768px){
-.universe{height:auto;min-height:900px;}
-.planet{transform:scale(0.75);}
-#quizBox{position:relative;width:90%;margin:auto;}
-canvas{width:100%;}
+/* POPUP */
+.popup{
+  display:none;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.92);
+  text-align:center;
+  padding-top:120px;
+  z-index:999;
 }
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:12px;
+  background:#05070f;
+  border-top:1px solid #222;
+  font-size:12px;
+}
+footer a{color:#aaa;margin:0 10px;text-decoration:none;}
+
+/* ================= MOBILE ================= */
+@media (max-width: 768px){
+
+.universe{
+  height:950px;
+  overflow:visible;
+}
+
+.planet{
+  transform:scale(0.75);
+}
+
+#quizBox{
+  position:relative;
+  top:auto;
+  right:auto;
+  width:90%;
+  margin:20px auto;
+}
+
+#infoBox{
+  width:95%;
+  font-size:14px;
+}
+
+canvas{
+  width:100%;
+  height:auto;
+}
+}
+
+@media (max-width: 480px){
+.planet{transform:scale(0.6);}
+}
+
 </style>
 </head>
 
@@ -131,56 +224,90 @@ canvas{width:100%;}
 <header>NOAH BRANDT’S UNIVERSUM</header>
 
 <div class="universe">
+
 <div class="moon"></div>
 
-<div class="planet p1" style="top:120px;left:100px"><a href="#">Lebenslauf</a></div>
-<div class="planet p2" style="top:200px;left:260px"><a href="#">Beratung</a></div>
-<div class="planet p3" style="top:320px;left:420px"><a href="#">Besuchskarte</a></div>
-<div class="planet p4" style="top:160px;left:520px"><a href="#">Kontakt</a></div>
-<div class="planet p5" style="top:360px;left:140px"><a href="#">Internet</a></div>
-<div class="planet p6" style="top:420px;left:320px"><a href="#">Kennenlernen</a></div>
-<div class="planet p7" style="top:80px;left:420px"><a href="#">Eigenverlag</a></div>
-<div class="planet p8" style="top:500px;left:540px"><a href="#">Strand</a></div>
+<div class="planet p1" style="top:120px;left:100px"><a href="lebenslauf.html">Lebenslauf</a></div>
+<div class="planet p2" style="top:200px;left:260px"><a href="beratung.html">Beratung</a></div>
+<div class="planet p3" style="top:320px;left:420px"><a href="global.html">Besuchskarte</a></div>
+<div class="planet p4" style="top:160px;left:520px"><a href="kontakt.html">Kontakt</a></div>
+<div class="planet p5" style="top:360px;left:140px"><a href="internetpraesenz.html">Internetpräsenzen</a></div>
+<div class="planet p6" style="top:420px;left:320px"><a href="kennenlernen.html">Interaktives Kennenlernen</a></div>
+<div class="planet p7" style="top:80px;left:420px"><a href="eigenverlag.html">Eigenverlag</a></div>
+<div class="planet p8" style="top:500px;left:540px"><a href="strand.html">Strand</a></div>
 
 <div id="quizBox">
 <h3>Quiz</h3>
 <div id="qText"></div>
-<button onclick="answer(0)"></button>
-<button onclick="answer(1)"></button>
-<button onclick="answer(2)"></button>
-</div>
+<button onclick="ans(0)"></button>
+<button onclick="ans(1)"></button>
+<button onclick="ans(2)"></button>
 </div>
 
+</div>
+
+<!-- ================= INFO BOX ================= -->
 <div id="infoBox">
-<strong>Hinweis:</strong><br>
-Alle Spiele → Screenshot senden
+<strong>Hinweis:</strong><br><br>
+Wenn du <strong>Quiz + Reaktionsspiel + Pong</strong> erfolgreich abgeschlossen hast,<br>
+bitte immer einen <strong>Screenshot erstellen</strong> und an <strong>Noah Brandt senden</strong>.<br><br>
+Es kann ggf. eine <strong>Belohnung</strong> für erfolgreiche Abschlüsse geben.
 </div>
 
-<!-- REACTION -->
 <div id="reactionSection">
-<h2>Reaktion</h2>
+<h2>Reaktionsspiel (20 Sekunden)</h2>
+<p>Klicke so schnell wie möglich. Ziel: 70 Punkte</p>
+
 <button onclick="startReaction()">START</button>
-<div id="clickBox"></div>
-<div id="reactionScore">0 | 20s</div>
+<div id="clickBox" onclick="clickBox()"></div>
+
+<div id="reactionScore">Score: 0 | Zeit: 20</div>
 </div>
 
-<!-- PONG -->
 <div id="pongSection">
 <h2>PONG</h2>
 <button onclick="startPong()">START</button>
+
 <canvas id="game" width="700" height="400"></canvas>
-<p>Player: <span id="pScore">0</span> | AI: <span id="aiScore">0</span></p>
+
+<p>
+Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
+</p>
 
 <div class="controls">
-<div class="btn" ontouchstart="up=1" ontouchend="up=0">⬆</div>
-<div class="btn" ontouchstart="down=1" ontouchend="down=0">⬇</div>
+<div class="btn" onmousedown="up=true" onmouseup="up=false" ontouchstart="up=true" ontouchend="up=false">⬆</div>
+<div class="btn" onmousedown="down=true" onmouseup="down=false" ontouchstart="down=true" ontouchend="up=false">⬇</div>
 </div>
 </div>
+
+<div id="winPong" class="popup">
+<h1>PONG GEWONNEN</h1>
+<p>10 Punkte erreicht!</p>
+<button onclick="location.reload()">Neustart</button>
+</div>
+
+<div id="winQuiz" class="popup">
+<h1>QUIZ GEWONNEN</h1>
+<p>Alle Fragen korrekt beantwortet!</p>
+<button onclick="location.reload()">Neustart</button>
+</div>
+
+<div id="winReaction" class="popup">
+<h1>REAKTION GEWONNEN</h1>
+<p>70 Punkte erreicht!</p>
+<button onclick="location.reload()">Neustart</button>
+</div>
+
+<footer>
+<a href="impressum.html">Impressum</a>
+<a href="datenschutz.html">Datenschutz</a>
+<a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+</footer>
 
 <script>
 
-/* ================= QUIZ ================= */
-let quiz=[
+/* QUIZ */
+const quiz=[
 {q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
 {q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:0},
 {q:"Er ist auch?",a:["Autor","Musiker","Bäcker"],c:0}
@@ -188,7 +315,12 @@ let quiz=[
 
 let qi=0;
 
-function loadQuiz(){
+function loadQ(){
+if(qi>=quiz.length){
+document.getElementById("winQuiz").style.display="block";
+return;
+}
+
 let q=quiz[qi];
 document.getElementById("qText").innerText=q.q;
 let b=document.querySelectorAll("#quizBox button");
@@ -197,116 +329,98 @@ b[1].innerText=q.a[1];
 b[2].innerText=q.a[2];
 }
 
-function answer(i){
-if(i===quiz[qi].c){qi++;}
-else{qi=0;}
-if(qi>=quiz.length)alert("Quiz gewonnen!");
-loadQuiz();
+function ans(i){
+if(i===quiz[qi].c){
+qi++;
+loadQ();
+}else{
+qi=0;
+loadQ();
 }
-loadQuiz();
+}
+loadQ();
 
-/* ================= REACTION ================= */
-let rScore=0,time=20,running=false;
-
-document.getElementById("clickBox").onclick=()=>{
-if(running)rScore++;
-};
+/* REACTION */
+let score=0,time=20,run=false,timer;
 
 function startReaction(){
-rScore=0;
-time=20;
-running=true;
+score=0;time=20;run=true;
+document.getElementById("reactionScore").innerText="Score: 0 | Zeit: 20";
 
-let int=setInterval(()=>{
+timer=setInterval(()=>{
 time--;
-document.getElementById("reactionScore").innerText=rScore+" | "+time+"s";
-
+document.getElementById("reactionScore").innerText=`Score: ${score} | Zeit: ${time}`;
 if(time<=0){
-clearInterval(int);
-running=false;
-if(rScore>=70)alert("Reaction gewonnen!");
+clearInterval(timer);
+run=false;
+if(score>=70)document.getElementById("winReaction").style.display="block";
 }
 },1000);
 }
 
-/* ================= PONG FIXED ================= */
-let c,ctx;
-let px=150,py=150;
-let ay=150;
-let bx=350,by=200;
-let dx=4,dy=3;
-let pScore=0,aiScore=0;
-let up=0,down=0;
-let loopRunning=false;
-
-function startPong(){
-if(loopRunning) return; // verhindert doppelte loops
-loopRunning=true;
-
-c=document.getElementById("game");
-ctx=c.getContext("2d");
-
-pScore=0;aiScore=0;
-px=150;py=150;
-ay=150;
-bx=350;by=200;
-dx=4;dy=3;
-
-gameLoop();
+function clickBox(){
+if(run)score++;
 }
 
-function gameLoop(){
-if(!loopRunning) return;
+/* PONG */
+let c=document.getElementById("game");
+let ctx=c.getContext("2d");
 
-ctx.clearRect(0,0,700,400);
+let p={x:20,y:150,w:10,h:80,score:0};
+let ai={x:670,y:150,w:10,h:80,score:0};
+let b={x:350,y:200,dx:4,dy:3,r:8};
 
-/* player */
-if(up)py-=6;
-if(down)py+=6;
+let up=false,down=false,runP=false;
 
-/* ai */
-ay += (by-ay)*0.06;
+function startPong(){runP=true;}
 
-/* ball */
-bx+=dx;
-by+=dy;
+function loop(){
+if(runP){
 
-if(by<0||by>400)dy*=-1;
+if(up)p.y-=6;
+if(down)p.y+=6;
+p.y=Math.max(0,Math.min(320,p.y));
 
-/* player hit */
-if(bx<30 && by>py && by<py+80) dx*=-1;
+ai.y += (b.y>ai.y?3:-3);
 
-/* ai hit */
-if(bx>670 && by>ay && by<ay+80) dx*=-1;
+b.x+=b.dx;
+b.y+=b.dy;
 
-/* score */
-if(bx<0){aiScore++;reset();}
-if(bx>700){pScore++;reset();}
+if(b.y<0||b.y>400)b.dy*=-1;
 
-/* draw */
+if(b.x<p.x+10&&b.y>p.y&&b.y<p.y+80)b.dx*=-1;
+if(b.x>ai.x&&b.y>ai.y&&b.y<ai.y+80)b.dx*=-1;
+
+if(b.x<0){ai.score++;reset();}
+if(b.x>700){p.score++;reset();}
+
+document.getElementById("pScore").innerText=p.score;
+document.getElementById("aiScore").innerText=ai.score;
+
+if(p.score>=10)document.getElementById("winPong").style.display="block";
+}
+
+ctx.fillStyle="black";
+ctx.fillRect(0,0,700,400);
+
+ctx.fillStyle="lime";
+ctx.fillRect(p.x,p.y,p.w,p.h);
+
+ctx.fillStyle="red";
+ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
+
 ctx.fillStyle="white";
-ctx.fillRect(20,py,10,80);
-ctx.fillRect(670,ay,10,80);
 ctx.beginPath();
-ctx.arc(bx,by,8,0,Math.PI*2);
+ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
 ctx.fill();
 
-document.getElementById("pScore").innerText=pScore;
-document.getElementById("aiScore").innerText=aiScore;
-
-if(pScore>=10){
-alert("PONG GEWONNEN");
-loopRunning=false;
-return;
+requestAnimationFrame(loop);
 }
-
-requestAnimationFrame(gameLoop);
-}
+loop();
 
 function reset(){
-bx=350;by=200;
-dx*=-1;
-dy=(Math.random()*4-2);
+b.x=350;b.y=200;
+b.dx*=-1;
 }
 
 </script>
