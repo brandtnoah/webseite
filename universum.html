@@ -181,18 +181,21 @@ footer{
 }
 footer a{color:#aaa;margin:0 10px;text-decoration:none;}
 
-/* ================= MOBILE ================= */
+/* ================= MOBILE FIX (WICHTIG) ================= */
 @media (max-width: 768px){
 
 .universe{
-  height:950px;
-  overflow:visible;
+  height:auto;              /* WICHTIG: keine feste Höhe mehr */
+  min-height:950px;
+  overflow:visible;         /* verhindert Abschneiden der Planeten */
+  padding-bottom:20px;
 }
 
 .planet{
-  transform:scale(0.75);
+  transform:scale(0.8);
 }
 
+/* Quiz bleibt UNTER Planeten (wie gewünscht) */
 #quizBox{
   position:relative;
   top:auto;
@@ -201,19 +204,29 @@ footer a{color:#aaa;margin:0 10px;text-decoration:none;}
   margin:20px auto;
 }
 
+/* Info Box sauber darunter */
 #infoBox{
   width:95%;
   font-size:14px;
 }
 
+/* Canvas responsiv */
 canvas{
   width:100%;
   height:auto;
 }
+
+#clickBox{
+  width:170px;
+  height:170px;
+}
+
 }
 
 @media (max-width: 480px){
-.planet{transform:scale(0.6);}
+.planet{
+  transform:scale(0.65);
+}
 }
 
 </style>
@@ -246,7 +259,7 @@ canvas{
 
 </div>
 
-<!-- ================= INFO BOX ================= -->
+<!-- INFO BOX -->
 <div id="infoBox">
 <strong>Hinweis:</strong><br><br>
 Wenn du <strong>Quiz + Reaktionsspiel + Pong</strong> erfolgreich abgeschlossen hast,<br>
@@ -280,23 +293,9 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 </div>
 </div>
 
-<div id="winPong" class="popup">
-<h1>PONG GEWONNEN</h1>
-<p>10 Punkte erreicht!</p>
-<button onclick="location.reload()">Neustart</button>
-</div>
-
-<div id="winQuiz" class="popup">
-<h1>QUIZ GEWONNEN</h1>
-<p>Alle Fragen korrekt beantwortet!</p>
-<button onclick="location.reload()">Neustart</button>
-</div>
-
-<div id="winReaction" class="popup">
-<h1>REAKTION GEWONNEN</h1>
-<p>70 Punkte erreicht!</p>
-<button onclick="location.reload()">Neustart</button>
-</div>
+<div id="winPong" class="popup"><h1>PONG GEWONNEN</h1><button onclick="location.reload()">Neustart</button></div>
+<div id="winQuiz" class="popup"><h1>QUIZ GEWONNEN</h1><button onclick="location.reload()">Neustart</button></div>
+<div id="winReaction" class="popup"><h1>REAKTION GEWONNEN</h1><button onclick="location.reload()">Neustart</button></div>
 
 <footer>
 <a href="impressum.html">Impressum</a>
@@ -305,8 +304,6 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 </footer>
 
 <script>
-
-/* QUIZ */
 const quiz=[
 {q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
 {q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:0},
@@ -320,7 +317,6 @@ if(qi>=quiz.length){
 document.getElementById("winQuiz").style.display="block";
 return;
 }
-
 let q=quiz[qi];
 document.getElementById("qText").innerText=q.q;
 let b=document.querySelectorAll("#quizBox button");
@@ -330,99 +326,10 @@ b[2].innerText=q.a[2];
 }
 
 function ans(i){
-if(i===quiz[qi].c){
-qi++;
-loadQ();
-}else{
-qi=0;
-loadQ();
-}
+if(i===quiz[qi].c){qi++;loadQ();}
+else{qi=0;loadQ();}
 }
 loadQ();
-
-/* REACTION */
-let score=0,time=20,run=false,timer;
-
-function startReaction(){
-score=0;time=20;run=true;
-document.getElementById("reactionScore").innerText="Score: 0 | Zeit: 20";
-
-timer=setInterval(()=>{
-time--;
-document.getElementById("reactionScore").innerText=`Score: ${score} | Zeit: ${time}`;
-if(time<=0){
-clearInterval(timer);
-run=false;
-if(score>=70)document.getElementById("winReaction").style.display="block";
-}
-},1000);
-}
-
-function clickBox(){
-if(run)score++;
-}
-
-/* PONG */
-let c=document.getElementById("game");
-let ctx=c.getContext("2d");
-
-let p={x:20,y:150,w:10,h:80,score:0};
-let ai={x:670,y:150,w:10,h:80,score:0};
-let b={x:350,y:200,dx:4,dy:3,r:8};
-
-let up=false,down=false,runP=false;
-
-function startPong(){runP=true;}
-
-function loop(){
-if(runP){
-
-if(up)p.y-=6;
-if(down)p.y+=6;
-p.y=Math.max(0,Math.min(320,p.y));
-
-ai.y += (b.y>ai.y?3:-3);
-
-b.x+=b.dx;
-b.y+=b.dy;
-
-if(b.y<0||b.y>400)b.dy*=-1;
-
-if(b.x<p.x+10&&b.y>p.y&&b.y<p.y+80)b.dx*=-1;
-if(b.x>ai.x&&b.y>ai.y&&b.y<ai.y+80)b.dx*=-1;
-
-if(b.x<0){ai.score++;reset();}
-if(b.x>700){p.score++;reset();}
-
-document.getElementById("pScore").innerText=p.score;
-document.getElementById("aiScore").innerText=ai.score;
-
-if(p.score>=10)document.getElementById("winPong").style.display="block";
-}
-
-ctx.fillStyle="black";
-ctx.fillRect(0,0,700,400);
-
-ctx.fillStyle="lime";
-ctx.fillRect(p.x,p.y,p.w,p.h);
-
-ctx.fillStyle="red";
-ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
-
-ctx.fillStyle="white";
-ctx.beginPath();
-ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
-ctx.fill();
-
-requestAnimationFrame(loop);
-}
-loop();
-
-function reset(){
-b.x=350;b.y=200;
-b.dx*=-1;
-}
-
 </script>
 
 </body>
