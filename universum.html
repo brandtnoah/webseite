@@ -39,14 +39,6 @@ header{
              0 0 15px rgba(255,255,255,0.2);
 }
 
-.planet a{
-  color:inherit;
-  text-decoration:none;
-  display:block;
-  width:100%;
-  height:100%;
-}
-
 .p1{background:radial-gradient(circle,#4facfe,#001a33);}
 .p2{background:radial-gradient(circle,#ff9966,#3a1a10);}
 .p3{background:radial-gradient(circle,#66ffcc,#003333);}
@@ -74,7 +66,6 @@ header{
   border-radius:50%;
   background:radial-gradient(circle,#fff,#aaa,#444);
   animation:moonGlow 6s infinite;
-  z-index:1;
 }
 
 @keyframes moonGlow{
@@ -92,37 +83,63 @@ header{
   background:#111;
   border:1px solid #444;
   padding:15px;
-  z-index:2;
 }
 
-button{
+#quizBox button{
   width:100%;
   margin-top:5px;
   padding:8px;
+}
+
+/* ================= PONG ================= */
+
+#pongSection{
+  padding:20px;
+  text-align:center;
+}
+
+canvas{
+  background:black;
+  border:2px solid #333;
+  display:block;
+  margin:10px auto;
+}
+
+.controls{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.btn{
+  background:#222;
+  border:1px solid #555;
+  padding:12px 18px;
   cursor:pointer;
+  user-select:none;
 }
 
-#result{
-  margin-top:10px;
-  font-size:12px;
-  color:#aaa;
+.btn:active{background:#444;}
+
+#startBtn{
+  padding:10px 20px;
+  margin:10px;
 }
 
-/* END SCREEN */
-#endScreen{
+/* WIN */
+#win{
   display:none;
   position:fixed;
   top:0;
   left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.9);
-  z-index:999;
+  background:rgba(0,0,0,0.92);
   text-align:center;
-  padding-top:200px;
+  padding-top:120px;
+  z-index:999;
 }
 
-/* FOOTER */
 footer{
   text-align:center;
   padding:12px;
@@ -136,11 +153,6 @@ footer a{
   margin:0 10px;
   text-decoration:none;
 }
-
-footer a:hover{
-  color:#fff;
-}
-
 </style>
 </head>
 
@@ -152,117 +164,181 @@ footer a:hover{
 
 <div class="moon"></div>
 
-<!-- PLANETEN (VERLINKT) -->
-<div class="planet p1" style="top:120px;left:100px">
-  <a href="lebenslauf.html"><div class="label">Lebenslauf</div></a>
-</div>
+<div class="planet p1" style="top:120px;left:100px"></div>
+<div class="planet p2" style="top:200px;left:260px"></div>
+<div class="planet p3" style="top:320px;left:420px"></div>
+<div class="planet p4" style="top:160px;left:520px"></div>
+<div class="planet p5" style="top:360px;left:140px"></div>
+<div class="planet p6" style="top:420px;left:320px"></div>
+<div class="planet p7" style="top:80px;left:420px"></div>
+<div class="planet p8" style="top:500px;left:540px"></div>
 
-<div class="planet p2" style="top:200px;left:260px">
-  <a href="beratung.html"><div class="label">Beratung</div></a>
-</div>
-
-<div class="planet p3" style="top:320px;left:420px">
-  <a href="projekte.html"><div class="label">Projekte</div></a>
-</div>
-
-<div class="planet p4" style="top:160px;left:520px">
-  <a href="kontakt.html"><div class="label">Kontakt</div></a>
-</div>
-
-<div class="planet p5" style="top:360px;left:140px">
-  <a href="archiv.html"><div class="label">Archiv</div></a>
-</div>
-
-<div class="planet p6" style="top:420px;left:320px">
-  <a href="experiment.html"><div class="label">Experiment</div></a>
-</div>
-
-<div class="planet p7" style="top:80px;left:420px">
-  <a href="forschung.html"><div class="label">Forschung</div></a>
-</div>
-
-<div class="planet p8" style="top:500px;left:540px">
-  <a href="strand.html"><div class="label">Strand</div></a>
-</div>
-
-<!-- QUIZ -->
 <div id="quizBox">
-<h3>Quiz: Noah Brandt</h3>
-
-<div id="question">Lade...</div>
-
-<button onclick="answer(0)">A</button>
-<button onclick="answer(1)">B</button>
-<button onclick="answer(2)">C</button>
-
-<div id="result"></div>
+<h3>Quiz</h3>
+<div id="question"></div>
+<button onclick="answer(0)"></button>
+<button onclick="answer(1)"></button>
+<button onclick="answer(2)"></button>
 </div>
 
 </div>
 
-<!-- END SCREEN -->
-<div id="endScreen">
-<h1>Herzlichen Glückwunsch!</h1>
-<p>Alles richtig beantwortet.</p>
-<p>Bitte Screenshot erstellen und an Noah Brandt senden.</p>
-<p>Eine kleine Belohnung ist ggf. möglich.</p>
+<!-- PONG -->
+<div id="pongSection">
+
+<h2>PONG</h2>
+
+<button id="startBtn" onclick="startGame()">START</button>
+
+<canvas id="game" width="700" height="400"></canvas>
+
+<div class="controls">
+  <div class="btn" onmousedown="up=true" onmouseup="up=false" ontouchstart="up=true" ontouchend="up=false">⬆</div>
+  <div class="btn" onmousedown="down=true" onmouseup="down=false" ontouchstart="down=true" ontouchend="down=false">⬇</div>
+</div>
+
+<p>Punkte Spieler: <span id="ps">0</span> | KI: <span id="ai">0</span></p>
+
+</div>
+
+<div id="win">
+<h1>Gewonnen!</h1>
+<p>Kennenlernen mit Noah Brandt im Café möglich.</p>
 <button onclick="location.reload()">Neustart</button>
 </div>
 
-<!-- FOOTER -->
 <footer>
-  <a href="impressum.html">Impressum</a>
-  <a href="datenschutz.html">Datenschutz</a>
-  <a href="nutzungsbedingungen.html">Nutzungsbedingungen</a>
+<a href="#">Impressum</a>
+<a href="#">Datenschutz</a>
+<a href="#">Nutzungsbedingungen</a>
 </footer>
 
 <script>
 
-const quiz = [
-{q:"Was ist Noah Brandt?",a:["Astronaut","Bibliothekar","Musiker"],correct:1},
-{q:"Wo arbeitet er?",a:["Bibliothek","Theater","Krankenhaus"],correct:0},
-{q:"Zusätzliche Tätigkeit?",a:["Pilot","Autor","Mechaniker"],correct:1},
-{q:"Hauptsprache?",a:["Deutsch","Japanisch","Italienisch"],correct:0},
-{q:"Kein Bereich?",a:["Beratung","Bibliothek","Raumfahrt"],correct:2},
-{q:"Projektart?",a:["Webprojekt","Spiel","Film"],correct:0},
-{q:"Rolle oft?",a:["Autor","Soldat","Sportler"],correct:0},
-{q:"Nicht dazu?",a:["Bibliothek","Architektur","Publikation"],correct:1},
-{q:"Planeten sind?",a:["Themen","Echte Planeten","Fehler"],correct:0},
-{q:"Letzte Frage korrekt?",a:["Ja","Nein","Vielleicht"],correct:0}
+/* ================= KEY FIX ================= */
+/* 👉 WICHTIG: Pfeiltasten jetzt global + verhindern Scrollen */
+
+window.addEventListener("keydown",function(e){
+  if(["ArrowUp","ArrowDown"].includes(e.key)){
+    e.preventDefault();
+  }
+
+  if(e.key==="ArrowUp") up=true;
+  if(e.key==="ArrowDown") down=true;
+});
+
+window.addEventListener("keyup",function(e){
+  if(e.key==="ArrowUp") up=false;
+  if(e.key==="ArrowDown") down=false;
+});
+
+/* ================= QUIZ ================= */
+
+const quiz=[
+{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:0},
+{q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:0},
+{q:"Er ist auch?",a:["Autor","Musiker","Bäcker"],c:0}
 ];
 
-let index=0;
+let qi=0;
 
-function load(){
-if(index>=quiz.length){
-document.getElementById("endScreen").style.display="block";
-return;
-}
-
-let q=quiz[index];
+function loadQ(){
+let q=quiz[qi];
 document.getElementById("question").innerText=q.q;
-
-let buttons=document.querySelectorAll("#quizBox button");
-buttons[0].innerText=q.a[0];
-buttons[1].innerText=q.a[1];
-buttons[2].innerText=q.a[2];
+let b=document.querySelectorAll("#quizBox button");
+b[0].innerText=q.a[0];
+b[1].innerText=q.a[1];
+b[2].innerText=q.a[2];
 }
 
 function answer(i){
-let q=quiz[index];
-
-if(i===q.correct){
-index++;
-document.getElementById("result").innerText="✔ richtig";
-load();
+if(i===quiz[qi].c){
+qi++;
+loadQ();
 }else{
-index=0;
-document.getElementById("result").innerText="✖ falsch – Neustart";
-load();
+qi=0;
+loadQ();
 }
+}
+loadQ();
+
+/* ================= PONG ================= */
+
+let c=document.getElementById("game");
+let ctx=c.getContext("2d");
+
+let p={x:20,y:150,w:10,h:80,score:0};
+let ai={x:670,y:150,w:10,h:80,score:0,fail:0};
+let b={x:350,y:200,dx:4,dy:3,r:8};
+
+let up=false,down=false;
+let running=false;
+
+function startGame(){running=true;}
+
+function move(){
+if(up)p.y-=6;
+if(down)p.y+=6;
+
+p.y=Math.max(0,Math.min(320,p.y));
+
+ai.fail++;
+let mistake = ai.fail % 4 === 0;
+
+if(!mistake){
+ai.y += (ai.y < b.y ? 3 : -3);
+}else{
+ai.y += (Math.random()>0.5?8:-8);
 }
 
-load();
+ai.y=Math.max(0,Math.min(320,ai.y));
+
+b.x+=b.dx;
+b.y+=b.dy;
+
+if(b.y<0||b.y>400)b.dy*=-1;
+
+if(b.x<p.x+10&&b.y>p.y&&b.y<p.y+80)b.dx*=-1;
+if(b.x>ai.x&&b.y>ai.y&&b.y<ai.y+80)b.dx*=-1;
+
+if(b.x<0){ai.score++;reset();}
+if(b.x>700){p.score++;reset();}
+
+document.getElementById("ps").innerText=p.score;
+document.getElementById("ai").innerText=ai.score;
+
+if(p.score>=5)document.getElementById("win").style.display="block";
+}
+
+function reset(){
+b.x=350;b.y=200;
+b.dx*=-1;
+}
+
+function draw(){
+ctx.fillStyle="black";
+ctx.fillRect(0,0,700,400);
+
+ctx.fillStyle="lime";
+ctx.fillRect(p.x,p.y,p.w,p.h);
+
+ctx.fillStyle="red";
+ctx.fillRect(ai.x,ai.y,ai.w,ai.h);
+
+ctx.fillStyle="white";
+ctx.beginPath();
+ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+ctx.fill();
+}
+
+function loop(){
+if(running){
+move();
+draw();
+}
+requestAnimationFrame(loop);
+}
+loop();
 
 </script>
 
