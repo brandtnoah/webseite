@@ -1,720 +1,372 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>noahbrandt – Universum</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="shortcut icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-<meta name="apple-mobile-web-app-title" content="Noah Brandt" />
-<link rel="manifest" href="/site.webmanifest" />
-
-</head>
-    <!-- Cookie-Banner -->
-    <script src="https://cloud.ccm19.de/app.js?apiKey=82e51f1a8b5d42f3ec79ca11e02cfb73411063952ffa1476&amp;domain=695d0ab7c20c70d96b037163" referrerpolicy="origin"></script>
-
-    <style>
-        body {
-            margin:0;
-            font-family:Arial, Helvetica, sans-serif;
-            background-color:#ff7a00;
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
-            font-size:16px;
-        }
-        nav a {
-            margin:0 15px;
-            font-weight:bold;
-            color:black;
-            text-decoration:none;
-        }
-        .container {
-            display:flex;
-            flex-wrap:wrap;
-            justify-content:space-between;
-            align-items:stretch;
-            gap:20px;
-        }
-        .left-box, .middle-box, .right-box {
-            display:flex;
-            flex-direction:column;
-            justify-content:flex-start;
-            box-sizing:border-box;
-        }
-        .left-box, .right-box {
-            background-color:#ffb366;
-            border:4px solid #000;
-            padding:20px;
-            width:25%;
-        }
-        .middle-box {
-            background-color:#000000;
-            border:4px solid #000;
-            padding:30px;
-            width:45%;
-            text-align:justify;
-        }
-        .mobile .container {
-            flex-direction:column;
-            align-items:stretch;
-        }
-        .mobile .left-box, .mobile .middle-box, .mobile .right-box {
-            width:100% !important;
-        }
-        @media (max-width:768px) {
-            .container {
-                flex-direction:column;
-                align-items:stretch;
-            }
-            .left-box, .middle-box, .right-box {
-                width:100% !important;
-            }
-        }
-        hr {
-            margin:20px 0;
-            border:1px solid #000;
-        }
-        .forgot-pw {
-            text-align:center;
-            margin-top:5px;
-        }
-        .forgot-pw a {
-            font-size:12px;
-            color:grey;
-            text-decoration:none;
-        }
-    </style>
-</head>
-
-<body id="body">
-
-    <!-- Obere Leiste: Sprache, Barrierefreiheit, Mobile -->
-    <div style="text-align:right; padding:10px 20px;">
-        <button onclick="showDE()" style="font-weight:bold;">Deutsch</button>
-        <button onclick="showEN()" style="font-weight:bold;">English</button>
-        |
-        <button onclick="toggleContrast()" style="font-weight:bold;">Kontrast</button>
-        <button onclick="adjustFontSize(2)" style="font-weight:bold;">A+</button>
-        <button onclick="adjustFontSize(-2)" style="font-weight:bold;">A-</button>
-        <button onclick="resetAccessibility()" style="font-weight:bold;">Ursprünglich</button>
-        |
-        <button onclick="toggleMobile()" style="font-weight:bold;">Mobile Version</button>
-    </div>
-
-    <!-- Webseitenname -->
-    <header style="text-align:center; padding:20px; font-size:32px; font-weight:bold; color:black;">
-        noahbrandt
-    </header>
-
-    <!-- ===== DEUTSCH ===== -->
-    <div id="de" style="flex:1; padding:20px;">
-
-        <!-- Navigationsleiste -->
-        <nav role="navigation" aria-label="Hauptnavigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
-            <a href="index.html">Startseite</a>
-            <a href="lebenslauf.html">Lebenslauf</a>
-            <a href="beratung.html">Beratung</a>
-            <a href="eigenverlag.html">Eigenverlag</a>
-            <a href="internetpraesenz.html">Internetpräsenzen</a>
-            <a href="kontakt.html">Kontakt</a>
-            <a href="impressum.html">Impressum</a>
-        </nav>
-
-        <!-- Dreispaltiges Layout: links, Mitte, rechts -->
-        <div class="container">
-
-            <!-- Linke Spalte (Noah Brandt) -->
-            <div class="left-box">
-                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
-                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
-                <p style="text-align:center;">Noah Brandt - deutscher und ostbelgischer Bibliothekar, Autor und Konsultant.</p>
-            </div>
-
-            <!-- Mittlere Spalte (Lebenslauf) -->
-            <div class="middle-box">
-    <h2 style="color:#fff; margin-top:0; text-align:center; position:relative; animation:blink 3s infinite;">
-  Noah Brandt's Universum
-  <span class="spark s1"></span>
-  <span class="spark s2"></span>
-  <span class="spark s3"></span>
-  <span class="spark s4"></span>
-</h2>
-
-<style>
-@keyframes blink{
-  0%{opacity:1;}
-  50%{opacity:0.4;}
-  100%{opacity:1;}
-}
-
-    .planet-wrap{
-  position:absolute;
-  text-align:center;
-  text-decoration:none;
-  color:#fff;
-}
-
-.label{
-  margin-top:6px;
-  font-size:11px;
-}
-
-/* Glitzerpunkte */
-.spark{
-  position:absolute;
-  width:3px;
-  height:3px;
-  background:#fff;
-  border-radius:50%;
-  box-shadow:0 0 6px #fff, 0 0 12px #4facfe;
-  animation:sparkle 2s infinite ease-in-out;
-  opacity:0;
-}
-
-@keyframes sparkle{
-  0%{transform:scale(0); opacity:0;}
-  50%{opacity:1;}
-  100%{transform:scale(1.5); opacity:0;}
-}
-
-/* Positionen der Funken */
-.s1{top:5px; left:20%;}
-.s2{top:15px; right:25%; animation-delay:0.5s;}
-.s3{bottom:0px; left:40%; animation-delay:1s;}
-.s4{top:10px; right:10%; animation-delay:1.5s;}
-</style>
-                <p><!DOCTYPE html> 
-<html lang="de">
-<head>
 <meta charset="UTF-8">
-<title>Universum</title>
+<title>Noah Brandt's Universum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
-.universe {
-  width: 520;
-  height: 600px;
-  border: 1px solid #222;
-  border-radius: 12px;
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 70% 20%, rgba(255,255,255,0.06), transparent 40%),
-    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.05), transparent 50%),
-    radial-gradient(circle at center, #02020a, #000);
+body{
+    margin:0;
+    font-family:Arial;
+    background: radial-gradient(circle at 30% 20%, #ff8a2a, #0b0015);
+    color:white;
 }
 
-/* Titel */
-.title {
-  text-align: center;
-  padding: 10px;
-  letter-spacing: 3px;
-  font-weight: bold;
-  position: relative;
-  z-index: 2;
+/* HEADER */
+header{
+    text-align:center;
+    font-size:30px;
+    padding:15px;
+    letter-spacing:2px;
 }
 
-/* 🌙 Mond */
-.moon {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff, #aaa 60%, #555);
-  box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6),
-              0 0 20px rgba(255,255,255,0.2);
+/* UNIVERSUM */
+.universe{
+    position:relative;
+    height:650px;
+    background:#05010a;
+    overflow:hidden;
 }
 
-/* ⭐ Sterne */
-.star {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  background: white;
-  border-radius: 50%;
-  animation: twinkle 3s infinite alternate;
+/* MOND */
+.moon{
+    position:absolute;
+    top:30px;
+    right:60px;
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, #fff, #777);
+    box-shadow:0 0 20px rgba(255,255,255,0.2);
+    animation:moonFlash 10s infinite;
 }
 
-@keyframes twinkle {
-  from { opacity: 0.3; }
-  to { opacity: 1; }
+@keyframes moonFlash{
+    0%,92%{box-shadow:0 0 10px rgba(255,255,255,0.2);}
+    95%{box-shadow:0 0 70px rgba(255,255,255,0.9);}
+    100%{box-shadow:0 0 10px rgba(255,255,255,0.2);}
 }
 
-/* 🪐 Planeten */
-.planet {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  position: absolute;
-  cursor: pointer;
-  box-shadow: inset -10px -10px 20px rgba(0,0,0,0.6),
-              0 0 15px rgba(255,255,255,0.2);
-  transition: transform 0.2s;
+/* PLANETEN */
+.planet{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    position:absolute;
+    cursor:pointer;
+    box-shadow: inset -18px -18px 40px rgba(0,0,0,0.6),
+                0 10px 20px rgba(0,0,0,0.4);
+    transition:0.3s;
 }
 
-.planet:hover {
-  transform: scale(1.1);
+.planet:hover{transform:scale(1.1);}
+
+/* REALISTISCHE FARBEN */
+.p1{background:radial-gradient(circle,#4facfe,#001b3a);}
+.p2{background:radial-gradient(circle,#ff9966,#2a0b00);}
+.p3{background:radial-gradient(circle,#66ffcc,#003b2f);}
+.p4{background:radial-gradient(circle,#ddd,#222);}
+.p5{background:radial-gradient(circle,#a86bff,#1a0030);}
+.p6{background:radial-gradient(circle,#00ffd5,#003333);}
+.p7{background:radial-gradient(circle,#ff3c3c,#200000);}
+
+/* STRANDPLANET */
+.beach{
+    width:75px;
+    height:75px;
+    border-radius:50%;
+    position:absolute;
+    background:radial-gradient(circle,#ffe08a,#0077aa);
+    box-shadow: inset -10px -10px 30px rgba(0,0,0,0.4);
 }
 
-.p1 { background: radial-gradient(circle at 30% 30%, #4facfe, #001f3f); }
-.p2 { background: radial-gradient(circle at 30% 30%, #ff9966, #4a0f00); }
-.p3 { background: radial-gradient(circle at 30% 30%, #66ffcc, #002b2b); }
-.p4 { background: radial-gradient(circle at 30% 30%, #ddd, #222); }
-
-.label {
-  position: absolute;
-  top: 45px;
-  width: 100%;
-  text-align: center;
-  font-size: 11px;
+/* LABELS */
+.label{
+    position:absolute;
+    top:80px;
+    width:100%;
+    text-align:center;
+    font-size:12px;
 }
 
-/* ☄️ Komet */
-.comet {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 10px white, 0 0 20px orange, 0 0 40px red;
+/* UFO */
+.ufo{
+    position:absolute;
+    width:45px;
+    height:18px;
+    border-radius:50%;
+    background:radial-gradient(circle,#fff,#666);
+    animation:ufoMove 14s linear infinite;
 }
 
-.comet::after {
-  content: "";
-  position: absolute;
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(to right,
-    rgba(255,255,255,1),
-    rgba(255,150,0,0.8),
-    rgba(255,0,0,0.3),
-    transparent);
-  transform: translate(-100%, 0);
-  filter: blur(1px);
+@keyframes ufoMove{
+    from{left:-100px; top:120px;}
+    to{left:110%; top:200px;}
 }
 
-@keyframes fly {
-  from { transform: translate(0,0); opacity: 1; }
-  to { transform: translate(700px, 350px); opacity: 0; }
+/* KOMET */
+.comet{
+    position:absolute;
+    width:4px;
+    height:4px;
+    background:white;
+    box-shadow:0 0 20px white;
+    animation:fly 8s linear infinite;
 }
 
-/* 🛸 UFO */
-.ufo {
-  position: absolute;
-  width: 40px;
-  height: 18px;
-  background: radial-gradient(circle at 50% 30%, #fff, #aaa 60%, #444);
-  border-radius: 50%;
-  box-shadow: 0 0 10px rgba(180,255,255,0.6),
-              0 0 25px rgba(100,200,255,0.4);
-  z-index: 5;
+@keyframes fly{
+    from{transform:translate(-100px,50px);}
+    to{transform:translate(120vw,400px);}
 }
 
-.ufo::after {
-  content: "";
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 60px;
-  background: linear-gradient(to bottom,
-    rgba(120,255,255,0.25),
-    rgba(120,255,255,0.05),
-    transparent);
-  clip-path: polygon(40% 0%, 60% 0%, 100% 100%, 0% 100%);
-  filter: blur(1px);
+/* CHAT BUTTON */
+.chat-toggle{
+    position:fixed;
+    bottom:20px;
+    right:20px;
+    background:#ff9a33;
+    color:black;
+    padding:10px 14px;
+    font-weight:bold;
+    cursor:pointer;
+    border-radius:8px;
 }
 
-@keyframes flyUfo {
-  from {
-    transform: translateX(-80px) translateY(0px);
-    opacity: 0;
-  }
-  10% { opacity: 1; }
-  to {
-    transform: translateX(700px) translateY(-120px);
-    opacity: 0;
-  }
+/* CHAT WINDOW */
+#chat{
+    position:fixed;
+    bottom:70px;
+    right:20px;
+    width:340px;
+    height:460px;
+    background:#111;
+    border:2px solid #ff9a33;
+    display:none;
+    flex-direction:column;
+    box-shadow:0 0 20px rgba(255,154,51,0.3);
 }
+
+.chat-header{
+    background:#ff9a33;
+    color:black;
+    padding:8px;
+    font-weight:bold;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+}
+
+.chat-body{
+    flex:1;
+    padding:10px;
+    font-size:13px;
+    overflow:auto;
+    white-space:pre-line;
+}
+
+.chat-questions{
+    padding:8px;
+    background:#1a1a1a;
+}
+
+.qbtn{
+    display:block;
+    padding:6px;
+    margin:3px 0;
+    background:#333;
+    cursor:pointer;
+    font-size:12px;
+}
+
+.qbtn:hover{background:#555;}
+
+.chat-input{
+    display:flex;
+}
+
+.chat-input input{
+    flex:1;
+    padding:8px;
+    border:none;
+}
+
+.chat-input button{
+    background:#ff9a33;
+    border:none;
+    padding:8px;
+    cursor:pointer;
+}
+
+/* FOOTER */
+footer{
+    background:#000;
+    text-align:center;
+    padding:10px;
+    font-size:12px;
+}
+footer a{color:white;margin:0 10px;text-decoration:none;}
 
 </style>
 </head>
 
 <body>
 
-<div class="universe" id="universe">
-  <div class="title">UNIVERSUM</div>
+<header>Noah Brandt's Universum</header>
 
-  <div class="moon"></div>
+<div class="universe">
 
-  <!-- Planeten -->
-<!-- PLANET 1 -->
-<a href="https://example.com/1" class="planet-wrap" style="top:80px; left:120px;">
-  <div class="planet p1"></div>
-  <div class="label">Lebenslauf</div>
-</a>
+    <div class="moon"></div>
+    <div class="ufo"></div>
+    <div class="comet"></div>
 
-<!-- PLANET 2 -->
-<a href="https://example.com/2" class="planet-wrap" style="top:200px; left:320px;">
-  <div class="planet p2"></div>
-  <div class="label">Beratung</div>
-</a>
+    <!-- PLANETEN -->
+    <div class="planet p1" style="top:110px;left:120px;" onclick="go('lebenslauf.html')">
+        <div class="label">Lebenslauf</div>
+    </div>
 
-<!-- PLANET 3 -->
-<a href="https://example.com/3" class="planet-wrap" style="top:320px; left:200px;">
-  <div class="planet p3"></div>
-  <div class="label">Publikationen</div>
-</a>
+    <div class="planet p2" style="top:230px;left:300px;" onclick="go('beratung.html')">
+        <div class="label">Beratung</div>
+    </div>
 
-<!-- PLANET 4 -->
-<a href="https://example.com/4" class="planet-wrap" style="top:260px; left:60px;">
-  <div class="planet p4"></div>
-  <div class="label">Kontakt</div>
-</a>
+    <div class="planet p3" style="top:350px;left:180px;" onclick="go('projekte.html')">
+        <div class="label">Projekte</div>
+    </div>
 
-<!-- PLANET 5 – Gasplanet -->
-<a href="https://example.com/5" class="planet-wrap" style="top:120px; left:420px;">
-  <div class="planet p5"></div>
-  <div class="label">Archiv</div>
-</a>
+    <div class="planet p4" style="top:250px;left:60px;" onclick="go('kontakt.html')">
+        <div class="label">Kontakt</div>
+    </div>
 
-<!-- PLANET 6 – Neon / Alien -->
-<a href="https://example.com/6" class="planet-wrap" style="top:400px; left:100px;">
-  <div class="planet p6"></div>
-  <div class="label">Projekte</div>
-</a>
+    <div class="planet p5" style="top:130px;left:450px;" onclick="go('archiv.html')">
+        <div class="label">Archiv</div>
+    </div>
 
-<!-- PLANET 7 – Glitch / instabil -->
-<a href="https://example.com/7" class="planet-wrap" style="top:450px; left:350px;">
-  <div class="planet p7"></div>
-  <div class="label">Experiment</div>
-</a>
-    
-  </div>
+    <div class="planet p6" style="top:410px;left:110px;" onclick="go('publikationen.html')">
+        <div class="label">Publikationen</div>
+    </div>
+
+    <div class="planet p7" style="top:460px;left:350px;" onclick="openChat()">
+        <div class="label">Experiment</div>
+    </div>
+
+    <div class="beach" style="top:300px;left:520px;" onclick="go('strand.html')">
+        <div class="label">Strand</div>
+    </div>
 
 </div>
 
+<!-- CHAT -->
+<div id="chat">
+
+    <div class="chat-header" onclick="toggleChat()">
+        Experiment Interface
+        <span>▾</span>
+    </div>
+
+    <div class="chat-body" id="chatBody"></div>
+
+    <div class="chat-questions" id="questions"></div>
+
+    <div class="chat-input">
+        <input id="input" placeholder="Nachricht...">
+        <button onclick="sendMsg()">→</button>
+    </div>
+
+</div>
+
+<div class="chat-toggle" onclick="openChat()">Chat</div>
+
+<footer>
+    <a href="#">Impressum</a>
+    <a href="#">Datenschutz</a>
+    <a href="#">Nutzungsbedingungen</a>
+</footer>
+
 <script>
-const universe = document.getElementById("universe");
 
-/* ⭐ zufällige Sterne */
-for (let i = 0; i < 120; i++) {
-  const star = document.createElement("div");
-  star.classList.add("star");
-
-  star.style.top = Math.random() * 100 + "%";
-  star.style.left = Math.random() * 100 + "%";
-  star.style.opacity = Math.random();
-
-  universe.appendChild(star);
+function go(url){
+    window.location.href=url;
 }
 
-/* ☄️ Komet */
-function spawnComet() {
-  const comet = document.createElement("div");
-  comet.classList.add("comet");
-
-  comet.style.top = Math.random() * 200 + "px";
-  comet.style.left = "-60px";
-
-  comet.style.animation = "fly 2s linear forwards";
-
-  universe.appendChild(comet);
-
-  setTimeout(() => comet.remove(), 2000);
+/* CHAT OPEN / CLOSE */
+function openChat(){
+    document.getElementById("chat").style.display="flex";
+    generateQuestions();
 }
 
-/* 🛸 UFO */
-function spawnUfo() {
-  const ufo = document.createElement("div");
-  ufo.classList.add("ufo");
-
-  const y = Math.random() * 250 + 50;
-  ufo.style.top = y + "px";
-  ufo.style.left = "-80px";
-
-  const duration = 3 + Math.random() * 2;
-  ufo.style.animation = `flyUfo ${duration}s linear forwards`;
-
-  universe.appendChild(ufo);
-
-  setTimeout(() => ufo.remove(), duration * 1000);
+function toggleChat(){
+    let c=document.getElementById("chat");
+    c.style.display = (c.style.display==="none") ? "flex" : "none";
 }
 
-/* Events */
-setInterval(spawnComet, 60000);
-setInterval(spawnUfo, 45000);
+/* QUESTIONS */
+let pool=[
+"Was ist das Universum?",
+"Wer bist du?",
+"Was ist Realität?",
+"Was ist Zeit?",
+"Was ist ein Planet?",
+"Was ist Experiment?",
+"Was passiert hier?",
+"Was ist der Mond?",
+"Was ist ein Komet?"
+];
 
-setTimeout(spawnComet, 4000);
-setTimeout(spawnUfo, 6000);
+function generateQuestions(){
+    let box=document.getElementById("questions");
+    box.innerHTML="";
 
-/* Navigation */
-function go(link) {
-  window.location.href = link;
+    let q=[...pool].sort(()=>0.5-Math.random()).slice(0,3);
+
+    q.forEach(t=>{
+        let d=document.createElement("div");
+        d.className="qbtn";
+        d.innerText=t;
+        d.onclick=()=>answer(t);
+        box.appendChild(d);
+    });
 }
+
+/* TYPE EFFECT */
+function type(text){
+    let body=document.getElementById("chatBody");
+    body.innerHTML += "\n" + text;
+    body.scrollTop = body.scrollHeight;
+}
+
+/* ANSWERS */
+function answer(q){
+
+    type("Du: " + q);
+
+    let r="";
+
+    if(q.includes("Universum")) r="Ein sich ausdehnendes System aus Licht und Struktur.";
+    else if(q.includes("Zeit")) r="Zeit ist eine Wahrnehmung im Inneren des Systems.";
+    else if(q.includes("Realität")) r="Realität stabilisiert sich durch Beobachtung.";
+    else if(q.includes("Mond")) r="Der Mond reflektiert Informationen, nicht nur Licht.";
+    else r="Antwort verfügbar.";
+
+    setTimeout(()=> {
+        type("System: " + r);
+        generateQuestions();
+    },600);
+}
+
+/* INPUT */
+function sendMsg(){
+    let v=document.getElementById("input").value;
+    if(!v) return;
+
+    type("Du: " + v);
+    type("System: Verarbeitung abgeschlossen.");
+
+    document.getElementById("input").value="";
+    setTimeout(generateQuestions,600);
+}
+
 </script>
-
-</body>
-</html></p>
-            </div>
-
-            <!-- Rechte Spalte (Login + Aktuelles) -->
-            <div class="right-box">
-                <h2 style="margin-top:0; text-align:center;">Login</h2>
-                <form onsubmit="handleLogin(event)" aria-label="Login-Formular">
-                    <label for="username">Benutzername:</label><br>
-                    <input type="text" id="username" name="username" style="width:100%; margin-bottom:10px;" required><br>
-                    <label for="password">Kennwort:</label><br>
-                    <input type="password" id="password" name="password" style="width:100%; margin-bottom:10px;" required><br>
-                    <button type="submit" style="width:100%; font-weight:bold;">Anmelden</button>
-                </form>
-                <div class="forgot-pw">
-                    <a href="pwvergessen.html">Passwort vergessen?</a>
-                </div>
-                <div style="margin-top:10px; text-align:center;">
-                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registrierung</a>
-                </div>
-
-                <hr>
-
-                <div>
-                    <h3 style="margin:0 0 10px 0;">Aktuelles</h3>
-                    <ul style="padding-left:20px; margin:0;">
-                        <li>Kein Eintrag</li>
-                        <li>Kein Eintrag</li>
-                        <li>Kein Eintrag</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ===== ENGLISH ===== -->
-    <div id="en" style="display:none; flex:1; padding:20px;">
-
-        <!-- Navigation -->
-        <nav role="navigation" aria-label="Main Navigation" style="margin-bottom:20px; padding:15px; border:4px solid #000; background-color:#ff9a33; text-align:center;">
-            <a href="index.html">Home</a>
-            <a href="lebenslauf.html">Resume</a>
-            <a href="beratung.html">Consulting</a>
-            <a href="eigenverlag.html">Publisher</a>
-            <a href="internetpraesenz.html">Websites</a>
-            <a href="kontakt.html">Contact</a>
-            <a href="impressum.html">Legal Notice</a>
-        </nav>
-
-        <div class="container">
-
-            <!-- Left column -->
-            <div class="left-box">
-                <h2 style="margin-top:0; text-align:center;">Noah Brandt</h2>
-                <img src="https://profile-images.xing.com/images/543ff266011755480f4aa4d1c3075afc-1/noah-brandt.256x256.jpg" alt="Noah Brandt" style="width:100%; margin:15px 0;">
-                <p style="text-align:center;">Noah Brandt - German and East Belgian librarian, author and consultant.</p>
-            </div>
-
-            <!-- Middle column -->
-            <div class="middle-box">
-                <h2 style="margin-top:0; text-align:center;">Homepage</h2>
-                <p>Librarian, author, and consultant Noah Brandt, born in 2002 in Bonn-Gronau and currently residing there, has extensive professional experience in librarianship. His career includes positions at renowned institutions such as the specialized library of the Friedrich Ebert Foundation. He also gained valuable experience at the media library of the AHS in Eupen, the educational media library in St. Vith, as well as the public parish library in Bütgenbach. In addition, Mr. Brandt works as an author and provides consulting services to libraries. He is also actively engaged in voluntary work in various library institutions. <div style="display:flex; gap:15px; flex-wrap:wrap; margin-top:20px;">
-
-    <!-- BOX 1: VISITENKARTE -->
-
-    <a href="https://www.noahbrandt.de/visitenkarte.html" style="flex:1; min-width:220px; text-decoration:none;">
-
-        <div style="
-
-            background:#f2f2f2;
-
-            border:1px solid #bbb;
-
-            padding:15px;
-
-            height:100px;
-
-            box-sizing:border-box;
-
-            display:flex;
-
-            flex-direction:column;
-
-            justify-content:center;
-
-            color:#000;
-
-        ">
-
-            <div style="font-weight:bold; font-size:15px;">Personal business card</div>
-
-            <div style="font-size:13px; margin-top:5px; color:#333;">
-
-                View contact details and profile overview
-
-            </div>
-
-        </div>
-
-    </a>
-
-    <!-- BOX 2: TERMIN -->
-
-    <a href="https://www.noahbrandt.de/kontakt.html" style="flex:1; min-width:220px; text-decoration:none;">
-
-        <div style="
-
-            background:#f2f2f2;
-
-            border:1px solid #bbb;
-
-            padding:15px;
-
-            height:100px;
-
-            box-sizing:border-box;
-
-            display:flex;
-
-            flex-direction:column;
-
-            justify-content:center;
-
-            color:#000;
-
-        ">
-
-            <div style="font-weight:bold; font-size:15px;">Book an appointment</div>
-
-            <div style="font-size:13px; margin-top:5px; color:#333;">
-
-                Book a consultation appointment online or in person
-
-            </div>
-
-        </div>
-
-    </a>
-
-</div></p>
-            </div>
-
-            <!-- Right column -->
-            <div class="right-box">
-                <h2 style="margin-top:0; text-align:center;">Login</h2>
-                <form onsubmit="handleLogin(event, 'en')" aria-label="Login form">
-                    <label for="username_en">Username:</label><br>
-                    <input type="text" id="username_en" name="username" style="width:100%; margin-bottom:10px;" required><br>
-                    <label for="password_en">Password:</label><br>
-                    <input type="password" id="password_en" name="password" style="width:100%; margin-bottom:10px;" required><br>
-                    <button type="submit" style="width:100%; font-weight:bold;">Login</button>
-                </form>
-                <div class="forgot-pw">
-                    <a href="pwvergessen.html">Forgot password?</a>
-                </div>
-                <div style="margin-top:10px; text-align:center;">
-                    <a href="registrierung.html" style="text-decoration:none; color:blue;">Registration</a>
-                </div>
-
-                <hr>
-
-                <div>
-                    <h3 style="margin:0 0 10px 0;">News</h3>
-                    <ul style="padding-left:20px; margin:0;">
-                        <li>No entries</li>
-                        <li>No entries</li>
-                        <li>No entries</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- ===== FOOTER ===== -->
-    <footer style="background-color:#ff9a33; border-top:4px solid #000; text-align:center; padding:15px; font-size:14px;">
-        <span id="footer-de">
-            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Impressum</a> |
-            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Datenschutz</a> |
-            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Nutzungsbedingungen</a>
-        </span>
-        <span id="footer-en" style="display:none;">
-            <a href="impressum.html" style="margin:0 10px; color:black; text-decoration:none;">Legal Notice</a> |
-            <a href="datenschutz.html" style="margin:0 10px; color:black; text-decoration:none;">Privacy Policy</a> |
-            <a href="nutzungsbedingungen.html" style="margin:0 10px; color:black; text-decoration:none;">Terms of Use</a>
-        </span>
-    </footer>
-
-    <script>
-        let fontSize = 16;
-        let highContrast = false;
-        let mobileActive = false;
-
-        function showDE() {
-            document.getElementById("de").style.display = "block";
-            document.getElementById("en").style.display = "none";
-            document.getElementById("footer-de").style.display = "inline";
-            document.getElementById("footer-en").style.display = "none";
-        }
-
-        function showEN() {
-            document.getElementById("de").style.display = "none";
-            document.getElementById("en").style.display = "block";
-            document.getElementById("footer-de").style.display = "none";
-            document.getElementById("footer-en").style.display = "inline";
-        }
-
-        function toggleContrast() {
-            highContrast = !highContrast;
-            if(highContrast){
-                document.getElementById("body").style.backgroundColor = "#000000";
-                document.getElementById("body").style.color = "#ffffff";
-            } else {
-                document.getElementById("body").style.backgroundColor = "#ff7a00";
-                document.getElementById("body").style.color = "#000000";
-            }
-        }
-
-        function adjustFontSize(change) {
-            fontSize += change;
-            if(fontSize < 10) fontSize = 10;
-            document.getElementById("body").style.fontSize = fontSize + "px";
-        }
-
-        function resetAccessibility() {
-            fontSize = 16;
-            highContrast = false;
-            mobileActive = false;
-            document.getElementById("body").classList.remove("mobile");
-            document.getElementById("body").style.fontSize = fontSize + "px";
-            document.getElementById("body").style.backgroundColor = "#ff7a00";
-            document.getElementById("body").style.color = "#000000";
-        }
-
-        function toggleMobile() {
-            mobileActive = !mobileActive;
-            if(mobileActive){
-                document.getElementById("body").classList.add("mobile");
-            } else {
-                document.getElementById("body").classList.remove("mobile");
-            }
-        }
-
-        function handleLogin(event, lang='de') {
-            event.preventDefault();
-            alert(lang === 'de' ? 'Login-Prozess erfolgt gegenwärtig...' : 'Login process is in progress...');
-            setTimeout(function() {
-                window.location.href = "login.html";
-            }, 4000);
-        }
-    </script>
 
 </body>
 </html>
