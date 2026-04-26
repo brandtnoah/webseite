@@ -310,88 +310,92 @@ Spieler: <span id="pScore">0</span> | KI: <span id="aiScore">0</span>
 
 /* QUIZ */
 const quiz=[
-{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:[0]},
+{q:"Noah Brandt ist?",a:["Bibliothekar","Pilot","Arzt"],c:[0],f:[1,2]},
 
-{q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:[0,1,2]},
+{q:"Er arbeitet in?",a:["Bibliothek","Hotel","Raumstation"],c:[0],f:[1,2]},
 
-{q:"Er ist auch?",a:["Autor","Musiker","Bäcker"],c:[0,1,2]},
+{q:"Er ist auch?",a:["Autor","Musiker","Bäcker"],c:[0,1,2],f:[-1]},
 
-{q:"Was beschreibt seine Ernährung am ehesten?",a:["Ausgewogen mediterran","Fast Food exklusiv","Nur Süßigkeiten"],c:[0]},
+{q:"Was beschreibt seine Ernährung am ehesten?",a:["Ausgewogen mediterran","Fast Food exklusiv","Nur Süßigkeiten"],c:[0],f:[1,2]},
 
-{q:"Sein bevorzugtes Grundnahrungsmittel ist wahrscheinlich?",a:["Pasta","Energydrinks","Kartoffelchips"],c:[0]},
+{q:"Sein bevorzugtes Grundnahrungsmittel ist wahrscheinlich?",a:["Pasta","Energydrinks","Kartoffelchips"],c:[0],f:[1,2]},
 
-{q:"Welche Option passt am besten zu seinem Essverhalten?",a:["regelmäßig warme Mahlzeiten","nur Snacks","kein geregeltes Essen"],c:[0,1]},
+{q:"Welche Option passt am besten zu seinem Essverhalten?",a:["regelmäßig warme Mahlzeiten","nur Snacks","kein geregeltes Essen"],c:[0,1],f:[2]},
 
-{q:"Was würde er eher selten wählen?",a:["Thunfischpizza","Margherita Pizza","Pasta mit Tomatensauce"],c:[0,1]},
+{q:"Was würde er eher selten wählen?",a:["Thunfischpizza","Margherita Pizza","Pasta mit Tomatensauce"],c:[0,1],f:[2]},
 
-{q:"Sein typisches Comfort Food ist am ehesten?",a:["Pizza Margherita","Sushi","Salat ohne Dressing"],c:[0,1,2]},
+{q:"Sein typisches Comfort Food ist am ehesten?",a:["Pizza Margherita","Sushi","Salat ohne Dressing"],c:[0,1,2],f:[-1]},
 
-{q:"Welche Kombination wirkt am plausibelsten?",a:["Pizza & Pasta","Pizza & Steak","Pizza & nur Süßes"],c:[0,1]},
+{q:"Welche Kombination wirkt am plausibelsten?",a:["Pizza & Pasta","Pizza & Steak","Pizza & nur Süßes"],c:[0,1],f:[-1]},
 
-{q:"Was ist die logischste Abneigung?",a:["Thunfischpizza","Tomatensauce","Basilikum"],c:[0]},
+{q:"Was ist die logischste Abneigung?",a:["Thunfischpizza","Tomatensauce","Basilikum"],c:[0],f:[-1]},
 
-{q:"Was ist wahrscheinlicher als Snack?",a:["kleines Stück Pizza","reiner Zucker","ungekochter Reis"],c:[0]},
+{q:"Was ist wahrscheinlicher als Snack?",a:["kleines Stück Pizza","reiner Zucker","ungekochter Reis"],c:[0],f:[1,2]},
 
-{q:"Was passt am ehesten zu einem normalen Abendessen?",a:["Pasta mit Sauce","nur Brot","Eis als Hauptgericht"],c:[0]},
+{q:"Was passt am ehesten zu einem normalen Abendessen?",a:["Pasta mit Sauce","nur Brot","Eis als Hauptgericht"],c:[0],f:[-1]},
 
-{q:"Welche Aussage ist am realistischsten?",a:["isst gelegentlich Pizza","isst nie warm","lebt nur von Obst"],c:[0]},
+{q:"Welche Aussage ist am realistischsten?",a:["isst gelegentlich Pizza","isst nie warm","lebt nur von Obst"],c:[0],f:[1,2]},
 
-{q:"Welche Option ist am wenigsten passend?",a:["Thunfischpizza","vegetarische Pizza","Margherita"],c:[0,1,2]},
+{q:"Welche Option ist am wenigsten passend?",a:["Thunfischpizza","vegetarische Pizza","Margherita"],c:[0,1,2],f:[-1]},
 
-{q:"Was beschreibt sein Essverhalten am besten?",a:["einfach und klassisch","extrem experimentell","rein zufällig"],c:[0]},
+{q:"Was beschreibt sein Essverhalten am besten?",a:["einfach und klassisch","extrem experimentell","rein zufällig"],c:[0],f:[-1]},
 
-{q:"Was wäre ein realistisches Lieblingsgericht im Alltag?",a:["Spaghetti Bolognese","Frittierte Insekten","nur Suppe aus der Dose"],c:[0]},
+{q:"Was wäre ein realistisches Lieblingsgericht im Alltag?",a:["Spaghetti Bolognese","Frittierte Insekten","nur Suppe aus der Dose"],c:[0],f:[1,2]},
 
-{q:"Welche Wahl ist am plausibelsten?",a:["Pizza","Steak mit Beilagen","komplett rohe Lebensmittel"],c:[0,1]},
+{q:"Welche Wahl ist am plausibelsten?",a:["Pizza","Steak mit Beilagen","komplett rohe Lebensmittel"],c:[0,1],f:[-1]},
 
-{q:"Was ist am wahrscheinlichsten sein Standardessen?",a:["Pasta-Gericht","nur Fast Food","keine feste Mahlzeit"],c:[0]},
+{q:"Was ist am wahrscheinlichsten sein Standardessen?",a:["Pasta-Gericht","nur Fast Food","keine feste Mahlzeit"],c:[0],f:[1]},
 
-{q:"Welche Option ist am logischsten ausgeschlossen?",a:["Thunfischpizza","Pizza allgemein","Pasta"],c:[0]},
+{q:"Welche Option ist am logischsten ausgeschlossen?",a:["Thunfischpizza","Pizza allgemein","Pasta"],c:[0],f:[-1]},
 
-{q:"Was passt am besten zu einem normalen Alltag?",a:["regelmäßige warme Mahlzeiten","nur Süßigkeiten","kein Essen tagsüber"],c:[0]},
+{q:"Was passt am besten zu einem normalen Alltag?",a:["regelmäßige warme Mahlzeiten","nur Süßigkeiten","kein Essen tagsüber"],c:[0],f:[1,2]},
 
-{q:"Was ist die realistischste Kombination?",a:["Pizza + Pasta","Pizza + ausschließlich Fisch","Pasta + Energiegetränke"],c:[0,1]}
+{q:"Was ist die realistischste Kombination?",a:["Pizza + Pasta","Pizza + ausschließlich Fisch","Pasta + Energiegetränke"],c:[0,1],f:[2]}
 ];
 
-let qi = 0;
-let finished = false;
+let qi=0;
+let finished=false;
 
 function loadQ(){
-
 if(finished) return;
 
-if(qi >= quiz.length){
-finished = true;
-document.getElementById("winQuiz").style.display = "block";
+if(qi>=quiz.length){
+finished=true;
+document.getElementById("winQuiz").style.display="block";
 return;
 }
 
-let q = quiz[qi];
-document.getElementById("qText").innerText = q.q;
+let q=quiz[qi];
+document.getElementById("qText").innerText=q.q;
 
-let b = document.querySelectorAll("#quizBox button");
-b[0].innerText = q.a[0];
-b[1].innerText = q.a[1];
-b[2].innerText = q.a[2];
+let b=document.querySelectorAll("#quizBox button");
+b[0].innerText=q.a[0];
+b[1].innerText=q.a[1];
+b[2].innerText=q.a[2];
 }
 
 function ans(i){
 
 if(finished) return;
 
+// ❌ harte falsche Antworten
+if(quiz[qi].f && quiz[qi].f.includes(i)){
+alert("❌ Das passt hier nicht!");
+return;
+}
+
+// ✔ richtige Antwort
 if(quiz[qi].c.includes(i)){
 qi++;
 loadQ();
 }else{
-// kein Reset mehr, nur gleiche Frage neu laden
 alert("❌ Falsch – versuch es nochmal!");
 loadQ();
 }
 }
 
-// WICHTIG: MUSS ausgeführt werden
 loadQ();
-
+  
 /* REACTION */
 let score=0,time=20,run=false,timer;
 
