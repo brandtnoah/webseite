@@ -161,18 +161,17 @@ body{
 
   <div class="wxFooter">
 
-    <div class="wxMiniBtn" onclick="saveCurrentCity()">⭐ Ort</div>
-    <div class="wxMiniBtn" onclick="saveCurrentPage()">📄 Seite</div>
+    <div class="wxMiniBtn" onclick="saveCity()">⭐ Ort</div>
+    <div class="wxMiniBtn" onclick="savePage()">📄 Seite</div>
     <div class="wxMiniBtn" onclick="toggleEdit()">✏️</div>
-
     <div class="wxInfoBtn" onclick="toggleInfo()">ⓘ</div>
 
   </div>
 
   <div class="wxInfoBox" id="infoBox">
-    ⭐ Ort = aktuelle Wetterstadt speichern<br>
-    📄 Seite = aktuelle Unterseite speichern<br>
-    ✏️ = Profil bearbeiten
+    ⭐ speichert nur Wetter-Orte (/wetter/...)<br>
+    📄 speichert nur Nicht-Wetter-Seiten<br>
+    ✏️ Profil bearbeiten
   </div>
 
   <div class="wxSub">📍 Orte</div>
@@ -187,8 +186,8 @@ body{
 
 /* INFO */
 function toggleInfo(){
-  const b = infoBox;
-  b.style.display = (b.style.display === "block") ? "none" : "block";
+  infoBox.style.display =
+    (infoBox.style.display === "block") ? "none" : "block";
 }
 
 /* FORMAT */
@@ -196,38 +195,24 @@ function format(s){
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
-/* CITY */
-function cleanCity(){
+/* CITY EXTRACT */
+function getCity(){
   let p = location.pathname.toLowerCase();
-  if(!p.includes("/wetter/")) return null;
+  if(!p.startsWith("/wetter/")) return null;
 
-  let part = p.split("/wetter/")[1] || "";
-  part = part.split("/")[0];
-  part = part.split(".")[0];
-  return part;
+  let c = p.split("/wetter/")[1] || "";
+  c = c.split("/")[0];
+  return c;
 }
 
-/* PAGE RAW */
-function pageRaw(){
-  return location.pathname;
+/* CHECK TYPE */
+function isWeatherPage(){
+  return location.pathname.toLowerCase().includes("/wetter/");
 }
 
-/* 🔥 NEU: URL DISPLAY SHORTENER */
-function shortUrl(url){
-
-  if(!url) return "";
-
-  let clean = url;
-
-  // Domain entfernen (donnerwetter.de / etc.)
-  clean = clean.replace(/^https?:\/\/[^\/]+\//, "/");
-
-  // nur nach erster / zeigen
-  if(clean.length > 35){
-    clean = clean.substring(0, 35) + "…";
-  }
-
-  return clean;
+/* PAGE NAME */
+function getPage(){
+  return location.pathname.split("/").filter(Boolean).pop().toLowerCase();
 }
 
 /* PROFILE */
@@ -239,10 +224,10 @@ function saveProfile(){
   renderProfile();
 }
 
-/* TOGGLE EDIT */
+/* TOGGLE */
 function toggleEdit(){
   profileEdit.style.display =
-    (profileEdit.style.display === "none") ? "block" : "none";
+    profileEdit.style.display === "none" ? "block" : "none";
 }
 
 /* PROFILE VIEW */
@@ -283,11 +268,13 @@ function saveData(d){
   localStorage.setItem("wx_profile", JSON.stringify(d));
 }
 
-/* SAVE CITY */
-function saveCurrentCity(){
+/* ⭐ STRICT CITY ONLY */
+function saveCity(){
+
+  if(!isWeatherPage()) return;
 
   let d = getData();
-  let city = cleanCity();
+  let city = getCity();
 
   if(city && !d.cities.find(x => x.name === city)){
     d.cities.push({
@@ -300,16 +287,18 @@ function saveCurrentCity(){
   renderLists();
 }
 
-/* SAVE PAGE */
-function saveCurrentPage(){
+/* 📄 STRICT PAGE ONLY */
+function savePage(){
+
+  if(isWeatherPage()) return; // 🔥 verhindert falsche Speicherung
 
   let d = getData();
-  let page = pageRaw();
+  let page = getPage();
 
-  if(!d.pages.find(x => x.url === page)){
+  if(!d.pages.find(x => x.name === page)){
     d.pages.push({
-      name: page.split("/").pop(),
-      url: page
+      name: page,
+      url: location.pathname
     });
   }
 
@@ -342,13 +331,9 @@ function renderLists(){
   });
 
   d.pages.forEach(p=>{
-    cityList.innerHTML += ""; // (fix placeholder safety)
-
     pageList.innerHTML += `
       <div class="item">
-        <a href="${p.url}" title="${p.url}">
-          📄 ${shortUrl(p.url)}
-        </a>
+        <a href="${p.url}">📄 ${format(p.name)}</a>
         <span onclick="remove('pages','${p.name}')">x</span>
       </div>`;
   });
