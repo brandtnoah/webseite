@@ -30,6 +30,7 @@ body{
   font-size:11px;
 }
 
+/* PROFILE CARD */
 .profileCard{
   margin:3px;
   background:#0f2a4f;
@@ -49,22 +50,16 @@ body{
   font-weight:bold;
 }
 
-.wxBlock{
-  padding:4px;
-  border-bottom:1px solid #1e3b63;
-}
-
-.wxBlock input,
-.wxBlock select{
+/* INPUT MODE INSIDE CARDS */
+.editInput{
   width:100%;
-  padding:3px;
-  margin:1px 0;
+  margin-top:2px;
+  padding:2px;
+  font-size:10px;
   border:none;
-  border-radius:5px;
+  border-radius:4px;
   background:#112c52;
   color:#fff;
-  font-size:10px;
-  height:20px;
 }
 
 /* BUTTONS */
@@ -95,9 +90,9 @@ body{
   background:#16365f;
   border-radius:5px;
   cursor:pointer;
-  font-size:11px;
 }
 
+/* INFO */
 .wxInfoBox{
   display:none;
   padding:6px;
@@ -145,32 +140,18 @@ body{
 
   <div id="profileView"></div>
 
-  <div id="profileEdit" class="wxBlock" style="display:none;">
-    <input id="username" placeholder="Name">
-    <select id="weathertype">
-      <option>Normal</option>
-      <option>Sommer</option>
-      <option>Winter</option>
-      <option>Sturm</option>
-      <option>Regen</option>
-    </select>
-    <input id="favweather" placeholder="Wetter">
-    <input id="quote" placeholder="Zitat">
-  </div>
-
   <div class="wxFooter">
 
     <div class="wxMiniBtn" onclick="saveCity()">⭐ Ort</div>
     <div class="wxMiniBtn" onclick="savePage()">📄 Seite</div>
     <div class="wxMiniBtn" onclick="toggleEdit()">✏️</div>
-
     <div class="wxInfoBtn" onclick="toggleInfo()">ⓘ</div>
 
   </div>
 
   <div class="wxInfoBox" id="infoBox">
-    ⭐ speichert NUR /wetter/... als Ort<br>
-    📄 speichert ALLES außer /wetter/...<br>
+    ⭐ nur /wetter/... = Ort<br>
+    📄 alles andere = Seite<br>
     ✏️ Profil bearbeiten
   </div>
 
@@ -187,7 +168,7 @@ body{
 /* INFO */
 function toggleInfo(){
   infoBox.style.display =
-    (infoBox.style.display === "block") ? "none" : "block";
+    infoBox.style.display === "block" ? "none" : "block";
 }
 
 /* FORMAT */
@@ -195,27 +176,22 @@ function format(s){
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
-/* STRIKTE ERKENNUNG */
-function isWeatherCity(){
+/* CITY CHECK */
+function isCity(){
   return location.pathname.startsWith("/wetter/");
 }
 
-/* CITY */
 function getCity(){
-  if(!isWeatherCity()) return null;
-
+  if(!isCity()) return null;
   let p = location.pathname.split("/wetter/")[1] || "";
-  p = p.split("/")[0];
-  p = p.split(".")[0];
-  return p;
+  return p.split("/")[0].split(".")[0];
 }
 
-/* PAGE */
 function getPage(){
   return location.pathname;
 }
 
-/* PROFILE */
+/* PROFILE STORAGE */
 function saveProfile(){
   localStorage.setItem("wx_username", username.value);
   localStorage.setItem("wx_type", weathertype.value);
@@ -224,35 +200,98 @@ function saveProfile(){
   renderProfile();
 }
 
+/* 🔥 INLINE EDIT TOGGLE */
+let editMode = false;
+
 function toggleEdit(){
-  profileEdit.style.display =
-    profileEdit.style.display === "none" ? "block" : "none";
+  editMode = !editMode;
+  renderProfile();
 }
 
-/* PROFILE VIEW */
+/* PROFILE VIEW / EDIT */
 function renderProfile(){
+
+  const name = localStorage.getItem("wx_username") || "Gast";
+  const type = localStorage.getItem("wx_type") || "-";
+  const fav  = localStorage.getItem("wx_favweather") || "-";
+  const q    = localStorage.getItem("wx_quote") || "-";
 
   profileView.innerHTML = `
     <div class="profileCard">
-      <span class="label">Name</span>
-      <div class="value">${format(localStorage.getItem("wx_username") || "Gast")}</div>
+      <div class="label">Name</div>
+      ${
+        editMode
+        ? `<input class="editInput" id="username" value="${name}">`
+        : `<div class="value">${format(name)}</div>`
+      }
     </div>
 
     <div class="profileCard">
-      <span class="label">Typ</span>
-      <div class="value">${localStorage.getItem("wx_type") || "-"}</div>
+      <div class="label">Typ</div>
+      ${
+        editMode
+        ? `<input class="editInput" id="weathertype" value="${type}">`
+        : `<div class="value">${type}</div>`
+      }
     </div>
 
     <div class="profileCard">
-      <span class="label">Wetter</span>
-      <div class="value">${localStorage.getItem("wx_favweather") || "-"}</div>
+      <div class="label">Wetter</div>
+      ${
+        editMode
+        ? `<input class="editInput" id="favweather" value="${fav}">`
+        : `<div class="value">${fav}</div>`
+      }
     </div>
 
     <div class="profileCard">
-      <span class="label">Zitat</span>
-      <div class="value">${localStorage.getItem("wx_quote") || "-"}</div>
+      <div class="label">Zitat</div>
+      ${
+        editMode
+        ? `<input class="editInput" id="quote" value="${q}">`
+        : `<div class="value">${q}</div>`
+      }
     </div>
+
+    ${
+      editMode
+      ? `<div class="wxMiniBtn" style="margin:5px;" onclick="saveProfile()">💾 Speichern</div>`
+      : ""
+    }
   `;
+}
+
+/* SAVE CITY STRICT */
+function saveCity(){
+  if(!isCity()) return;
+
+  let d = getData();
+  let city = getCity();
+
+  if(city && !d.cities.find(x => x.name === city)){
+    d.cities.push({ name: city, url: location.pathname });
+  }
+
+  saveData(d);
+  renderLists();
+}
+
+/* SAVE PAGE STRICT */
+function savePage(){
+  if(isCity()) return;
+
+  let d = getData();
+  let page = getPage();
+
+  if(!d.pages.find(x => x.url === page)){
+    d.pages.push({
+      name: page.split("/").pop(),
+      url: page
+    });
+  }
+
+  saveData(d);
+  renderLists();
 }
 
 /* STORAGE */
@@ -265,46 +304,6 @@ function getData(){
 
 function saveData(d){
   localStorage.setItem("wx_profile", JSON.stringify(d));
-}
-
-/* ⭐ ORT (STRICT) */
-function saveCity(){
-
-  if(!isWeatherCity()) return; // 🔥 HARD STOP
-
-  let d = getData();
-  let city = getCity();
-
-  if(city && !d.cities.find(x => x.name === city)){
-    d.cities.push({
-      name: city,
-      url: location.pathname
-    });
-  }
-
-  saveData(d);
-  renderLists();
-}
-
-/* 📄 SEITE (STRICT) */
-function savePage(){
-
-  if(isWeatherCity()) return; // 🔥 HARD STOP
-
-  let d = getData();
-  let page = getPage();
-
-  let name = page.split("/").filter(Boolean).pop();
-
-  if(!d.pages.find(x => x.url === page)){
-    d.pages.push({
-      name: name,
-      url: page
-    });
-  }
-
-  saveData(d);
-  renderLists();
 }
 
 /* REMOVE */
@@ -342,12 +341,6 @@ function renderLists(){
 
 /* INIT */
 window.addEventListener("load", ()=>{
-
-  username.value = localStorage.getItem("wx_username") || "";
-  weathertype.value = localStorage.getItem("wx_type") || "Normal";
-  favweather.value = localStorage.getItem("wx_favweather") || "";
-  quote.value = localStorage.getItem("wx_quote") || "";
-
   renderProfile();
   renderLists();
 });
