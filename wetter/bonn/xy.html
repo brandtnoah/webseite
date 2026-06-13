@@ -2,67 +2,106 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Mein Profil - Wetter</title>
+<title>Wetterprofil</title>
 
 <style>
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+}
+
+/* SIDEBAR */
 #wxPanel{
   position:fixed;
   right:20px;
-  top:120px;
-  width:230px;
-  font-family:Tahoma, Arial, sans-serif;
-  font-size:12px;
-  background:#f2f2f2;
-  border:1px solid #bdbdbd;
+  top:100px;
+  width:220px;
+  background:#0b1f3a;
+  color:#e6f0ff;
+  border-radius:12px;
+  overflow:hidden;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  font-size:11px;
 }
 
+/* HEADER */
 .wxHeader{
-  background:#d9e6f2;
-  border-bottom:1px solid #9fb7d1;
-  padding:6px;
+  background:#102a4d;
+  padding:7px;
   font-weight:bold;
-  color:#1f3b5c;
 }
 
-.wxCurrent{
+/* PROFILE */
+.profileCard{
+  margin:5px;
+  background:#0f2a4f;
+  border:1px solid #1e3b63;
+  border-radius:8px;
+  padding:5px 7px;
+}
+
+.label{
+  font-size:9px;
+  opacity:0.7;
+  text-transform:uppercase;
+}
+
+.value{
+  font-size:11px;
+  font-weight:bold;
+}
+
+/* INPUT */
+.wxBlock{
   padding:6px;
-  background:#fff;
-  border-bottom:1px solid #d0d0d0;
+  border-bottom:1px solid #1e3b63;
 }
 
+.wxBlock input,
+.wxBlock select{
+  width:100%;
+  padding:5px;
+  margin:2px 0;
+  border:none;
+  border-radius:6px;
+  background:#112c52;
+  color:#fff;
+  font-size:11px;
+}
+
+/* BUTTON */
 .wxBtn{
   margin:6px;
   padding:5px;
   text-align:center;
-  background:#e6e6e6;
-  border:1px solid #a0a0a0;
+  background:#1f4e8a;
+  border-radius:7px;
   cursor:pointer;
-}
-
-.wxDivider{
-  border-top:1px solid #bdbdbd;
-}
-
-.wxSub{
-  padding:6px;
   font-weight:bold;
-  background:#efefef;
+  font-size:11px;
+}
+
+/* LIST */
+.wxSub{
+  padding:6px 8px;
+  font-weight:bold;
+  background:#102a4d;
 }
 
 .item{
-  padding:4px 6px;
+  padding:4px 8px;
   display:flex;
   justify-content:space-between;
-  border-top:1px solid #e0e0e0;
+  border-top:1px solid #1e3b63;
 }
 
 .item a{
-  color:#1a4f8b;
+  color:#8fc1ff;
   text-decoration:none;
 }
 
 .item span{
-  color:#b00000;
+  color:#ff6b6b;
   cursor:pointer;
 }
 </style>
@@ -73,23 +112,37 @@
 
 <div id="wxPanel">
 
-  <div class="wxHeader">👤 Mein Profil</div>
+  <div class="wxHeader">👤 Mein Wetterprofil</div>
 
-  <div class="wxCurrent">
-    Aktuell:<br>
-    <b id="currentPage">—</b>
+  <div id="profileView"></div>
+
+  <div id="profileEdit" class="wxBlock" style="display:none;">
+
+    <input id="username" placeholder="Benutzername">
+
+    <select id="weathertype">
+      <option>Normal</option>
+      <option>Sommer-Fan</option>
+      <option>Winter-Fan</option>
+      <option>Sturm-Jäger</option>
+      <option>Regen-Liebhaber</option>
+    </select>
+
+    <input id="favweather" placeholder="Lieblingswetter">
+    <input id="quote" placeholder="Zitat">
+
+  </div>
+
+  <div class="wxBtn" onclick="toggleEdit()" id="editBtn">
+    ✏️ Bearbeiten
   </div>
 
   <div class="wxBtn" onclick="saveCurrent()">
     ⭐ Speichern
   </div>
 
-  <div class="wxDivider"></div>
-
   <div class="wxSub">📍 Meine Orte</div>
   <div id="cityList"></div>
-
-  <div class="wxDivider"></div>
 
   <div class="wxSub">📄 Meine Seiten</div>
   <div id="pageList"></div>
@@ -99,19 +152,46 @@
 <script>
 
 /* =========================
-   URL ERKENNUNG
+   🔥 NEU: URL CLEANING
    ========================= */
-function getTypeFromURL(){
-  const path = window.location.pathname.toLowerCase();
+function cleanCityFromURL(){
 
-  if(path.startsWith("/wetter/")){
-    return "city";
+  let path = window.location.pathname.toLowerCase();
+
+  if(path.includes("/wetter/")){
+
+    // alles nach /wetter/
+    let part = path.split("/wetter/")[1] || "";
+
+    // nur erster Teil vor / oder .
+    part = part.split("/")[0];
+    part = part.split(".")[0];
+
+    return format(part);
   }
 
-  return "page";
+  return null;
 }
 
-function getValueFromURL(){
+/* =========================
+   FORMAT
+   ========================= */
+function format(str){
+  if(!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+/* =========================
+   TYPE DETECTION
+   ========================= */
+function isCity(){
+  return window.location.pathname.toLowerCase().includes("/wetter/");
+}
+
+/* =========================
+   CLEAN PAGE NAME
+   ========================= */
+function getPageValue(){
   return decodeURIComponent(
     window.location.pathname
       .split("/")
@@ -123,15 +203,72 @@ function getValueFromURL(){
 }
 
 /* =========================
-   ⭐ NEU: SCHÖNE SCHREIBWEISE
+   PROFILE
    ========================= */
-function formatName(str){
-  if(!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
+function saveProfile(){
+  localStorage.setItem("wx_username", document.getElementById("username").value);
+  localStorage.setItem("wx_type", document.getElementById("weathertype").value);
+  localStorage.setItem("wx_favweather", document.getElementById("favweather").value);
+  localStorage.setItem("wx_quote", document.getElementById("quote").value);
+
+  renderProfile();
+  toggleEdit(false);
 }
 
 /* =========================
-   STORAGE
+   VIEW ↔ EDIT
+   ========================= */
+function toggleEdit(force){
+
+  const edit = document.getElementById("profileEdit");
+  const view = document.getElementById("profileView");
+
+  const showEdit = (force !== undefined)
+    ? force
+    : edit.style.display === "none";
+
+  edit.style.display = showEdit ? "block" : "none";
+  view.style.display = showEdit ? "none" : "block";
+
+  document.getElementById("editBtn").innerText =
+    showEdit ? "👁️ Anzeigen" : "✏️ Bearbeiten";
+}
+
+/* =========================
+   PROFILE VIEW
+   ========================= */
+function renderProfile(){
+
+  const name = localStorage.getItem("wx_username") || "Gast";
+  const type = localStorage.getItem("wx_type") || "-";
+  const fav  = localStorage.getItem("wx_favweather") || "-";
+  const quote = localStorage.getItem("wx_quote") || "-";
+
+  document.getElementById("profileView").innerHTML = `
+    <div class="profileCard">
+      <span class="label">Benutzername</span>
+      <div class="value">${format(name)}</div>
+    </div>
+
+    <div class="profileCard">
+      <span class="label">Wetter-Typ</span>
+      <div class="value">${type}</div>
+    </div>
+
+    <div class="profileCard">
+      <span class="label">Lieblingswetter</span>
+      <div class="value">${fav}</div>
+    </div>
+
+    <div class="profileCard">
+      <span class="label">Zitat</span>
+      <div class="value">"${quote}"</div>
+    </div>
+  `;
+}
+
+/* =========================
+   FAVORITES
    ========================= */
 function getData(){
   return JSON.parse(localStorage.getItem("wx_profile")) || {
@@ -140,48 +277,52 @@ function getData(){
   };
 }
 
-function saveData(data){
-  localStorage.setItem("wx_profile", JSON.stringify(data));
+function saveData(d){
+  localStorage.setItem("wx_profile", JSON.stringify(d));
 }
 
 /* =========================
-   SPEICHERN
+   SAVE CURRENT
    ========================= */
 function saveCurrent(){
 
-  const type = getTypeFromURL();
-  const value = getValueFromURL();
-
   let data = getData();
 
-  if(type === "city"){
-    if(!data.cities.includes(value)){
-      data.cities.push(value);
+  if(isCity()){
+    let city = cleanCityFromURL();
+
+    if(city && !data.cities.includes(city.toLowerCase())){
+      data.cities.push(city.toLowerCase());
     }
+
   } else {
-    if(!data.pages.includes(value)){
-      data.pages.push(value);
+
+    let page = getPageValue();
+
+    if(!data.pages.includes(page)){
+      data.pages.push(page);
     }
   }
 
   saveData(data);
-  render();
+  renderLists();
 }
 
 /* =========================
-   LÖSCHEN
+   REMOVE
    ========================= */
 function remove(type, val){
   let data = getData();
-  data[type] = data[type].filter(x => x !== val);
+  data[type] = data[type].filter(x => x !== val.toLowerCase());
   saveData(data);
-  render();
+  renderLists();
 }
 
 /* =========================
-   RENDER
+   LISTS
    ========================= */
-function render(){
+function renderLists(){
+
   const data = getData();
 
   const cityBox = document.getElementById("cityList");
@@ -190,23 +331,19 @@ function render(){
   cityBox.innerHTML = "";
   pageBox.innerHTML = "";
 
-  data.cities.forEach(c => {
-    const name = formatName(c);
-
+  data.cities.forEach(c=>{
     cityBox.innerHTML += `
       <div class="item">
-        <a href="/wetter/${c}">📍 ${name}</a>
+        <a href="/wetter/${c}">📍 ${format(c)}</a>
         <span onclick="remove('cities','${c}')">x</span>
       </div>
     `;
   });
 
-  data.pages.forEach(p => {
-    const name = formatName(p);
-
+  data.pages.forEach(p=>{
     pageBox.innerHTML += `
       <div class="item">
-        <a href="/${p}">📄 ${name}</a>
+        <a href="/${p}">📄 ${format(p)}</a>
         <span onclick="remove('pages','${p}')">x</span>
       </div>
     `;
@@ -216,11 +353,17 @@ function render(){
 /* =========================
    INIT
    ========================= */
-window.addEventListener("load", () => {
-  document.getElementById("currentPage").innerText =
-    formatName(getValueFromURL());
+window.addEventListener("load", ()=>{
 
-  render();
+  document.getElementById("username").value = localStorage.getItem("wx_username") || "";
+  document.getElementById("weathertype").value = localStorage.getItem("wx_type") || "Normal";
+  document.getElementById("favweather").value = localStorage.getItem("wx_favweather") || "";
+  document.getElementById("quote").value = localStorage.getItem("wx_quote") || "";
+
+  renderProfile();
+  renderLists();
+
+  toggleEdit(false);
 });
 
 </script>
