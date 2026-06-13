@@ -30,7 +30,6 @@ body{
   font-size:11px;
 }
 
-/* PROFILE CARD */
 .profileCard{
   margin:3px;
   background:#0f2a4f;
@@ -50,8 +49,8 @@ body{
   font-weight:bold;
 }
 
-/* INPUT MODE INSIDE CARDS */
-.editInput{
+.editInput,
+.editSelect{
   width:100%;
   margin-top:2px;
   padding:2px;
@@ -65,7 +64,6 @@ body{
 /* BUTTONS */
 .wxFooter{
   display:flex;
-  align-items:center;
   gap:3px;
   padding:5px;
 }
@@ -83,7 +81,6 @@ body{
 
 .wxInfoBtn{
   width:20px;
-  height:18px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -150,9 +147,9 @@ body{
   </div>
 
   <div class="wxInfoBox" id="infoBox">
-    ⭐ nur /wetter/... = Ort<br>
-    📄 alles andere = Seite<br>
-    ✏️ Profil bearbeiten
+    ⭐ speichert nur /wetter/...<br>
+    📄 speichert alles andere<br>
+    ✏️ bearbeiten / speichern
   </div>
 
   <div class="wxSub">📍 Orte</div>
@@ -191,16 +188,19 @@ function getPage(){
   return location.pathname;
 }
 
-/* PROFILE STORAGE */
+/* PROFILE SAVE */
 function saveProfile(){
+
   localStorage.setItem("wx_username", username.value);
   localStorage.setItem("wx_type", weathertype.value);
   localStorage.setItem("wx_favweather", favweather.value);
   localStorage.setItem("wx_quote", quote.value);
+
+  editMode = false;
   renderProfile();
 }
 
-/* 🔥 INLINE EDIT TOGGLE */
+/* EDIT MODE */
 let editMode = false;
 
 function toggleEdit(){
@@ -208,30 +208,39 @@ function toggleEdit(){
   renderProfile();
 }
 
-/* PROFILE VIEW / EDIT */
+/* PROFILE VIEW + EDIT */
 function renderProfile(){
 
-  const name = localStorage.getItem("wx_username") || "Gast";
-  const type = localStorage.getItem("wx_type") || "-";
-  const fav  = localStorage.getItem("wx_favweather") || "-";
-  const q    = localStorage.getItem("wx_quote") || "-";
+  const n = localStorage.getItem("wx_username") || "Gast";
+  const t = localStorage.getItem("wx_type") || "Meteorologe";
+  const f = localStorage.getItem("wx_favweather") || "";
+  const q = localStorage.getItem("wx_quote") || "";
 
   profileView.innerHTML = `
     <div class="profileCard">
       <div class="label">Name</div>
       ${
         editMode
-        ? `<input class="editInput" id="username" value="${name}">`
-        : `<div class="value">${format(name)}</div>`
+        ? `<input class="editInput" id="username" value="${n}">`
+        : `<div class="value">${format(n)}</div>`
       }
     </div>
 
     <div class="profileCard">
-      <div class="label">Typ</div>
+      <div class="label">Wetter-Typ</div>
       ${
         editMode
-        ? `<input class="editInput" id="weathertype" value="${type}">`
-        : `<div class="value">${type}</div>`
+        ? `
+          <select class="editSelect" id="weathertype">
+            <option>Meteorologe</option>
+            <option>Hobbymeteorologe</option>
+            <option>Sonnen-Fan</option>
+            <option>Regen-Liebhaber</option>
+            <option>Sturm-Jäger</option>
+            <option>Winter-Fan</option>
+          </select>
+        `
+        : `<div class="value">${t}</div>`
       }
     </div>
 
@@ -239,8 +248,8 @@ function renderProfile(){
       <div class="label">Wetter</div>
       ${
         editMode
-        ? `<input class="editInput" id="favweather" value="${fav}">`
-        : `<div class="value">${fav}</div>`
+        ? `<input class="editInput" id="favweather" value="${f}">`
+        : `<div class="value">${f || "-"}</div>`
       }
     </div>
 
@@ -249,7 +258,7 @@ function renderProfile(){
       ${
         editMode
         ? `<input class="editInput" id="quote" value="${q}">`
-        : `<div class="value">${q}</div>`
+        : `<div class="value">${q || "-"}</div>`
       }
     </div>
 
@@ -261,7 +270,7 @@ function renderProfile(){
   `;
 }
 
-/* SAVE CITY STRICT */
+/* SAVE CITY (STRICT) */
 function saveCity(){
   if(!isCity()) return;
 
@@ -276,7 +285,7 @@ function saveCity(){
   renderLists();
 }
 
-/* SAVE PAGE STRICT */
+/* SAVE PAGE (STRICT) */
 function savePage(){
   if(isCity()) return;
 
