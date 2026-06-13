@@ -108,7 +108,6 @@ body{
   font-size:9.5px;
 }
 
-/* LISTS */
 .wxSub{
   padding:5px 7px;
   font-weight:bold;
@@ -164,13 +163,14 @@ body{
     <div class="wxMiniBtn" onclick="saveCity()">⭐ Ort</div>
     <div class="wxMiniBtn" onclick="savePage()">📄 Seite</div>
     <div class="wxMiniBtn" onclick="toggleEdit()">✏️</div>
+
     <div class="wxInfoBtn" onclick="toggleInfo()">ⓘ</div>
 
   </div>
 
   <div class="wxInfoBox" id="infoBox">
-    ⭐ speichert nur Wetter-Orte (/wetter/...)<br>
-    📄 speichert nur Nicht-Wetter-Seiten<br>
+    ⭐ speichert NUR /wetter/... als Ort<br>
+    📄 speichert ALLES außer /wetter/...<br>
     ✏️ Profil bearbeiten
   </div>
 
@@ -195,24 +195,24 @@ function format(s){
   return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
-/* CITY EXTRACT */
+/* STRIKTE ERKENNUNG */
+function isWeatherCity(){
+  return location.pathname.startsWith("/wetter/");
+}
+
+/* CITY */
 function getCity(){
-  let p = location.pathname.toLowerCase();
-  if(!p.startsWith("/wetter/")) return null;
+  if(!isWeatherCity()) return null;
 
-  let c = p.split("/wetter/")[1] || "";
-  c = c.split("/")[0];
-  return c;
+  let p = location.pathname.split("/wetter/")[1] || "";
+  p = p.split("/")[0];
+  p = p.split(".")[0];
+  return p;
 }
 
-/* CHECK TYPE */
-function isWeatherPage(){
-  return location.pathname.toLowerCase().includes("/wetter/");
-}
-
-/* PAGE NAME */
+/* PAGE */
 function getPage(){
-  return location.pathname.split("/").filter(Boolean).pop().toLowerCase();
+  return location.pathname;
 }
 
 /* PROFILE */
@@ -224,7 +224,6 @@ function saveProfile(){
   renderProfile();
 }
 
-/* TOGGLE */
 function toggleEdit(){
   profileEdit.style.display =
     profileEdit.style.display === "none" ? "block" : "none";
@@ -268,10 +267,10 @@ function saveData(d){
   localStorage.setItem("wx_profile", JSON.stringify(d));
 }
 
-/* ⭐ STRICT CITY ONLY */
+/* ⭐ ORT (STRICT) */
 function saveCity(){
 
-  if(!isWeatherPage()) return;
+  if(!isWeatherCity()) return; // 🔥 HARD STOP
 
   let d = getData();
   let city = getCity();
@@ -287,18 +286,20 @@ function saveCity(){
   renderLists();
 }
 
-/* 📄 STRICT PAGE ONLY */
+/* 📄 SEITE (STRICT) */
 function savePage(){
 
-  if(isWeatherPage()) return; // 🔥 verhindert falsche Speicherung
+  if(isWeatherCity()) return; // 🔥 HARD STOP
 
   let d = getData();
   let page = getPage();
 
-  if(!d.pages.find(x => x.name === page)){
+  let name = page.split("/").filter(Boolean).pop();
+
+  if(!d.pages.find(x => x.url === page)){
     d.pages.push({
-      name: page,
-      url: location.pathname
+      name: name,
+      url: page
     });
   }
 
