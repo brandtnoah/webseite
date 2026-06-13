@@ -1,34 +1,13 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
 <meta charset="UTF-8">
-
-<div id="wxPanel">
-
-  <div class="wxHeader">👤 Mein Profil</div>
-
-  <!-- AKTUELL -->
-  <div class="wxCurrent">
-    Aktuelle Seite:<br>
-    <b id="currentPage">—</b>
-  </div>
-
-  <div class="wxButton" onclick="addCurrent()">
-    ⭐ Speichern
-  </div>
-
-  <div class="wxDivider"></div>
-
-  <!-- ORTE -->
-  <div class="wxSub">📍 Meine Orte</div>
-  <div id="cityList"></div>
-
-  <div class="wxDivider"></div>
-
-  <!-- SEITEN -->
-  <div class="wxSub">📄 Meine Seiten</div>
-  <div id="pageList"></div>
-
-</div>
+<title>Mein Profil - Wetter</title>
 
 <style>
+/* =========================
+   SIDEBAR DESIGN
+   ========================= */
 #wxPanel{
   position:fixed;
   right:20px;
@@ -57,7 +36,7 @@
 }
 
 /* BUTTON */
-.wxButton{
+.wxBtn{
   margin:6px;
   padding:5px;
   text-align:center;
@@ -71,7 +50,7 @@
   border-top:1px solid #bdbdbd;
 }
 
-/* SUBHEADER */
+/* SECTION TITLE */
 .wxSub{
   padding:6px;
   font-weight:bold;
@@ -81,28 +60,71 @@
 /* ITEM */
 .item{
   padding:4px 6px;
-  border-top:1px solid #e0e0e0;
   display:flex;
   justify-content:space-between;
+  border-top:1px solid #e0e0e0;
 }
 
 .item a{
-  text-decoration:none;
   color:#1a4f8b;
+  text-decoration:none;
 }
 
 .item span{
-  color:red;
+  color:#b00000;
   cursor:pointer;
 }
 </style>
 
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+     ========================= -->
+<div id="wxPanel">
+
+  <div class="wxHeader">👤 Mein Profil</div>
+
+  <div class="wxCurrent">
+    Aktuell:<br>
+    <b id="currentPage">—</b>
+  </div>
+
+  <div class="wxBtn" onclick="saveCurrent()">
+    ⭐ Speichern
+  </div>
+
+  <div class="wxDivider"></div>
+
+  <div class="wxSub">📍 Meine Orte</div>
+  <div id="cityList"></div>
+
+  <div class="wxDivider"></div>
+
+  <div class="wxSub">📄 Meine Seiten</div>
+  <div id="pageList"></div>
+
+</div>
+
 <script>
 
 /* =========================
-   URL / PAGE NAME
+   URL ERKENNUNG
    ========================= */
-function getName(){
+function getTypeFromURL(){
+  const path = window.location.pathname.toLowerCase();
+
+  // ALLES unter /wetter/ = ORT
+  if(path.startsWith("/wetter/")){
+    return "city";
+  }
+
+  return "page";
+}
+
+function getValueFromURL(){
   return decodeURIComponent(
     window.location.pathname
       .split("/")
@@ -114,52 +136,36 @@ function getName(){
 }
 
 /* =========================
-   ERKENNUNG: ORT ODER SEITE
-   ========================= */
-function isCity(name){
-
-  const blacklist = [
-    "radar","warnungen","modelle","news",
-    "karte","satellit","prognose","klima",
-    "start","index","home"
-  ];
-
-  if(!name) return false;
-  if(blacklist.includes(name)) return false;
-  if(name.length < 2 || name.length > 25) return false;
-  if(/\d/.test(name)) return false;
-
-  return true;
-}
-
-/* =========================
    STORAGE
    ========================= */
 function getData(){
-  return JSON.parse(localStorage.getItem("wx_data")) || {
+  return JSON.parse(localStorage.getItem("wx_profile")) || {
     cities: [],
     pages: []
   };
 }
 
 function saveData(data){
-  localStorage.setItem("wx_data", JSON.stringify(data));
+  localStorage.setItem("wx_profile", JSON.stringify(data));
 }
 
 /* =========================
-   HINZUFÜGEN
+   SPEICHERN
    ========================= */
-function addCurrent(){
-  const name = getName();
+function saveCurrent(){
+
+  const type = getTypeFromURL();
+  const value = getValueFromURL();
+
   let data = getData();
 
-  if(isCity(name)){
-    if(!data.cities.includes(name)){
-      data.cities.push(name);
+  if(type === "city"){
+    if(!data.cities.includes(value)){
+      data.cities.push(value);
     }
   } else {
-    if(!data.pages.includes(name)){
-      data.pages.push(name);
+    if(!data.pages.includes(value)){
+      data.pages.push(value);
     }
   }
 
@@ -170,10 +176,10 @@ function addCurrent(){
 /* =========================
    LÖSCHEN
    ========================= */
-function remove(type, value){
+function remove(type, val){
   let data = getData();
 
-  data[type] = data[type].filter(v => v !== value);
+  data[type] = data[type].filter(x => x !== val);
 
   saveData(data);
   render();
@@ -214,10 +220,13 @@ function render(){
    INIT
    ========================= */
 window.addEventListener("load", () => {
-  const name = getName();
-
-  document.getElementById("currentPage").innerText = name;
+  document.getElementById("currentPage").innerText =
+    getValueFromURL();
 
   render();
 });
+
 </script>
+
+</body>
+</html>
