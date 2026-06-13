@@ -10,7 +10,9 @@ body{
   font-family:Arial, sans-serif;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+   ========================= */
 #wxPanel{
   position:fixed;
   right:20px;
@@ -31,7 +33,7 @@ body{
   font-weight:bold;
 }
 
-/* PROFILE */
+/* PROFILE VIEW */
 .profileCard{
   margin:5px;
   background:#0f2a4f;
@@ -51,7 +53,7 @@ body{
   font-weight:bold;
 }
 
-/* INPUT */
+/* EDIT */
 .wxBlock{
   padding:6px;
   border-bottom:1px solid #1e3b63;
@@ -81,7 +83,7 @@ body{
   font-size:11px;
 }
 
-/* LIST */
+/* LISTS */
 .wxSub{
   padding:6px 8px;
   font-weight:bold;
@@ -114,8 +116,10 @@ body{
 
   <div class="wxHeader">👤 Mein Wetterprofil</div>
 
+  <!-- PROFILE -->
   <div id="profileView"></div>
 
+  <!-- EDIT -->
   <div id="profileEdit" class="wxBlock" style="display:none;">
 
     <input id="username" placeholder="Benutzername">
@@ -152,28 +156,6 @@ body{
 <script>
 
 /* =========================
-   🔥 NEU: URL CLEANING
-   ========================= */
-function cleanCityFromURL(){
-
-  let path = window.location.pathname.toLowerCase();
-
-  if(path.includes("/wetter/")){
-
-    // alles nach /wetter/
-    let part = path.split("/wetter/")[1] || "";
-
-    // nur erster Teil vor / oder .
-    part = part.split("/")[0];
-    part = part.split(".")[0];
-
-    return format(part);
-  }
-
-  return null;
-}
-
-/* =========================
    FORMAT
    ========================= */
 function format(str){
@@ -182,28 +164,39 @@ function format(str){
 }
 
 /* =========================
-   TYPE DETECTION
+   URL CHECK
    ========================= */
 function isCity(){
   return window.location.pathname.toLowerCase().includes("/wetter/");
 }
 
-/* =========================
-   CLEAN PAGE NAME
-   ========================= */
+/* Ort extrahieren */
+function cleanCityFromURL(){
+
+  let path = window.location.pathname.toLowerCase();
+
+  if(path.includes("/wetter/")){
+    let part = path.split("/wetter/")[1] || "";
+    part = part.split("/")[0];
+    part = part.split(".")[0];
+    return part;
+  }
+
+  return null;
+}
+
+/* Seitenname */
 function getPageValue(){
-  return decodeURIComponent(
-    window.location.pathname
-      .split("/")
-      .filter(Boolean)
-      .pop()
-      .replace(".html","")
-      .toLowerCase()
-  );
+  return window.location.pathname
+    .split("/")
+    .filter(Boolean)
+    .pop()
+    .replace(".html","")
+    .toLowerCase();
 }
 
 /* =========================
-   PROFILE
+   PROFILE SAVE
    ========================= */
 function saveProfile(){
   localStorage.setItem("wx_username", document.getElementById("username").value);
@@ -268,7 +261,7 @@ function renderProfile(){
 }
 
 /* =========================
-   FAVORITES
+   STORAGE
    ========================= */
 function getData(){
   return JSON.parse(localStorage.getItem("wx_profile")) || {
@@ -282,25 +275,34 @@ function saveData(d){
 }
 
 /* =========================
-   SAVE CURRENT
+   SAVE CURRENT PAGE (FIXED)
    ========================= */
 function saveCurrent(){
 
   let data = getData();
 
   if(isCity()){
+
     let city = cleanCityFromURL();
 
-    if(city && !data.cities.includes(city.toLowerCase())){
-      data.cities.push(city.toLowerCase());
+    if(city && !data.cities.find(x => x.name === city)){
+
+      data.cities.push({
+        name: city,
+        url: window.location.pathname
+      });
     }
 
   } else {
 
     let page = getPageValue();
 
-    if(!data.pages.includes(page)){
-      data.pages.push(page);
+    if(!data.pages.find(x => x.name === page)){
+
+      data.pages.push({
+        name: page,
+        url: window.location.pathname
+      });
     }
   }
 
@@ -309,17 +311,20 @@ function saveCurrent(){
 }
 
 /* =========================
-   REMOVE
+   REMOVE FIXED
    ========================= */
-function remove(type, val){
+function remove(type, name){
+
   let data = getData();
-  data[type] = data[type].filter(x => x !== val.toLowerCase());
+
+  data[type] = data[type].filter(x => x.name !== name);
+
   saveData(data);
   renderLists();
 }
 
 /* =========================
-   LISTS
+   LISTS (FIXED LINKS)
    ========================= */
 function renderLists(){
 
@@ -334,8 +339,8 @@ function renderLists(){
   data.cities.forEach(c=>{
     cityBox.innerHTML += `
       <div class="item">
-        <a href="/wetter/${c}">📍 ${format(c)}</a>
-        <span onclick="remove('cities','${c}')">x</span>
+        <a href="${c.url}">📍 ${format(c.name)}</a>
+        <span onclick="remove('cities','${c.name}')">x</span>
       </div>
     `;
   });
@@ -343,8 +348,8 @@ function renderLists(){
   data.pages.forEach(p=>{
     pageBox.innerHTML += `
       <div class="item">
-        <a href="/${p}">📄 ${format(p)}</a>
-        <span onclick="remove('pages','${p}')">x</span>
+        <a href="${p.url}">📄 ${format(p.name)}</a>
+        <span onclick="remove('pages','${p.name}')">x</span>
       </div>
     `;
   });
