@@ -1,47 +1,35 @@
 <meta charset="UTF-8">
 
-<div id="wxProfile">
+<div id="wxPanel">
 
   <div class="wxHeader">👤 Mein Profil</div>
 
-  <!-- PROFIL -->
-  <div class="wxBlock">
-    <label>Benutzername</label>
-    <input id="username" type="text" placeholder="z.B. Wetterfan">
-    
-    <label>Wetter-Typ</label>
-    <select id="weathertype">
-      <option>Normal</option>
-      <option>Sturm-Fan</option>
-      <option>Sommer-Liebhaber</option>
-      <option>Winter-Fan</option>
-    </select>
-
-    <div class="wxSave" onclick="saveProfile()">Speichern</div>
-  </div>
-
   <!-- AKTUELL -->
-  <div class="wxSection">
+  <div class="wxCurrent">
     Aktuelle Seite:<br>
     <b id="currentPage">—</b>
   </div>
 
-  <div class="wxButton" onclick="addFavorite()">
-    ⭐ Zu Favoriten hinzufügen
+  <div class="wxButton" onclick="addCurrent()">
+    ⭐ Speichern
   </div>
 
   <div class="wxDivider"></div>
 
-  <div class="wxSubheader">📍 Meine Orte</div>
-  <div id="favoritesList"></div>
+  <!-- ORTE -->
+  <div class="wxSub">📍 Meine Orte</div>
+  <div id="cityList"></div>
+
+  <div class="wxDivider"></div>
+
+  <!-- SEITEN -->
+  <div class="wxSub">📄 Meine Seiten</div>
+  <div id="pageList"></div>
 
 </div>
 
 <style>
-/* UTF-8 sauber durch meta oben */
-
-/* ===== BOX ===== */
-#wxProfile{
+#wxPanel{
   position:fixed;
   right:20px;
   top:120px;
@@ -61,31 +49,8 @@
   color:#1f3b5c;
 }
 
-/* BLOCK */
-.wxBlock{
-  padding:6px;
-  background:#fff;
-  border-bottom:1px solid #d0d0d0;
-}
-
-.wxBlock input,
-.wxBlock select{
-  width:100%;
-  margin:3px 0 6px 0;
-  font-size:12px;
-}
-
-/* SAVE */
-.wxSave{
-  background:#e6e6e6;
-  border:1px solid #a0a0a0;
-  text-align:center;
-  padding:4px;
-  cursor:pointer;
-}
-
-/* SECTION */
-.wxSection{
+/* CURRENT */
+.wxCurrent{
   padding:6px;
   background:#fff;
   border-bottom:1px solid #d0d0d0;
@@ -107,45 +72,37 @@
 }
 
 /* SUBHEADER */
-.wxSubheader{
+.wxSub{
   padding:6px;
   font-weight:bold;
   background:#efefef;
-  border-top:1px solid #d0d0d0;
 }
 
-/* LIST */
-.favItem{
+/* ITEM */
+.item{
   padding:4px 6px;
   border-top:1px solid #e0e0e0;
   display:flex;
   justify-content:space-between;
 }
 
-.favItem a{
-  color:#1a4f8b;
+.item a{
   text-decoration:none;
+  color:#1a4f8b;
+}
+
+.item span{
+  color:red;
+  cursor:pointer;
 }
 </style>
 
 <script>
-/* =========================
-   UTF-8 FIX (wichtig)
-   ========================= */
-document.charset = "UTF-8";
 
 /* =========================
-   PROFIL SPEICHERN
+   URL / PAGE NAME
    ========================= */
-function saveProfile(){
-  localStorage.setItem("wx_username", document.getElementById("username").value);
-  localStorage.setItem("wx_type", document.getElementById("weathertype").value);
-}
-
-/* =========================
-   ORT ERKENNEN
-   ========================= */
-function getPageName(){
+function getName(){
   return decodeURIComponent(
     window.location.pathname
       .split("/")
@@ -157,23 +114,18 @@ function getPageName(){
 }
 
 /* =========================
-   ORT-FILTER (WICHTIG!)
-   erkennt: nur echte Städte
+   ERKENNUNG: ORT ODER SEITE
    ========================= */
-function isRealCity(name){
+function isCity(name){
 
-  if(!name) return false;
-
-  // typische NICHT-Orte (Unterseiten)
   const blacklist = [
     "radar","warnungen","modelle","news",
     "karte","satellit","prognose","klima",
-    "start","index","home","impressum"
+    "start","index","home"
   ];
 
+  if(!name) return false;
   if(blacklist.includes(name)) return false;
-
-  // einfache Heuristik: keine Zahlen / keine langen Strings
   if(name.length < 2 || name.length > 25) return false;
   if(/\d/.test(name)) return false;
 
@@ -181,60 +133,80 @@ function isRealCity(name){
 }
 
 /* =========================
-   FAVORITEN
+   STORAGE
    ========================= */
-function getFavs(){
-  return JSON.parse(localStorage.getItem("wx_favs")) || [];
+function getData(){
+  return JSON.parse(localStorage.getItem("wx_data")) || {
+    cities: [],
+    pages: []
+  };
 }
 
-function saveFavs(favs){
-  localStorage.setItem("wx_favs", JSON.stringify(favs));
+function saveData(data){
+  localStorage.setItem("wx_data", JSON.stringify(data));
 }
 
 /* =========================
    HINZUFÜGEN
    ========================= */
-function addFavorite(){
-  const page = getPageName();
+function addCurrent(){
+  const name = getName();
+  let data = getData();
 
-  if(!isRealCity(page)) return;
-
-  let favs = getFavs();
-
-  if(!favs.includes(page)){
-    favs.push(page);
-    saveFavs(favs);
+  if(isCity(name)){
+    if(!data.cities.includes(name)){
+      data.cities.push(name);
+    }
+  } else {
+    if(!data.pages.includes(name)){
+      data.pages.push(name);
+    }
   }
 
-  renderFavs();
+  saveData(data);
+  render();
 }
 
 /* =========================
    LÖSCHEN
    ========================= */
-function removeFav(city){
-  let favs = getFavs().filter(c => c !== city);
-  saveFavs(favs);
-  renderFavs();
+function remove(type, value){
+  let data = getData();
+
+  data[type] = data[type].filter(v => v !== value);
+
+  saveData(data);
+  render();
 }
 
 /* =========================
-   LISTE
+   RENDER
    ========================= */
-function renderFavs(){
-  const box = document.getElementById("favoritesList");
-  box.innerHTML = "";
+function render(){
+  const data = getData();
 
-  getFavs().forEach(city => {
-    const row = document.createElement("div");
-    row.className = "favItem";
+  const cityBox = document.getElementById("cityList");
+  const pageBox = document.getElementById("pageList");
 
-    row.innerHTML = `
-      <a href="/wetter/${city}">📍 ${city}</a>
-      <span onclick="removeFav('${city}')" style="color:red;cursor:pointer;">x</span>
+  cityBox.innerHTML = "";
+  pageBox.innerHTML = "";
+
+  data.cities.forEach(c => {
+    cityBox.innerHTML += `
+      <div class="item">
+        <a href="/wetter/${c}">📍 ${c}</a>
+        <span onclick="remove('cities','${c}')">x</span>
+      </div>
     `;
+  });
 
-    box.appendChild(row);
+  data.pages.forEach(p => {
+    pageBox.innerHTML += `
+      <div class="item">
+        <a href="/${p}">📄 ${p}</a>
+        <span onclick="remove('pages','${p}')">x</span>
+      </div>
+    `;
   });
 }
 
@@ -242,19 +214,10 @@ function renderFavs(){
    INIT
    ========================= */
 window.addEventListener("load", () => {
+  const name = getName();
 
-  // Profil laden
-  document.getElementById("username").value =
-    localStorage.getItem("wx_username") || "";
+  document.getElementById("currentPage").innerText = name;
 
-  document.getElementById("weathertype").value =
-    localStorage.getItem("wx_type") || "Normal";
-
-  // aktuelle Seite
-  const page = getPageName();
-  document.getElementById("currentPage").innerText = page;
-
-  // nur speichern wenn echte Stadt
-  renderFavs();
+  render();
 });
 </script>
