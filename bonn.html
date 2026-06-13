@@ -1,0 +1,223 @@
+<meta charset="UTF-8">
+
+<div id="wxPanel">
+
+  <div class="wxHeader">👤 Mein Profil</div>
+
+  <!-- AKTUELL -->
+  <div class="wxCurrent">
+    Aktuelle Seite:<br>
+    <b id="currentPage">—</b>
+  </div>
+
+  <div class="wxButton" onclick="addCurrent()">
+    ⭐ Speichern
+  </div>
+
+  <div class="wxDivider"></div>
+
+  <!-- ORTE -->
+  <div class="wxSub">📍 Meine Orte</div>
+  <div id="cityList"></div>
+
+  <div class="wxDivider"></div>
+
+  <!-- SEITEN -->
+  <div class="wxSub">📄 Meine Seiten</div>
+  <div id="pageList"></div>
+
+</div>
+
+<style>
+#wxPanel{
+  position:fixed;
+  right:20px;
+  top:120px;
+  width:230px;
+  font-family:Tahoma, Arial, sans-serif;
+  font-size:12px;
+  background:#f2f2f2;
+  border:1px solid #bdbdbd;
+}
+
+/* HEADER */
+.wxHeader{
+  background:#d9e6f2;
+  border-bottom:1px solid #9fb7d1;
+  padding:6px;
+  font-weight:bold;
+  color:#1f3b5c;
+}
+
+/* CURRENT */
+.wxCurrent{
+  padding:6px;
+  background:#fff;
+  border-bottom:1px solid #d0d0d0;
+}
+
+/* BUTTON */
+.wxButton{
+  margin:6px;
+  padding:5px;
+  text-align:center;
+  background:#e6e6e6;
+  border:1px solid #a0a0a0;
+  cursor:pointer;
+}
+
+/* DIVIDER */
+.wxDivider{
+  border-top:1px solid #bdbdbd;
+}
+
+/* SUBHEADER */
+.wxSub{
+  padding:6px;
+  font-weight:bold;
+  background:#efefef;
+}
+
+/* ITEM */
+.item{
+  padding:4px 6px;
+  border-top:1px solid #e0e0e0;
+  display:flex;
+  justify-content:space-between;
+}
+
+.item a{
+  text-decoration:none;
+  color:#1a4f8b;
+}
+
+.item span{
+  color:red;
+  cursor:pointer;
+}
+</style>
+
+<script>
+
+/* =========================
+   URL / PAGE NAME
+   ========================= */
+function getName(){
+  return decodeURIComponent(
+    window.location.pathname
+      .split("/")
+      .filter(Boolean)
+      .pop()
+      .replace(".html","")
+      .toLowerCase()
+  );
+}
+
+/* =========================
+   ERKENNUNG: ORT ODER SEITE
+   ========================= */
+function isCity(name){
+
+  const blacklist = [
+    "radar","warnungen","modelle","news",
+    "karte","satellit","prognose","klima",
+    "start","index","home"
+  ];
+
+  if(!name) return false;
+  if(blacklist.includes(name)) return false;
+  if(name.length < 2 || name.length > 25) return false;
+  if(/\d/.test(name)) return false;
+
+  return true;
+}
+
+/* =========================
+   STORAGE
+   ========================= */
+function getData(){
+  return JSON.parse(localStorage.getItem("wx_data")) || {
+    cities: [],
+    pages: []
+  };
+}
+
+function saveData(data){
+  localStorage.setItem("wx_data", JSON.stringify(data));
+}
+
+/* =========================
+   HINZUFÜGEN
+   ========================= */
+function addCurrent(){
+  const name = getName();
+  let data = getData();
+
+  if(isCity(name)){
+    if(!data.cities.includes(name)){
+      data.cities.push(name);
+    }
+  } else {
+    if(!data.pages.includes(name)){
+      data.pages.push(name);
+    }
+  }
+
+  saveData(data);
+  render();
+}
+
+/* =========================
+   LÖSCHEN
+   ========================= */
+function remove(type, value){
+  let data = getData();
+
+  data[type] = data[type].filter(v => v !== value);
+
+  saveData(data);
+  render();
+}
+
+/* =========================
+   RENDER
+   ========================= */
+function render(){
+  const data = getData();
+
+  const cityBox = document.getElementById("cityList");
+  const pageBox = document.getElementById("pageList");
+
+  cityBox.innerHTML = "";
+  pageBox.innerHTML = "";
+
+  data.cities.forEach(c => {
+    cityBox.innerHTML += `
+      <div class="item">
+        <a href="/wetter/${c}">📍 ${c}</a>
+        <span onclick="remove('cities','${c}')">x</span>
+      </div>
+    `;
+  });
+
+  data.pages.forEach(p => {
+    pageBox.innerHTML += `
+      <div class="item">
+        <a href="/${p}">📄 ${p}</a>
+        <span onclick="remove('pages','${p}')">x</span>
+      </div>
+    `;
+  });
+}
+
+/* =========================
+   INIT
+   ========================= */
+window.addEventListener("load", () => {
+  const name = getName();
+
+  document.getElementById("currentPage").innerText = name;
+
+  render();
+});
+</script>
