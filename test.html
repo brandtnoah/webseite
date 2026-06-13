@@ -1,0 +1,260 @@
+<meta charset="UTF-8">
+
+<div id="wxProfile">
+
+  <div class="wxHeader">👤 Mein Profil</div>
+
+  <!-- PROFIL -->
+  <div class="wxBlock">
+    <label>Benutzername</label>
+    <input id="username" type="text" placeholder="z.B. Wetterfan">
+    
+    <label>Wetter-Typ</label>
+    <select id="weathertype">
+      <option>Normal</option>
+      <option>Sturm-Fan</option>
+      <option>Sommer-Liebhaber</option>
+      <option>Winter-Fan</option>
+    </select>
+
+    <div class="wxSave" onclick="saveProfile()">Speichern</div>
+  </div>
+
+  <!-- AKTUELL -->
+  <div class="wxSection">
+    Aktuelle Seite:<br>
+    <b id="currentPage">—</b>
+  </div>
+
+  <div class="wxButton" onclick="addFavorite()">
+    ⭐ Zu Favoriten hinzufügen
+  </div>
+
+  <div class="wxDivider"></div>
+
+  <div class="wxSubheader">📍 Meine Orte</div>
+  <div id="favoritesList"></div>
+
+</div>
+
+<style>
+/* UTF-8 sauber durch meta oben */
+
+/* ===== BOX ===== */
+#wxProfile{
+  position:fixed;
+  right:20px;
+  top:120px;
+  width:230px;
+  font-family:Tahoma, Arial, sans-serif;
+  font-size:12px;
+  background:#f2f2f2;
+  border:1px solid #bdbdbd;
+}
+
+/* HEADER */
+.wxHeader{
+  background:#d9e6f2;
+  border-bottom:1px solid #9fb7d1;
+  padding:6px;
+  font-weight:bold;
+  color:#1f3b5c;
+}
+
+/* BLOCK */
+.wxBlock{
+  padding:6px;
+  background:#fff;
+  border-bottom:1px solid #d0d0d0;
+}
+
+.wxBlock input,
+.wxBlock select{
+  width:100%;
+  margin:3px 0 6px 0;
+  font-size:12px;
+}
+
+/* SAVE */
+.wxSave{
+  background:#e6e6e6;
+  border:1px solid #a0a0a0;
+  text-align:center;
+  padding:4px;
+  cursor:pointer;
+}
+
+/* SECTION */
+.wxSection{
+  padding:6px;
+  background:#fff;
+  border-bottom:1px solid #d0d0d0;
+}
+
+/* BUTTON */
+.wxButton{
+  margin:6px;
+  padding:5px;
+  text-align:center;
+  background:#e6e6e6;
+  border:1px solid #a0a0a0;
+  cursor:pointer;
+}
+
+/* DIVIDER */
+.wxDivider{
+  border-top:1px solid #bdbdbd;
+}
+
+/* SUBHEADER */
+.wxSubheader{
+  padding:6px;
+  font-weight:bold;
+  background:#efefef;
+  border-top:1px solid #d0d0d0;
+}
+
+/* LIST */
+.favItem{
+  padding:4px 6px;
+  border-top:1px solid #e0e0e0;
+  display:flex;
+  justify-content:space-between;
+}
+
+.favItem a{
+  color:#1a4f8b;
+  text-decoration:none;
+}
+</style>
+
+<script>
+/* =========================
+   UTF-8 FIX (wichtig)
+   ========================= */
+document.charset = "UTF-8";
+
+/* =========================
+   PROFIL SPEICHERN
+   ========================= */
+function saveProfile(){
+  localStorage.setItem("wx_username", document.getElementById("username").value);
+  localStorage.setItem("wx_type", document.getElementById("weathertype").value);
+}
+
+/* =========================
+   ORT ERKENNEN
+   ========================= */
+function getPageName(){
+  return decodeURIComponent(
+    window.location.pathname
+      .split("/")
+      .filter(Boolean)
+      .pop()
+      .replace(".html","")
+      .toLowerCase()
+  );
+}
+
+/* =========================
+   ORT-FILTER (WICHTIG!)
+   erkennt: nur echte Städte
+   ========================= */
+function isRealCity(name){
+
+  if(!name) return false;
+
+  // typische NICHT-Orte (Unterseiten)
+  const blacklist = [
+    "radar","warnungen","modelle","news",
+    "karte","satellit","prognose","klima",
+    "start","index","home","impressum"
+  ];
+
+  if(blacklist.includes(name)) return false;
+
+  // einfache Heuristik: keine Zahlen / keine langen Strings
+  if(name.length < 2 || name.length > 25) return false;
+  if(/\d/.test(name)) return false;
+
+  return true;
+}
+
+/* =========================
+   FAVORITEN
+   ========================= */
+function getFavs(){
+  return JSON.parse(localStorage.getItem("wx_favs")) || [];
+}
+
+function saveFavs(favs){
+  localStorage.setItem("wx_favs", JSON.stringify(favs));
+}
+
+/* =========================
+   HINZUFÜGEN
+   ========================= */
+function addFavorite(){
+  const page = getPageName();
+
+  if(!isRealCity(page)) return;
+
+  let favs = getFavs();
+
+  if(!favs.includes(page)){
+    favs.push(page);
+    saveFavs(favs);
+  }
+
+  renderFavs();
+}
+
+/* =========================
+   LÖSCHEN
+   ========================= */
+function removeFav(city){
+  let favs = getFavs().filter(c => c !== city);
+  saveFavs(favs);
+  renderFavs();
+}
+
+/* =========================
+   LISTE
+   ========================= */
+function renderFavs(){
+  const box = document.getElementById("favoritesList");
+  box.innerHTML = "";
+
+  getFavs().forEach(city => {
+    const row = document.createElement("div");
+    row.className = "favItem";
+
+    row.innerHTML = `
+      <a href="/wetter/${city}">📍 ${city}</a>
+      <span onclick="removeFav('${city}')" style="color:red;cursor:pointer;">x</span>
+    `;
+
+    box.appendChild(row);
+  });
+}
+
+/* =========================
+   INIT
+   ========================= */
+window.addEventListener("load", () => {
+
+  // Profil laden
+  document.getElementById("username").value =
+    localStorage.getItem("wx_username") || "";
+
+  document.getElementById("weathertype").value =
+    localStorage.getItem("wx_type") || "Normal";
+
+  // aktuelle Seite
+  const page = getPageName();
+  document.getElementById("currentPage").innerText = page;
+
+  // nur speichern wenn echte Stadt
+  renderFavs();
+});
+</script>
