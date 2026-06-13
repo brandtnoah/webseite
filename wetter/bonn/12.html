@@ -10,9 +10,6 @@ body{
   font-family:Arial, sans-serif;
 }
 
-/* =========================
-   SIDEBAR
-   ========================= */
 #wxPanel{
   position:fixed;
   right:20px;
@@ -23,75 +20,104 @@ body{
   border-radius:12px;
   overflow:hidden;
   box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  font-size:10.5px;
+}
+
+.wxHeader{
+  background:#102a4d;
+  padding:5px;
+  font-weight:bold;
   font-size:11px;
 }
 
-/* HEADER */
-.wxHeader{
-  background:#102a4d;
-  padding:7px;
-  font-weight:bold;
-}
-
-/* PROFILE VIEW */
 .profileCard{
-  margin:5px;
+  margin:3px;
   background:#0f2a4f;
   border:1px solid #1e3b63;
-  border-radius:8px;
-  padding:5px 7px;
+  border-radius:6px;
+  padding:3px 5px;
 }
 
 .label{
-  font-size:9px;
+  font-size:8px;
   opacity:0.7;
   text-transform:uppercase;
 }
 
 .value{
-  font-size:11px;
+  font-size:10px;
   font-weight:bold;
 }
 
-/* EDIT */
 .wxBlock{
-  padding:6px;
+  padding:4px;
   border-bottom:1px solid #1e3b63;
 }
 
 .wxBlock input,
 .wxBlock select{
   width:100%;
-  padding:5px;
-  margin:2px 0;
+  padding:3px;
+  margin:1px 0;
   border:none;
-  border-radius:6px;
+  border-radius:5px;
   background:#112c52;
   color:#fff;
+  font-size:10px;
+  height:20px;
+}
+
+/* BUTTONS */
+.wxFooter{
+  display:flex;
+  align-items:center;
+  gap:3px;
+  padding:5px;
+}
+
+.wxMiniBtn{
+  flex:1;
+  padding:2px;
+  text-align:center;
+  background:#1f4e8a;
+  border-radius:5px;
+  cursor:pointer;
+  font-size:9.5px;
+  font-weight:bold;
+}
+
+.wxInfoBtn{
+  width:20px;
+  height:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#16365f;
+  border-radius:5px;
+  cursor:pointer;
   font-size:11px;
 }
 
-/* BUTTON */
-.wxBtn{
-  margin:6px;
-  padding:5px;
-  text-align:center;
-  background:#1f4e8a;
-  border-radius:7px;
-  cursor:pointer;
-  font-weight:bold;
-  font-size:11px;
+.wxInfoBox{
+  display:none;
+  padding:6px;
+  margin:5px;
+  background:#0f2a4f;
+  border:1px solid #1e3b63;
+  border-radius:6px;
+  font-size:9.5px;
 }
 
 /* LISTS */
 .wxSub{
-  padding:6px 8px;
+  padding:5px 7px;
   font-weight:bold;
   background:#102a4d;
+  font-size:10px;
 }
 
 .item{
-  padding:4px 8px;
+  padding:3px 6px;
   display:flex;
   justify-content:space-between;
   border-top:1px solid #1e3b63;
@@ -100,11 +126,13 @@ body{
 .item a{
   color:#8fc1ff;
   text-decoration:none;
+  font-size:10px;
 }
 
 .item span{
   color:#ff6b6b;
   cursor:pointer;
+  font-size:9px;
 }
 </style>
 
@@ -114,155 +142,136 @@ body{
 
 <div id="wxPanel">
 
-  <div class="wxHeader">👤 Mein Wetterprofil</div>
+  <div class="wxHeader">👤 Wetterprofil</div>
 
-  <!-- PROFILE -->
   <div id="profileView"></div>
 
-  <!-- EDIT -->
   <div id="profileEdit" class="wxBlock" style="display:none;">
-
-    <input id="username" placeholder="Benutzername">
-
+    <input id="username" placeholder="Name">
     <select id="weathertype">
       <option>Normal</option>
-      <option>Sommer-Fan</option>
-      <option>Winter-Fan</option>
-      <option>Sturm-Jäger</option>
-      <option>Regen-Liebhaber</option>
+      <option>Sommer</option>
+      <option>Winter</option>
+      <option>Sturm</option>
+      <option>Regen</option>
     </select>
-
-    <input id="favweather" placeholder="Lieblingswetter">
+    <input id="favweather" placeholder="Wetter">
     <input id="quote" placeholder="Zitat">
+  </div>
+
+  <div class="wxFooter">
+
+    <div class="wxMiniBtn" onclick="saveCurrentCity()">⭐ Ort</div>
+    <div class="wxMiniBtn" onclick="saveCurrentPage()">📄 Seite</div>
+    <div class="wxMiniBtn" onclick="toggleEdit()">✏️</div>
+
+    <div class="wxInfoBtn" onclick="toggleInfo()">ⓘ</div>
 
   </div>
 
-  <div class="wxBtn" onclick="toggleEdit()" id="editBtn">
-    ✏️ Bearbeiten
+  <div class="wxInfoBox" id="infoBox">
+    ⭐ Ort = aktuelle Wetterstadt speichern<br>
+    📄 Seite = aktuelle Unterseite speichern<br>
+    ✏️ = Profil bearbeiten
   </div>
 
-  <div class="wxBtn" onclick="saveCurrent()">
-    ⭐ Speichern
-  </div>
-
-  <div class="wxSub">📍 Meine Orte</div>
+  <div class="wxSub">📍 Orte</div>
   <div id="cityList"></div>
 
-  <div class="wxSub">📄 Meine Seiten</div>
+  <div class="wxSub">📄 Seiten</div>
   <div id="pageList"></div>
 
 </div>
 
 <script>
 
-/* =========================
-   FORMAT
-   ========================= */
-function format(str){
-  if(!str) return "";
-  return str.charAt(0).toUpperCase() + str.slice(1);
+/* INFO */
+function toggleInfo(){
+  const b = infoBox;
+  b.style.display = (b.style.display === "block") ? "none" : "block";
 }
 
-/* =========================
-   URL CHECK
-   ========================= */
-function isCity(){
-  return window.location.pathname.toLowerCase().includes("/wetter/");
+/* FORMAT */
+function format(s){
+  return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
 }
 
-/* Ort extrahieren */
-function cleanCityFromURL(){
+/* CITY */
+function cleanCity(){
+  let p = location.pathname.toLowerCase();
+  if(!p.includes("/wetter/")) return null;
 
-  let path = window.location.pathname.toLowerCase();
+  let part = p.split("/wetter/")[1] || "";
+  part = part.split("/")[0];
+  part = part.split(".")[0];
+  return part;
+}
 
-  if(path.includes("/wetter/")){
-    let part = path.split("/wetter/")[1] || "";
-    part = part.split("/")[0];
-    part = part.split(".")[0];
-    return part;
+/* PAGE RAW */
+function pageRaw(){
+  return location.pathname;
+}
+
+/* 🔥 NEU: URL DISPLAY SHORTENER */
+function shortUrl(url){
+
+  if(!url) return "";
+
+  let clean = url;
+
+  // Domain entfernen (donnerwetter.de / etc.)
+  clean = clean.replace(/^https?:\/\/[^\/]+\//, "/");
+
+  // nur nach erster / zeigen
+  if(clean.length > 35){
+    clean = clean.substring(0, 35) + "…";
   }
 
-  return null;
+  return clean;
 }
 
-/* Seitenname */
-function getPageValue(){
-  return window.location.pathname
-    .split("/")
-    .filter(Boolean)
-    .pop()
-    .replace(".html","")
-    .toLowerCase();
-}
-
-/* =========================
-   PROFILE SAVE
-   ========================= */
+/* PROFILE */
 function saveProfile(){
-  localStorage.setItem("wx_username", document.getElementById("username").value);
-  localStorage.setItem("wx_type", document.getElementById("weathertype").value);
-  localStorage.setItem("wx_favweather", document.getElementById("favweather").value);
-  localStorage.setItem("wx_quote", document.getElementById("quote").value);
-
+  localStorage.setItem("wx_username", username.value);
+  localStorage.setItem("wx_type", weathertype.value);
+  localStorage.setItem("wx_favweather", favweather.value);
+  localStorage.setItem("wx_quote", quote.value);
   renderProfile();
-  toggleEdit(false);
 }
 
-/* =========================
-   VIEW ↔ EDIT
-   ========================= */
-function toggleEdit(force){
-
-  const edit = document.getElementById("profileEdit");
-  const view = document.getElementById("profileView");
-
-  const showEdit = (force !== undefined)
-    ? force
-    : edit.style.display === "none";
-
-  edit.style.display = showEdit ? "block" : "none";
-  view.style.display = showEdit ? "none" : "block";
-
-  document.getElementById("editBtn").innerText =
-    showEdit ? "👁️ Anzeigen" : "✏️ Bearbeiten";
+/* TOGGLE EDIT */
+function toggleEdit(){
+  profileEdit.style.display =
+    (profileEdit.style.display === "none") ? "block" : "none";
 }
 
-/* =========================
-   PROFILE VIEW
-   ========================= */
+/* PROFILE VIEW */
 function renderProfile(){
 
-  const name = localStorage.getItem("wx_username") || "Gast";
-  const type = localStorage.getItem("wx_type") || "-";
-  const fav  = localStorage.getItem("wx_favweather") || "-";
-  const quote = localStorage.getItem("wx_quote") || "-";
-
-  document.getElementById("profileView").innerHTML = `
+  profileView.innerHTML = `
     <div class="profileCard">
-      <span class="label">Benutzername</span>
-      <div class="value">${format(name)}</div>
+      <span class="label">Name</span>
+      <div class="value">${format(localStorage.getItem("wx_username") || "Gast")}</div>
     </div>
 
     <div class="profileCard">
-      <span class="label">Wetter-Typ</span>
-      <div class="value">${type}</div>
+      <span class="label">Typ</span>
+      <div class="value">${localStorage.getItem("wx_type") || "-"}</div>
     </div>
 
     <div class="profileCard">
-      <span class="label">Lieblingswetter</span>
-      <div class="value">${fav}</div>
+      <span class="label">Wetter</span>
+      <div class="value">${localStorage.getItem("wx_favweather") || "-"}</div>
     </div>
 
     <div class="profileCard">
       <span class="label">Zitat</span>
-      <div class="value">"${quote}"</div>
+      <div class="value">${localStorage.getItem("wx_quote") || "-"}</div>
     </div>
   `;
 }
 
-/* =========================
-   STORAGE
-   ========================= */
+/* STORAGE */
 function getData(){
   return JSON.parse(localStorage.getItem("wx_profile")) || {
     cities: [],
@@ -274,101 +283,87 @@ function saveData(d){
   localStorage.setItem("wx_profile", JSON.stringify(d));
 }
 
-/* =========================
-   SAVE CURRENT PAGE (FIXED)
-   ========================= */
-function saveCurrent(){
+/* SAVE CITY */
+function saveCurrentCity(){
 
-  let data = getData();
+  let d = getData();
+  let city = cleanCity();
 
-  if(isCity()){
-
-    let city = cleanCityFromURL();
-
-    if(city && !data.cities.find(x => x.name === city)){
-
-      data.cities.push({
-        name: city,
-        url: window.location.pathname
-      });
-    }
-
-  } else {
-
-    let page = getPageValue();
-
-    if(!data.pages.find(x => x.name === page)){
-
-      data.pages.push({
-        name: page,
-        url: window.location.pathname
-      });
-    }
+  if(city && !d.cities.find(x => x.name === city)){
+    d.cities.push({
+      name: city,
+      url: location.pathname
+    });
   }
 
-  saveData(data);
+  saveData(d);
   renderLists();
 }
 
-/* =========================
-   REMOVE FIXED
-   ========================= */
+/* SAVE PAGE */
+function saveCurrentPage(){
+
+  let d = getData();
+  let page = pageRaw();
+
+  if(!d.pages.find(x => x.url === page)){
+    d.pages.push({
+      name: page.split("/").pop(),
+      url: page
+    });
+  }
+
+  saveData(d);
+  renderLists();
+}
+
+/* REMOVE */
 function remove(type, name){
-
-  let data = getData();
-
-  data[type] = data[type].filter(x => x.name !== name);
-
-  saveData(data);
+  let d = getData();
+  d[type] = d[type].filter(x => x.name !== name);
+  saveData(d);
   renderLists();
 }
 
-/* =========================
-   LISTS (FIXED LINKS)
-   ========================= */
+/* LISTS */
 function renderLists(){
 
-  const data = getData();
+  let d = getData();
 
-  const cityBox = document.getElementById("cityList");
-  const pageBox = document.getElementById("pageList");
+  cityList.innerHTML = "";
+  pageList.innerHTML = "";
 
-  cityBox.innerHTML = "";
-  pageBox.innerHTML = "";
-
-  data.cities.forEach(c=>{
-    cityBox.innerHTML += `
+  d.cities.forEach(c=>{
+    cityList.innerHTML += `
       <div class="item">
         <a href="${c.url}">📍 ${format(c.name)}</a>
         <span onclick="remove('cities','${c.name}')">x</span>
-      </div>
-    `;
+      </div>`;
   });
 
-  data.pages.forEach(p=>{
-    pageBox.innerHTML += `
+  d.pages.forEach(p=>{
+    cityList.innerHTML += ""; // (fix placeholder safety)
+
+    pageList.innerHTML += `
       <div class="item">
-        <a href="${p.url}">📄 ${format(p.name)}</a>
+        <a href="${p.url}" title="${p.url}">
+          📄 ${shortUrl(p.url)}
+        </a>
         <span onclick="remove('pages','${p.name}')">x</span>
-      </div>
-    `;
+      </div>`;
   });
 }
 
-/* =========================
-   INIT
-   ========================= */
+/* INIT */
 window.addEventListener("load", ()=>{
 
-  document.getElementById("username").value = localStorage.getItem("wx_username") || "";
-  document.getElementById("weathertype").value = localStorage.getItem("wx_type") || "Normal";
-  document.getElementById("favweather").value = localStorage.getItem("wx_favweather") || "";
-  document.getElementById("quote").value = localStorage.getItem("wx_quote") || "";
+  username.value = localStorage.getItem("wx_username") || "";
+  weathertype.value = localStorage.getItem("wx_type") || "Normal";
+  favweather.value = localStorage.getItem("wx_favweather") || "";
+  quote.value = localStorage.getItem("wx_quote") || "";
 
   renderProfile();
   renderLists();
-
-  toggleEdit(false);
 });
 
 </script>
