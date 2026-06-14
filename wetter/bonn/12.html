@@ -2,128 +2,144 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Wetterprofil</title>
+<title>Wetter Widget</title>
 
 <style>
 body{
   margin:0;
-  font-family:Arial, sans-serif;
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 #wxPanel{
   position:fixed;
   right:20px;
-  top:100px;
-  width:220px;
-  background:#0b1f3a;
-  color:#e6f0ff;
-  border-radius:12px;
+  top:80px;
+  width:240px;
+  background:#fdfdfd;
+  border:1px solid #ddd;
+  box-shadow:0 2px 0 #ddd;
   overflow:hidden;
-  box-shadow:0 10px 25px rgba(0,0,0,0.4);
-  font-size:10.5px;
 }
 
-.wxHeader{
-  background:#102a4d;
-  padding:5px;
-  font-weight:bold;
+.wxTopBar{
+  background:#257fba;
+  height:6px;
+}
+
+.wxBlockTitle{
+  background:#257fba;
+  color:#fff;
+  padding:4px 10px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:13px;
+  text-transform:uppercase;
+}
+
+.wxLeft{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+
+.wxIcon{
+  width:16px;
+  height:16px;
+  fill:white;
+}
+
+.wxInfoIcon{
+  width:16px;
+  height:16px;
+  fill:white;
+  opacity:0.85;
+  cursor:pointer;
+}
+
+.infoBox{
+  display:none;
+  background:#fff;
   font-size:11px;
+  padding:8px;
+  border-bottom:1px solid #ddd;
+}
+
+.wxContent{
+  padding:10px;
+  background:#fbfbfb;
 }
 
 .profileCard{
-  margin:3px;
-  background:#0f2a4f;
-  border:1px solid #1e3b63;
-  border-radius:6px;
-  padding:3px 5px;
+  background:#fff;
+  border:1px solid #e5e5e5;
+  margin-bottom:6px;
+  padding:6px;
+  cursor:pointer;
 }
 
 .label{
-  font-size:8px;
-  opacity:0.7;
+  font-size:10px;
+  color:#666;
   text-transform:uppercase;
 }
 
 .value{
-  font-size:10px;
+  font-size:12px;
   font-weight:bold;
 }
 
-.editInput,
-.editSelect{
+/* INPUTS */
+input, select{
   width:100%;
-  margin-top:2px;
-  padding:2px;
-  font-size:10px;
-  border:none;
-  border-radius:4px;
-  background:#112c52;
-  color:#fff;
+  margin-top:3px;
+  padding:4px;
+  font-size:11px;
 }
 
 /* BUTTONS */
-.wxFooter{
+.wxButtons{
   display:flex;
-  gap:3px;
-  padding:5px;
+  gap:4px;
+  margin-top:8px;
 }
 
-.wxMiniBtn{
+.btn{
   flex:1;
-  padding:2px;
+  background:#257fba;
+  color:#fff;
   text-align:center;
-  background:#1f4e8a;
-  border-radius:5px;
-  cursor:pointer;
-  font-size:9.5px;
-  font-weight:bold;
-}
-
-.wxInfoBtn{
-  width:20px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#16365f;
-  border-radius:5px;
+  padding:4px;
+  font-size:11px;
   cursor:pointer;
 }
 
-/* INFO */
-.wxInfoBox{
-  display:none;
-  padding:6px;
-  margin:5px;
-  background:#0f2a4f;
-  border:1px solid #1e3b63;
-  border-radius:6px;
-  font-size:9.5px;
-}
-
-.wxSub{
-  padding:5px 7px;
+/* LIST */
+.sectionTitle{
+  margin-top:10px;
+  font-size:11px;
   font-weight:bold;
-  background:#102a4d;
-  font-size:10px;
+  color:#257fba;
+  border-bottom:2px solid #257fba;
+  padding-bottom:4px;
 }
 
 .item{
-  padding:3px 6px;
   display:flex;
   justify-content:space-between;
-  border-top:1px solid #1e3b63;
+  padding:6px 0;
+  border-bottom:1px solid #e6e6e6;
+  font-size:11px;
 }
 
 .item a{
-  color:#8fc1ff;
+  color:#257fba;
   text-decoration:none;
-  font-size:10px;
 }
 
 .item span{
-  color:#ff6b6b;
+  color:red;
   cursor:pointer;
-  font-size:9px;
 }
 </style>
 
@@ -133,30 +149,46 @@ body{
 
 <div id="wxPanel">
 
-  <div class="wxHeader">👤 Wetterprofil</div>
+  <div class="wxTopBar"></div>
 
-  <div id="profileView"></div>
+  <div class="wxBlockTitle">
 
-  <div class="wxFooter">
+    <div class="wxLeft">
+      <svg class="wxIcon" viewBox="0 0 24 24">
+        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-4.4 0-8 2.2-8 5v3h16v-3c0-2.8-3.6-5-8-5z"/>
+      </svg>
+      Wetter Widget
+    </div>
 
-    <div class="wxMiniBtn" onclick="saveCity()">⭐ Ort</div>
-    <div class="wxMiniBtn" onclick="savePage()">📄 Seite</div>
-    <div class="wxMiniBtn" onclick="toggleEdit()">✏️</div>
-    <div class="wxInfoBtn" onclick="toggleInfo()">ⓘ</div>
+    <svg class="wxInfoIcon" onclick="toggleInfo()" viewBox="0 0 24 24">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+    </svg>
 
   </div>
 
-  <div class="wxInfoBox" id="infoBox">
-    ⭐ speichert den aktuellen Ort<br>
-    📄 speichert die aktuelle Seite<br>
-    ✏️ bearbeiten / speichern
+  <div class="infoBox" id="infoBox">
+    Orte = /wetter/...<br>
+    Seiten = andere URLs<br>
+    Klick = bearbeiten<br>
+    Enter = speichern
   </div>
 
-  <div class="wxSub">📍 Orte</div>
-  <div id="cityList"></div>
+  <div class="wxContent">
 
-  <div class="wxSub">📄 Seiten</div>
-  <div id="pageList"></div>
+    <div id="profileView"></div>
+
+    <div class="wxButtons">
+      <div class="btn" onclick="saveCity()">Ort</div>
+      <div class="btn" onclick="savePage()">Seite</div>
+    </div>
+
+    <div class="sectionTitle">Orte</div>
+    <div id="cityList"></div>
+
+    <div class="sectionTitle">Seiten</div>
+    <div id="pageList"></div>
+
+  </div>
 
 </div>
 
@@ -164,161 +196,144 @@ body{
 
 /* INFO */
 function toggleInfo(){
-  infoBox.style.display =
-    infoBox.style.display === "block" ? "none" : "block";
+  infoBox.style.display = infoBox.style.display === "block" ? "none" : "block";
 }
 
-/* FORMAT */
-function format(s){
-  return s ? s.charAt(0).toUpperCase() + s.slice(1) : "";
+/* ENTER SAVE */
+function bindEnter(el, key){
+  el.addEventListener("keydown", e=>{
+    if(e.key==="Enter"){
+      localStorage.setItem(key, el.value || "eintragen");
+      renderProfile();
+    }
+  });
 }
 
-/* CITY CHECK */
+/* PROFILE EDIT */
+function makeInput(el,key,type="text"){
+
+  let old = localStorage.getItem(key) || "eintragen";
+
+  let input;
+
+  if(type==="select"){
+    input = document.createElement("select");
+
+    const options = [
+      "Meteorologe",
+      "Hobbymeteorologe",
+      "Sonnen-Fan",
+      "Regen-Liebhaber",
+      "Sturm-Jäger",
+      "Winter-Fan"
+    ];
+
+    options.forEach(o=>{
+      let opt = document.createElement("option");
+      opt.value=o;
+      opt.textContent=o;
+      if(o===old) opt.selected=true;
+      input.appendChild(opt);
+    });
+
+    input.onchange = ()=>{
+      localStorage.setItem(key,input.value);
+      renderProfile();
+    };
+
+  } else {
+    input = document.createElement("input");
+    input.value = old;
+    bindEnter(input,key);
+
+    input.onblur = ()=>{
+      localStorage.setItem(key,input.value || "eintragen");
+      renderProfile();
+    };
+  }
+
+  el.innerHTML="";
+  el.appendChild(input);
+  input.focus();
+}
+
+/* PROFILE */
+function renderProfile(){
+
+  profileView.innerHTML = `
+    <div class="profileCard" onclick="makeInput(this,'wx_username')">
+      <div class="label">Name</div>
+      <div class="value">${localStorage.getItem("wx_username")||"eintragen"}</div>
+    </div>
+
+    <div class="profileCard" onclick="makeInput(this,'wx_type','select')">
+      <div class="label">Typ</div>
+      <div class="value">${localStorage.getItem("wx_type")||"eintragen"}</div>
+    </div>
+
+    <div class="profileCard" onclick="makeInput(this,'wx_quote')">
+      <div class="label">Zitat</div>
+      <div class="value">${localStorage.getItem("wx_quote")||"eintragen"}</div>
+    </div>
+  `;
+}
+
+/* CITY DETECTION */
 function isCity(){
   return location.pathname.startsWith("/wetter/");
 }
 
 function getCity(){
-  if(!isCity()) return null;
-  let p = location.pathname.split("/wetter/")[1] || "";
-  return p.split("/")[0].split(".")[0];
+  return location.pathname.split("/wetter/")[1]?.split("/")[0];
 }
 
 function getPage(){
   return location.pathname;
 }
 
-/* PROFILE SAVE */
-function saveProfile(){
-
-  localStorage.setItem("wx_username", username.value);
-  localStorage.setItem("wx_type", weathertype.value);
-  localStorage.setItem("wx_favweather", favweather.value);
-  localStorage.setItem("wx_quote", quote.value);
-
-  editMode = false;
-  renderProfile();
-}
-
-/* EDIT MODE */
-let editMode = false;
-
-function toggleEdit(){
-  editMode = !editMode;
-  renderProfile();
-}
-
-/* PROFILE VIEW + EDIT */
-function renderProfile(){
-
-  const n = localStorage.getItem("wx_username") || "Gast";
-  const t = localStorage.getItem("wx_type") || "Meteorologe";
-  const f = localStorage.getItem("wx_favweather") || "";
-  const q = localStorage.getItem("wx_quote") || "";
-
-  profileView.innerHTML = `
-    <div class="profileCard">
-      <div class="label">Name</div>
-      ${
-        editMode
-        ? `<input class="editInput" id="username" value="${n}">`
-        : `<div class="value">${format(n)}</div>`
-      }
-    </div>
-
-    <div class="profileCard">
-      <div class="label">Wetter-Typ</div>
-      ${
-        editMode
-        ? `
-          <select class="editSelect" id="weathertype">
-            <option>Meteorologe</option>
-            <option>Hobbymeteorologe</option>
-            <option>Sonnen-Fan</option>
-            <option>Regen-Liebhaber</option>
-            <option>Sturm-Jäger</option>
-            <option>Winter-Fan</option>
-          </select>
-        `
-        : `<div class="value">${t}</div>`
-      }
-    </div>
-
-    <div class="profileCard">
-      <div class="label">Wetter</div>
-      ${
-        editMode
-        ? `<input class="editInput" id="favweather" value="${f}">`
-        : `<div class="value">${f || "-"}</div>`
-      }
-    </div>
-
-    <div class="profileCard">
-      <div class="label">Zitat</div>
-      ${
-        editMode
-        ? `<input class="editInput" id="quote" value="${q}">`
-        : `<div class="value">${q || "-"}</div>`
-      }
-    </div>
-
-    ${
-      editMode
-      ? `<div class="wxMiniBtn" style="margin:5px;" onclick="saveProfile()">💾 Speichern</div>`
-      : ""
-    }
-  `;
-}
-
-/* SAVE CITY (STRICT) */
-function saveCity(){
-  if(!isCity()) return;
-
-  let d = getData();
-  let city = getCity();
-
-  if(city && !d.cities.find(x => x.name === city)){
-    d.cities.push({ name: city, url: location.pathname });
-  }
-
-  saveData(d);
-  renderLists();
-}
-
-/* SAVE PAGE (STRICT) */
-function savePage(){
-  if(isCity()) return;
-
-  let d = getData();
-  let page = getPage();
-
-  if(!d.pages.find(x => x.url === page)){
-    d.pages.push({
-      name: page.split("/").pop(),
-      url: page
-    });
-  }
-
-  saveData(d);
-  renderLists();
-}
-
 /* STORAGE */
 function getData(){
-  return JSON.parse(localStorage.getItem("wx_profile")) || {
-    cities: [],
-    pages: []
-  };
+  return JSON.parse(localStorage.getItem("wx_profile")) || {cities:[],pages:[]};
 }
 
 function saveData(d){
-  localStorage.setItem("wx_profile", JSON.stringify(d));
+  localStorage.setItem("wx_profile",JSON.stringify(d));
+}
+
+/* SAVE CITY */
+function saveCity(){
+  if(!isCity()) return;
+
+  let d=getData();
+  let city=getCity();
+
+  if(city && !d.cities.find(x=>x.name===city)){
+    d.cities.push({name:city,url:location.pathname});
+  }
+
+  saveData(d);
+  renderLists();
+}
+
+/* SAVE PAGE */
+function savePage(){
+  if(isCity()) return;
+
+  let d=getData();
+  let page=getPage();
+
+  if(!d.pages.find(x=>x.url===page)){
+    d.pages.push({name:page.split("/").pop(),url:page});
+  }
+
+  saveData(d);
+  renderLists();
 }
 
 /* REMOVE */
-function remove(type, name){
-  let d = getData();
-  d[type] = d[type].filter(x => x.name !== name);
+function remove(type,name){
+  let d=getData();
+  d[type]=d[type].filter(x=>x.name!==name);
   saveData(d);
   renderLists();
 }
@@ -326,30 +341,30 @@ function remove(type, name){
 /* LISTS */
 function renderLists(){
 
-  let d = getData();
+  let d=getData();
 
-  cityList.innerHTML = "";
-  pageList.innerHTML = "";
+  cityList.innerHTML="";
+  pageList.innerHTML="";
 
   d.cities.forEach(c=>{
-    cityList.innerHTML += `
+    cityList.innerHTML+=`
       <div class="item">
-        <a href="${c.url}">📍 ${format(c.name)}</a>
+        <a href="${c.url}">${c.name}</a>
         <span onclick="remove('cities','${c.name}')">x</span>
       </div>`;
   });
 
   d.pages.forEach(p=>{
-    pageList.innerHTML += `
+    pageList.innerHTML+=`
       <div class="item">
-        <a href="${p.url}">📄 ${format(p.name)}</a>
+        <a href="${p.url}">${p.name}</a>
         <span onclick="remove('pages','${p.name}')">x</span>
       </div>`;
   });
 }
 
 /* INIT */
-window.addEventListener("load", ()=>{
+window.addEventListener("load",()=>{
   renderProfile();
   renderLists();
 });
