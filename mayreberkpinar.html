@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
+        
         body { font-family: 'Inter', system-ui, sans-serif; }
         .heading-font { font-family: 'Playfair Display', serif; }
 
@@ -16,229 +17,153 @@
             background-size: cover;
             background-position: center;
         }
+
+        .candle { transition: all 0.4s ease; }
         .flame { animation: flicker 1.2s infinite alternate; }
         @keyframes flicker {
             0% { transform: scale(1) rotate(-5deg); }
             50% { transform: scale(1.15) rotate(5deg); }
             100% { transform: scale(1) rotate(-3deg); }
         }
+
+        .comment { animation: fadeIn 0.6s ease forwards; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
 
-    <!-- Header -->
-    <header class="border-b border-zinc-800 bg-black/80 backdrop-blur-md fixed w-full z-50">
+    <!-- Header + Navigation -->
+    <header class="border-b border-zinc-800 bg-black/70 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-dove text-rose-300 text-2xl"></i>
                 <h1 class="heading-font text-2xl tracking-wider text-white">Mayre Berkpinar</h1>
             </div>
-            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
-                <a href="#hero-section" onclick="smoothScrollTo('hero-section')" class="hover:text-rose-300">Start</a>
+            <nav class="flex items-center gap-6 text-sm font-medium">
                 <a href="#bio" onclick="smoothScrollTo('bio')" class="hover:text-rose-300">Geschichte</a>
-                <a href="#poem" onclick="smoothScrollTo('poem')" class="hover:text-rose-300">Gedichte</a>
+                <a href="#poem" onclick="smoothScrollTo('poem')" class="hover:text-rose-300">Gedicht</a>
                 <a href="#gallery" onclick="smoothScrollTo('gallery')" class="hover:text-rose-300">Fotos</a>
                 <a href="#candle" onclick="smoothScrollTo('candle')" class="hover:text-rose-300">Kerze</a>
                 <a href="#guestbook" onclick="smoothScrollTo('guestbook')" class="hover:text-rose-300">Gästebuch</a>
             </nav>
-            <button onclick="exportConfig()" class="text-xs px-4 py-2 border border-rose-400 text-rose-300 hover:bg-rose-400 hover:text-black rounded-full transition-all">
-                <i class="fa-solid fa-download"></i> Exportieren
+            <button onclick="exportConfig()" class="text-xs px-4 py-2 border border-rose-400 text-rose-300 rounded-full hover:bg-rose-400 hover:text-black transition-all flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Export
             </button>
         </div>
     </header>
 
-    <!-- Hero + Bio + Candle + Guestbook bleiben gleich (aus Platzgründen hier gekürzt) -->
-
-    <!-- POEM SECTION - Jetzt mit mehreren Gedichten -->
-    <section id="poem" class="bg-zinc-900 py-24">
+    <!-- Hero -->
+    <section class="hero-bg h-screen flex items-center justify-center text-center pt-20" id="hero-section">
         <div class="max-w-3xl mx-auto px-6">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="heading-font text-5xl font-semibold">Gedichte für Mayre</h2>
-                <button onclick="addNewPoem()" class="px-5 py-2 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl text-sm font-medium">
-                    <i class="fa-solid fa-plus"></i> Neues Gedicht hinzufügen
-                </button>
+            <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-6 border border-white/20">
+                <span class="text-rose-300">1923 — 2019</span>
             </div>
-            <div id="poems-container" class="space-y-12"></div>
+            <h1 class="heading-font text-7xl md:text-8xl font-bold text-white tracking-tighter mb-4">Mayre Berkpinar</h1>
+            <p class="text-xl text-zinc-300">In liebevoller Erinnerung</p>
+            
+            <button onclick="smoothScrollTo('candle')" class="mt-16 px-10 py-4 bg-white text-black rounded-full font-medium flex items-center gap-3 mx-auto hover:bg-rose-300 hover:text-white transition-all">
+                <i class="fa-solid fa-fire-flame-curved"></i>
+                <span>Kerze anzünden</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- Bio -->
+    <section id="bio" class="max-w-5xl mx-auto px-6 py-24">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+            <div>
+                <h2 class="heading-font text-5xl font-semibold mb-8">Ihre Geschichte</h2>
+                <div class="prose prose-invert text-zinc-300 leading-relaxed text-lg">
+                    <p>Mayre Berkpinar wurde 1923 in Kürecik, Malatya (Türkei) geboren und verstarb 2019 in Hamburg.</p>
+                    <p>Sie war eine starke, warmherzige Frau, deren Liebe und Weisheit bis heute in der Familie weiterleben.</p>
+                </div>
+            </div>
+            <div>
+                <img id="bio-image" src="https://picsum.photos/id/1011/800/900" 
+                     class="rounded-3xl shadow-2xl w-full cursor-pointer" 
+                     onclick="changeImage(this)">
+            </div>
+        </div>
+    </section>
+
+    <!-- Gedicht -->
+    <section id="poem" class="max-w-5xl mx-auto px-6 py-24 bg-zinc-900">
+        <div class="max-w-3xl mx-auto text-center">
+            <h2 class="heading-font text-5xl font-semibold mb-8">Ein Gedicht für Mayre</h2>
+            <div id="poem-content" class="prose prose-invert text-zinc-300 leading-relaxed text-lg italic"></div>
+            <button onclick="editPoem()" class="mt-10 px-8 py-4 border border-rose-400 text-rose-300 rounded-2xl hover:bg-rose-400 hover:text-black transition-all">
+                <i class="fa-solid fa-pen"></i> Gedicht verfassen / ändern
+            </button>
         </div>
     </section>
 
     <!-- Gallery -->
     <section id="gallery" class="bg-black py-20">
         <div class="max-w-5xl mx-auto px-6">
-            <div class="flex justify-between items-center mb-12">
-                <h2 class="heading-font text-5xl font-semibold">Erinnerungsfotos</h2>
-                <button onclick="addGalleryImage()" class="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl text-sm font-medium">
-                    <i class="fa-solid fa-plus"></i> Bild hinzufügen
-                </button>
-            </div>
+            <h2 class="heading-font text-5xl font-semibold text-center mb-12">Erinnerungsfotos</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="gallery-grid"></div>
         </div>
     </section>
 
-    <!-- Image Modal -->
+    <!-- Candle -->
+    <section id="candle" class="max-w-5xl mx-auto px-6 py-24 text-center">
+        <div class="max-w-md mx-auto">
+            <h2 class="heading-font text-5xl font-semibold mb-4">Licht für Mayre</h2>
+            <div id="candle-container" class="flex justify-center mb-10">
+                <div onclick="lightCandle()" id="candle-main" class="candle cursor-pointer text-9xl flex flex-col items-center">
+                    <div class="relative">
+                        <div class="w-20 h-52 bg-gradient-to-b from-amber-100 to-amber-800 rounded-t-3xl mx-auto relative shadow-inner"></div>
+                        <div class="w-1.5 h-8 bg-zinc-800 absolute top-0 left-1/2 -translate-x-1/2"></div>
+                        <div id="flame" class="flame text-6xl absolute -top-14 left-1/2 -translate-x-1/2 hidden">🔥</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-12 mb-12">
+                <div><span id="lit-count" class="text-5xl font-light text-rose-300">0</span><div class="text-xs text-zinc-500">HEUTE</div></div>
+                <div><span id="total-lit" class="text-5xl font-light text-rose-300">142</span><div class="text-xs text-zinc-500">GESAMT</div></div>
+            </div>
+            
+            <button onclick="lightCandle()" class="px-12 py-5 bg-gradient-to-r from-rose-400 to-orange-400 text-black rounded-2xl font-medium text-lg">Kerze anzünden</button>
+        </div>
+    </section>
+
+    <!-- Guestbook -->
+    <section id="guestbook" class="bg-black py-20">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="heading-font text-5xl font-semibold text-center mb-12">Gästebuch</h2>
+            
+            <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 mb-12">
+                <input id="comment-name" type="text" placeholder="Dein Name" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+                <textarea id="comment-text" rows="4" placeholder="Deine Nachricht..." class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 mb-6"></textarea>
+                <button onclick="addComment()" class="w-full py-4 bg-white text-black rounded-2xl font-medium">Nachricht hinterlassen</button>
+            </div>
+
+            <div id="comments-list" class="space-y-8"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 text-center text-xs text-zinc-500 border-t border-zinc-900">
+        <p>In ewiger Liebe • Mayre Berkpinar • 1923 – 2019</p>
+    </footer>
+
+    <!-- Modals -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-lg w-full mx-4">
-            <h3 class="text-xl mb-4">Bild-URL ändern / hinzufügen</h3>
-            <input id="new-image-url" type="text" placeholder="https://..." class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
+            <h3 class="text-xl mb-4">Foto ändern</h3>
+            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
             <div class="flex gap-3">
-                <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Speichern</button>
+                <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Übernehmen</button>
                 <button onclick="closeImageModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
             </div>
         </div>
     </div>
 
-    <!-- Poem Modal -->
     <div id="poem-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-2xl w-full mx-4">
-            <h3 class="text-xl mb-4" id="poem-modal-title">Gedicht</h3>
-            <textarea id="poem-textarea" rows="12" class="w-full bg-zinc-800 border border-zinc-700 rounded-3xl px-6 py-4 mb-6"></textarea>
-            <div class="flex gap-3">
-                <button onclick="savePoem()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Speichern</button>
-                <button onclick="closePoemModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        let currentImageElement = null;
-        let currentEditPoemIndex = null;
-
-        function smoothScrollTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
-
-        // ==================== BILDER ====================
-        function changeImage(el) {
-            currentImageElement = el;
-            document.getElementById('new-image-url').value = el.src;
-            document.getElementById('image-modal').classList.remove('hidden');
-            document.getElementById('image-modal').classList.add('flex');
-        }
-
-        function applyImageChange() {
-            const url = document.getElementById('new-image-url').value.trim();
-            if (!url) return;
-
-            if (currentImageElement) {
-                currentImageElement.src = url;
-            }
-
-            // Speichern für Dauerhaftigkeit
-            let saved = JSON.parse(localStorage.getItem('mayre_images') || '{}');
-            saved[currentImageElement ? currentImageElement.id : 'gallery-' + Date.now()] = url;
-            localStorage.setItem('mayre_images', JSON.stringify(saved));
-
-            loadGallery();
-            closeImageModal();
-        }
-
-        function closeImageModal() {
-            document.getElementById('image-modal').classList.add('hidden');
-            document.getElementById('image-modal').classList.remove('flex');
-        }
-
-        function addGalleryImage() {
-            currentImageElement = null;
-            document.getElementById('new-image-url').value = '';
-            document.getElementById('image-modal').classList.remove('hidden');
-            document.getElementById('image-modal').classList.add('flex');
-        }
-
-        function loadGallery() {
-            const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '';
-            let images = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
-            if (images.length === 0) {
-                images = ["https://picsum.photos/id/1015/600/600","https://picsum.photos/id/1027/600/600","https://picsum.photos/id/1005/600/600"];
-            }
-            images.forEach(src => {
-                const div = document.createElement('div');
-                div.innerHTML = `<img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">`;
-                grid.appendChild(div);
-            });
-        }
-
-        // ==================== GEDICHTE (mehrere möglich) ====================
-        function loadPoems() {
-            const container = document.getElementById('poems-container');
-            container.innerHTML = '';
-            let poems = JSON.parse(localStorage.getItem('mayre_poems') || '[]');
-            
-            if (poems.length === 0) {
-                poems = [{
-                    text: `<p>In stillen Stunden denk ich an dich,<br>an deine Wärme, dein Lächeln so licht.<br>Du bist gegangen, doch nie vergessen.</p><p class="text-right mt-6 text-rose-300">— Für Mayre</p>`
-                }];
-                localStorage.setItem('mayre_poems', JSON.stringify(poems));
-            }
-
-            poems.forEach((poem, index) => {
-                const div = document.createElement('div');
-                div.className = "border-l-4 border-rose-300 pl-8";
-                div.innerHTML = `
-                    <div class="prose prose-invert text-zinc-300 leading-relaxed text-lg italic">${poem.text}</div>
-                    <button onclick="editExistingPoem(${index})" class="mt-4 text-xs text-rose-400 hover:text-rose-300">
-                        <i class="fa-solid fa-pen"></i> Bearbeiten
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function addNewPoem() {
-            currentEditPoemIndex = null;
-            document.getElementById('poem-modal-title').textContent = "Neues Gedicht hinzufügen";
-            document.getElementById('poem-textarea').value = '';
-            document.getElementById('poem-modal').classList.remove('hidden');
-            document.getElementById('poem-modal').classList.add('flex');
-        }
-
-        function editExistingPoem(index) {
-            currentEditPoemIndex = index;
-            document.getElementById('poem-modal-title').textContent = "Gedicht bearbeiten";
-            let poems = JSON.parse(localStorage.getItem('mayre_poems') || '[]');
-            document.getElementById('poem-textarea').value = poems[index].text;
-            document.getElementById('poem-modal').classList.remove('hidden');
-            document.getElementById('poem-modal').classList.add('flex');
-        }
-
-        function savePoem() {
-            const text = document.getElementById('poem-textarea').value.trim();
-            if (!text) return;
-
-            let poems = JSON.parse(localStorage.getItem('mayre_poems') || '[]');
-            
-            if (currentEditPoemIndex !== null) {
-                poems[currentEditPoemIndex].text = text;
-            } else {
-                poems.push({ text });
-            }
-            
-            localStorage.setItem('mayre_poems', JSON.stringify(poems));
-            closePoemModal();
-            loadPoems();
-        }
-
-        function closePoemModal() {
-            document.getElementById('poem-modal').classList.add('hidden');
-            document.getElementById('poem-modal').classList.remove('flex');
-        }
-
-        // Export (wichtig für dauerhafte Änderungen)
-        function exportConfig() {
-            const htmlContent = document.documentElement.outerHTML;
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'mayre-berkpinar.html';
-            link.click();
-            alert('Datei heruntergeladen. Diese neue Version hochladen, damit alle Änderungen (Fotos + Gedichte) dauerhaft für alle sichtbar sind.');
-        }
-
-        // Init
-        window.onload = () => {
-            loadGallery();
-            loadPoems();
-            // Candle, Comments etc. können bei Bedarf ergänzt werden
-            console.log('%cMayre Berkpinar Seite geladen', 'color:#e11d48');
-        };
-    </script>
-</body>
-</html>
+            <h3 class="text-xl mb-4">Gedicht verfassen / ändern</h3>
+            <textarea id="poem-textarea" rows="10
