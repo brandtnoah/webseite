@@ -34,6 +34,7 @@
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
+
     <!-- Header -->
     <header class="border-b border-zinc-800 bg-black/80 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
@@ -51,8 +52,9 @@
                 <a href="#guestbook" onclick="smoothScrollTo('guestbook')" class="hover:text-rose-300">Gästebuch</a>
             </nav>
 
-            <button onclick="exportConfig()" class="text-xs px-4 py-2 border border-rose-400 text-rose-300 hover:bg-rose-400 hover:text-black rounded-full transition-all">
-                <i class="fa-solid fa-download"></i> Konfiguration exportieren
+            <button onclick="exportConfig()" 
+                    class="text-xs px-4 py-2 border border-rose-400 text-rose-300 hover:bg-rose-400 hover:text-black rounded-full transition-all flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Exportieren
             </button>
         </div>
     </header>
@@ -100,9 +102,7 @@
                     <i class="fa-solid fa-pen"></i> Gedicht ändern
                 </button>
             </div>
-            <div id="poem-content" class="prose prose-invert text-zinc-300 leading-relaxed text-lg italic border-l-4 border-rose-300 pl-8 py-2">
-                <!-- Wird aus localStorage geladen -->
-            </div>
+            <div id="poem-content" class="prose prose-invert text-zinc-300 leading-relaxed text-lg italic border-l-4 border-rose-300 pl-8 py-2"></div>
         </div>
     </section>
 
@@ -119,24 +119,61 @@
         </div>
     </section>
 
-    <!-- Candle, Guestbook, Footer ... (gleich wie vorher) -->
-    <!-- ... (der Rest bleibt gleich, nur gekürzt für die Antwort) -->
+    <!-- Candle -->
+    <section id="candle" class="max-w-5xl mx-auto px-6 py-24 text-center">
+        <div class="max-w-md mx-auto">
+            <h2 class="heading-font text-5xl font-semibold mb-4">Licht für Mayre</h2>
+            <div class="flex justify-center mb-10">
+                <div onclick="lightCandle()" id="candle-main" class="candle cursor-pointer text-9xl flex flex-col items-center">
+                    <div class="relative">
+                        <div class="w-20 h-52 bg-gradient-to-b from-amber-100 to-amber-800 rounded-t-3xl mx-auto relative shadow-inner"></div>
+                        <div class="w-1.5 h-8 bg-zinc-800 absolute top-0 left-1/2 -translate-x-1/2"></div>
+                        <div id="flame" class="flame text-6xl absolute -top-14 left-1/2 -translate-x-1/2 hidden">🔥</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex justify-center gap-12 mb-12">
+                <div><span id="lit-count" class="text-5xl font-light text-rose-300">0</span><div class="text-xs text-zinc-500">HEUTE</div></div>
+                <div><span id="total-lit" class="text-5xl font-light text-rose-300">142</span><div class="text-xs text-zinc-500">GESAMT</div></div>
+            </div>
+            
+            <button onclick="lightCandle()" class="px-12 py-5 bg-gradient-to-r from-rose-400 to-orange-400 text-black rounded-2xl font-medium text-lg">Kerze anzünden</button>
+        </div>
+    </section>
 
-    <!-- Image Modal -->
+    <!-- Guestbook -->
+    <section id="guestbook" class="bg-black py-20">
+        <div class="max-w-2xl mx-auto px-6">
+            <h2 class="heading-font text-5xl font-semibold text-center mb-12">Gästebuch</h2>
+            
+            <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 mb-12">
+                <input id="comment-name" type="text" placeholder="Dein Name" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+                <textarea id="comment-text" rows="4" placeholder="Deine Nachricht..." class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 mb-6"></textarea>
+                <button onclick="addComment()" class="w-full py-4 bg-white text-black rounded-2xl font-medium">Nachricht hinterlassen</button>
+            </div>
+
+            <div id="comments-list" class="space-y-8"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-12 text-center text-xs text-zinc-500 border-t border-zinc-900">
+        <p>In ewiger Liebe • Mayre Berkpinar • 1923 – 2019</p>
+    </footer>
+
+    <!-- Modals -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-lg w-full mx-4">
-            <h3 class="text-xl mb-6">Bild-URL ändern</h3>
-            <input id="new-image-url" type="text" placeholder="Neue Bild-URL hier einfügen" 
-                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6 text-sm">
-            <p class="text-xs text-zinc-400 mb-4">Tipp: Bilder bei imgur.com, postimages.org oder ähnlichen Diensten hochladen und direkten Link verwenden.</p>
+            <h3 class="text-xl mb-4">Bild ändern / hinzufügen</h3>
+            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
             <div class="flex gap-3">
-                <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl font-medium">Speichern</button>
+                <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Speichern</button>
                 <button onclick="closeImageModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
             </div>
         </div>
     </div>
 
-    <!-- Poem Modal -->
     <div id="poem-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-2xl w-full mx-4">
             <h3 class="text-xl mb-4">Gedicht bearbeiten</h3>
@@ -149,7 +186,13 @@
     </div>
 
     <script>
-        // ==================== IMAGE CHANGE (JETZT FÜR ALLE) ====================
+        let currentImageElement = null;
+
+        function smoothScrollTo(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Image Functions
         function changeImage(el) {
             currentImageElement = el;
             document.getElementById('new-image-url').value = el.src;
@@ -159,36 +202,21 @@
 
         function applyImageChange() {
             const url = document.getElementById('new-image-url').value.trim();
-            if (!url || !currentImageElement) return;
+            if (!url || !currentImageElement) return alert("Bitte eine gültige URL eingeben");
 
             currentImageElement.src = url;
 
-            // Im localStorage speichern
-            let saved = JSON.parse(localStorage.getItem('mayre_images') || '{}');
-            saved[currentImageElement.id || 'gallery-' + Date.now()] = url;
-            localStorage.setItem('mayre_images', JSON.stringify(saved));
+            // Speichern
+            let savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+            savedImages[currentImageElement.id || 'gallery-img'] = url;
+            localStorage.setItem('mayre_images', JSON.stringify(savedImages));
 
             closeImageModal();
         }
 
-        // Gallery Add & Load (wie vorher, aber ohne Admin-Beschränkung)
-        function loadGallery() {
-            const grid = document.getElementById('gallery-grid');
-            grid.innerHTML = '';
-            const saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
-            const images = saved.length ? saved : [
-                "https://picsum.photos/id/1015/600/600",
-                "https://picsum.photos/id/1027/600/600",
-                "https://picsum.photos/id/1005/600/600",
-                "https://picsum.photos/id/201/600/600"
-            ];
-
-            images.forEach(src => {
-                const div = document.createElement('div');
-                div.className = "relative group";
-                div.innerHTML = `<img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">`;
-                grid.appendChild(div);
-            });
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('image-modal').classList.remove('flex');
         }
 
         function addGalleryImage() {
@@ -198,25 +226,127 @@
             document.getElementById('image-modal').classList.add('flex');
         }
 
-        // Export Funktion – speichert alles dauerhaft im Code
-        function exportConfig() {
-            let html = document.documentElement.outerHTML;
-            const blob = new Blob([html], { type: 'text/html' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'mayre-berkpinar-gedenkseite.html';
-            a.click();
-            URL.revokeObjectURL(url);
-            
-            alert('✅ Konfiguration wurde als HTML-Datei heruntergeladen.\n\nLade diese Datei auf deinen Server hoch, damit die Änderungen für alle sichtbar sind.');
+        // Gallery
+        function loadGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            let images = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
+            if (images.length === 0) {
+                images = [
+                    "https://picsum.photos/id/1015/600/600",
+                    "https://picsum.photos/id/1027/600/600",
+                    "https://picsum.photos/id/1005/600/600",
+                    "https://picsum.photos/id/201/600/600"
+                ];
+            }
+
+            images.forEach(src => {
+                const div = document.createElement('div');
+                div.innerHTML = `<img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">`;
+                grid.appendChild(div);
+            });
         }
 
-        // Rest der Funktionen (Candle, Comments, Poem, Init) bleiben gleich...
-        // (Ich habe sie aus Platzgründen gekürzt – bei Bedarf sende ich den vollständigen Code)
+        // Poem
+        function loadPoem() {
+            const saved = localStorage.getItem('mayre_poem');
+            const content = document.getElementById('poem-content');
+            if (saved) {
+                content.innerHTML = saved;
+            } else {
+                content.innerHTML = `<p>In stillen Stunden denk ich an dich,<br>an deine Wärme, dein Lächeln so licht.<br>Du bist gegangen, doch nie vergessen,<br>in unseren Herzen lebst du fort.</p><p class="text-right mt-8 text-rose-300">— Für Mayre</p>`;
+            }
+        }
 
+        function editPoem() {
+            document.getElementById('poem-textarea').value = document.getElementById('poem-content').innerHTML;
+            document.getElementById('poem-modal').classList.remove('hidden');
+            document.getElementById('poem-modal').classList.add('flex');
+        }
+
+        function savePoem() {
+            const html = document.getElementById('poem-textarea').value.trim();
+            if (html) {
+                localStorage.setItem('mayre_poem', html);
+                document.getElementById('poem-content').innerHTML = html;
+            }
+            closePoemModal();
+        }
+
+        function closePoemModal() {
+            document.getElementById('poem-modal').classList.add('hidden');
+            document.getElementById('poem-modal').classList.remove('flex');
+        }
+
+        // Candle
+        function updateCandleCount() {
+            document.getElementById('total-lit').textContent = localStorage.getItem('mayre_candles') || '142';
+            document.getElementById('lit-count').textContent = localStorage.getItem('mayre_lit_today') || '0';
+        }
+
+        function lightCandle() {
+            document.getElementById('flame').classList.remove('hidden');
+            let today = parseInt(localStorage.getItem('mayre_lit_today') || '0') + 1;
+            let total = parseInt(localStorage.getItem('mayre_candles') || '142') + 1;
+            localStorage.setItem('mayre_lit_today', today);
+            localStorage.setItem('mayre_candles', total);
+            updateCandleCount();
+        }
+
+        // Comments
+        function loadComments() {
+            const list = document.getElementById('comments-list');
+            list.innerHTML = '';
+            const comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            if (comments.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 text-zinc-500">Noch keine Einträge.</div>`;
+                return;
+            }
+            comments.reverse().forEach(comment => {
+                const div = document.createElement('div');
+                div.className = "bg-zinc-900 border border-zinc-700 rounded-3xl p-7";
+                div.innerHTML = `
+                    <div class="font-medium">${comment.name}</div>
+                    <div class="text-xs text-zinc-500">${comment.date}</div>
+                    <div class="mt-4 text-zinc-300">${comment.text}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function addComment() {
+            const name = document.getElementById('comment-name').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+            if (!name || !text) return alert("Name und Nachricht ausfüllen");
+            
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            comments.push({
+                name, text,
+                date: new Intl.DateTimeFormat('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}).format(new Date())
+            });
+            localStorage.setItem('mayre_comments', JSON.stringify(comments));
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-text').value = '';
+            loadComments();
+        }
+
+        // Export
+        function exportConfig() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'mayre-berkpinar-gedenkseite.html';
+            link.click();
+            alert('✅ Datei wurde heruntergeladen. Lade sie auf deinen Server hoch, damit alle Änderungen für jeden sichtbar sind.');
+        }
+
+        // Init
         window.onload = () => {
-            loadSavedImages();
+            // Load saved images
+            const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+            if (savedImages['bio-image']) document.getElementById('bio-image').src = savedImages['bio-image'];
+
             loadGallery();
             loadPoem();
             updateCandleCount();
