@@ -9,12 +9,8 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500&display=swap');
         
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-        }
-        .heading-font {
-            font-family: 'Playfair Display', serif;
-        }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .heading-font { font-family: 'Playfair Display', serif; }
 
         .hero-bg {
             background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('https://picsum.photos/id/1015/2000/1200');
@@ -22,37 +18,22 @@
             background-position: center;
         }
 
-        .candle {
-            transition: all 0.4s ease;
-        }
-        
-        .flame {
-            animation: flicker 1.2s infinite alternate;
-        }
-        
+        .candle { transition: all 0.4s ease; }
+        .flame { animation: flicker 1.2s infinite alternate; }
         @keyframes flicker {
             0% { transform: scale(1) rotate(-5deg); }
             50% { transform: scale(1.15) rotate(5deg); }
             100% { transform: scale(1) rotate(-3deg); }
         }
 
-        .comment {
-            animation: fadeIn 0.6s ease forwards;
-        }
-        
+        .comment { animation: fadeIn 0.6s ease forwards; }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .flower-bg {
-            background-image: 
-                radial-gradient(circle at 25% 25%, rgba(244, 63, 94, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 75% 75%, rgba(234, 179, 8, 0.08) 0%, transparent 50%);
-        }
     </style>
 </head>
-<body class="bg-zinc-950 text-zinc-200 flower-bg">
+<body class="bg-zinc-950 text-zinc-200">
     <!-- Header -->
     <header class="border-b border-zinc-800 bg-black/70 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
@@ -60,46 +41,27 @@
                 <i class="fa-solid fa-dove text-rose-300 text-2xl"></i>
                 <h1 class="heading-font text-2xl tracking-wider text-white">Mayre Berkpinar</h1>
             </div>
-            <nav class="hidden md:flex gap-8 text-sm uppercase tracking-widest">
-                <a href="#bio" onclick="smoothScrollTo('bio')" class="hover:text-rose-300 transition-colors">Biografie</a>
-                <a href="#gallery" onclick="smoothScrollTo('gallery')" class="hover:text-rose-300 transition-colors">Erinnerungen</a>
-                <a href="#candle" onclick="smoothScrollTo('candle')" class="hover:text-rose-300 transition-colors">Kerze anzünden</a>
-                <a href="#guestbook" onclick="smoothScrollTo('guestbook')" class="hover:text-rose-300 transition-colors">Gästebuch</a>
-            </nav>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleAdmin()" 
+                        class="text-xs px-4 py-2 border border-zinc-700 hover:border-rose-400 rounded-full transition-colors">
+                    <i class="fa-solid fa-gear"></i> Admin
+                </button>
+            </div>
         </div>
     </header>
 
     <!-- Hero -->
-    <section class="hero-bg h-screen flex items-center justify-center text-center pt-20">
+    <section class="hero-bg h-screen flex items-center justify-center text-center pt-20" id="hero-section">
         <div class="max-w-3xl mx-auto px-6">
             <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full mb-6 border border-white/20">
                 <span class="text-rose-300">1923 — 2019</span>
             </div>
-            <h1 class="heading-font text-7xl md:text-8xl font-bold text-white tracking-tighter mb-4">
-                Mayre Berkpinar
-            </h1>
-            <p class="text-xl text-zinc-300 max-w-md mx-auto">
-                In liebevoller Erinnerung an eine starke Frau, Mutter und Großmutter
-            </p>
+            <h1 class="heading-font text-7xl md:text-8xl font-bold text-white tracking-tighter mb-4">Mayre Berkpinar</h1>
+            <p class="text-xl text-zinc-300">In liebevoller Erinnerung</p>
             
-            <div class="mt-12 flex justify-center gap-8 text-sm">
-                <div>
-                    <div class="text-rose-300 text-xs tracking-widest">GEBOREN</div>
-                    <div class="text-2xl">1923</div>
-                    <div class="text-zinc-400 text-sm">Kürecik, Malatya • Türkei</div>
-                </div>
-                <div class="w-px bg-white/20"></div>
-                <div>
-                    <div class="text-rose-300 text-xs tracking-widest">GESTORBEN</div>
-                    <div class="text-2xl">2019</div>
-                    <div class="text-zinc-400 text-sm">Hamburg • Deutschland</div>
-                </div>
-            </div>
-
-            <button onclick="smoothScrollTo('candle')" 
-                    class="mt-16 group px-10 py-4 bg-white text-black rounded-full font-medium flex items-center gap-3 mx-auto hover:bg-rose-300 hover:text-white transition-all">
-                <i class="fa-solid fa-fire-flame-curved group-active:scale-110 transition-transform"></i>
-                <span>Eine Kerze für Mayre anzünden</span>
+            <button onclick="smoothScrollTo('candle')" class="mt-16 px-10 py-4 bg-white text-black rounded-full font-medium flex items-center gap-3 mx-auto hover:bg-rose-300 hover:text-white transition-all">
+                <i class="fa-solid fa-fire-flame-curved"></i>
+                <span>Kerze anzünden</span>
             </button>
         </div>
     </section>
@@ -108,21 +70,16 @@
     <section id="bio" class="max-w-5xl mx-auto px-6 py-24">
         <div class="grid md:grid-cols-2 gap-16 items-center">
             <div>
-                <h2 class="heading-font text-5xl font-semibold mb-8 text-white">Ihre Geschichte</h2>
+                <h2 class="heading-font text-5xl font-semibold mb-8">Ihre Geschichte</h2>
                 <div class="prose prose-invert text-zinc-300 leading-relaxed text-lg">
-                    <p>Mayre Berkpinar wurde 1923 in Kürecik, Malatya in der Türkei geboren. Sie lebte ein langes und erfülltes Leben, das von Stärke, Familie und Liebe geprägt war.</p>
-                    <p>Nach ihrer Übersiedelung nach Deutschland fand sie in Hamburg ihre neue Heimat. Dort wurde sie zur zentralen Figur einer großen Familie. Bis zu ihrem Tod im Jahr 2019 im stolzen Alter von 96 Jahren blieb sie eine inspirierende Persönlichkeit.</p>
-                    <p>Ihre Wärme, Weisheit und ihr unerschütterlicher Glaube an die Familie berühren uns noch heute.</p>
+                    <p>Mayre Berkpinar wurde 1923 in Kürecik, Malatya (Türkei) geboren und verstarb 2019 in Hamburg.</p>
+                    <p>Sie war eine starke, warmherzige Frau, deren Liebe und Weisheit bis heute in der Familie weiterleben.</p>
                 </div>
             </div>
-            <div class="relative">
-                <img src="https://picsum.photos/id/1011/800/900" 
-                     alt="Mayre Berkpinar Portrait"
-                     class="rounded-3xl shadow-2xl shadow-black/70 w-full object-cover h-full">
-                <div class="absolute -bottom-6 -right-6 bg-zinc-900 border border-rose-300/30 p-6 rounded-2xl max-w-[220px]">
-                    <div class="text-rose-300 text-sm mb-1">„Das Leben ist wie eine Kerze – sie spendet Licht, solange sie brennt.“</div>
-                    <div class="text-xs text-zinc-500">— Mayre Berkpinar</div>
-                </div>
+            <div>
+                <img id="bio-image" src="https://picsum.photos/id/1011/800/900" 
+                     class="rounded-3xl shadow-2xl w-full cursor-pointer" 
+                     onclick="changeImage(this, 'bio-image')">
             </div>
         </div>
     </section>
@@ -131,280 +88,245 @@
     <section id="gallery" class="bg-black py-20">
         <div class="max-w-5xl mx-auto px-6">
             <h2 class="heading-font text-5xl font-semibold text-center mb-12">Erinnerungsfotos</h2>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
-                <img src="https://picsum.photos/id/1015/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Mayre als junge Frau">
-                <img src="https://picsum.photos/id/1027/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Mayre mit Familie">
-                <img src="https://picsum.photos/id/1005/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Mayre in Hamburg">
-                <img src="https://picsum.photos/id/201/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Familienfoto">
-                <img src="https://picsum.photos/id/133/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Mayre älter">
-                <img src="https://picsum.photos/id/64/600/600" 
-                     class="rounded-2xl aspect-square object-cover hover:scale-105 transition-transform cursor-pointer"
-                     onclick="showModal(this.src)"
-                     alt="Garten in Hamburg">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="gallery-grid">
+                <!-- Wird per JS befüllt -->
             </div>
         </div>
     </section>
 
-    <!-- Candle Section -->
+    <!-- Candle -->
     <section id="candle" class="max-w-5xl mx-auto px-6 py-24 text-center">
         <div class="max-w-md mx-auto">
             <h2 class="heading-font text-5xl font-semibold mb-4">Licht für Mayre</h2>
-            <p class="text-zinc-400 mb-12">Zünde eine virtuelle Kerze an. Sie bleibt in deinem Browser gespeichert.</p>
-            
             <div id="candle-container" class="flex justify-center mb-10">
-                <div onclick="lightCandle()" id="candle-main"
-                     class="candle cursor-pointer text-9xl flex flex-col items-center">
+                <div onclick="lightCandle()" id="candle-main" class="candle cursor-pointer text-9xl flex flex-col items-center">
                     <div class="relative">
-                        <!-- Candle body -->
                         <div class="w-20 h-52 bg-gradient-to-b from-amber-100 to-amber-800 rounded-t-3xl mx-auto relative shadow-inner"></div>
-                        <!-- Wick -->
                         <div class="w-1.5 h-8 bg-zinc-800 absolute top-0 left-1/2 -translate-x-1/2"></div>
-                        <!-- Flame -->
                         <div id="flame" class="flame text-6xl absolute -top-14 left-1/2 -translate-x-1/2 hidden">🔥</div>
                     </div>
                 </div>
             </div>
             
-            <div class="flex items-center justify-center gap-8 text-sm mb-12">
-                <div>
-                    <span id="lit-count" class="text-4xl font-light text-rose-300">0</span>
-                    <div class="text-zinc-500 text-xs tracking-widest">KERZEN HEUTE</div>
-                </div>
-                <div class="h-12 w-px bg-white/10"></div>
-                <div>
-                    <span id="total-lit" class="text-4xl font-light text-rose-300">142</span>
-                    <div class="text-zinc-500 text-xs tracking-widest">GESAMT</div>
-                </div>
+            <div class="flex justify-center gap-12 mb-12">
+                <div><span id="lit-count" class="text-5xl font-light text-rose-300">0</span><div class="text-xs text-zinc-500">HEUTE</div></div>
+                <div><span id="total-lit" class="text-5xl font-light text-rose-300">142</span><div class="text-xs text-zinc-500">GESAMT</div></div>
             </div>
             
-            <button onclick="lightCandle()" 
-                    class="px-12 py-5 bg-gradient-to-r from-rose-400 to-orange-400 hover:from-rose-500 hover:to-orange-500 text-black font-medium rounded-2xl flex items-center gap-3 mx-auto text-lg shadow-lg shadow-orange-500/30 transition-all active:scale-95">
-                <i class="fa-solid fa-fire"></i>
-                <span>Kerze anzünden</span>
-            </button>
-            
-            <p class="text-xs text-zinc-500 mt-8">Deine Kerze bleibt bis zum nächsten Besuch in deinem Browser erhalten.</p>
+            <button onclick="lightCandle()" class="px-12 py-5 bg-gradient-to-r from-rose-400 to-orange-400 text-black rounded-2xl font-medium text-lg">Kerze anzünden</button>
         </div>
     </section>
 
     <!-- Guestbook -->
     <section id="guestbook" class="bg-black py-20">
         <div class="max-w-2xl mx-auto px-6">
-            <h2 class="heading-font text-5xl font-semibold text-center mb-3">Gästebuch</h2>
-            <p class="text-center text-zinc-400 mb-12">Hinterlasse eine Erinnerung oder einen Gruß</p>
+            <h2 class="heading-font text-5xl font-semibold text-center mb-12">Gästebuch</h2>
             
-            <!-- Comment Form -->
-            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-8 mb-12">
-                <input id="comment-name" 
-                       type="text" 
-                       placeholder="Dein Name"
-                       class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 mb-4 focus:outline-none focus:border-rose-400 transition-colors">
-                
-                <textarea id="comment-text" rows="4"
-                          placeholder="Deine Nachricht für Mayre und ihre Familie..."
-                          class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 mb-6 focus:outline-none focus:border-rose-400 transition-colors resize-none"></textarea>
-                
-                <button onclick="addComment()" 
-                        class="w-full py-4 bg-white text-black rounded-2xl font-medium hover:bg-rose-200 transition-colors">
-                    Nachricht hinterlassen
-                </button>
+            <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 mb-12">
+                <input id="comment-name" type="text" placeholder="Dein Name" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
+                <textarea id="comment-text" rows="4" placeholder="Deine Nachricht..." class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 mb-6"></textarea>
+                <button onclick="addComment()" class="w-full py-4 bg-white text-black rounded-2xl font-medium">Nachricht hinterlassen</button>
             </div>
-            
-            <!-- Comments List -->
+
             <div id="comments-list" class="space-y-8"></div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-black border-t border-zinc-900 py-12 text-center text-xs text-zinc-500">
-        <div class="max-w-5xl mx-auto px-6">
-            <p>In ewiger Liebe und Dankbarkeit • Mayre Berkpinar • 1923 – 2019</p>
-            <p class="mt-2">Diese Seite wurde mit ❤️ als persönliche Erinnerung erstellt.</p>
-            <div class="mt-8 flex justify-center gap-6 text-lg">
-                <i onclick="lightCandle()" class="fa-solid fa-fire-flame-curved hover:text-rose-300 cursor-pointer"></i>
-            </div>
-        </div>
+    <footer class="bg-black py-12 text-center text-xs text-zinc-500 border-t border-zinc-900">
+        <p>In ewiger Liebe • Mayre Berkpinar • 1923 – 2019</p>
     </footer>
 
-    <!-- Image Modal -->
-    <div id="modal" class="hidden fixed inset-0 bg-black/95 flex items-center justify-center z-[100] p-6">
-        <div class="max-w-4xl w-full relative">
-            <button onclick="closeModal()" 
-                    class="absolute -top-4 -right-4 bg-zinc-900 text-white w-10 h-10 rounded-full flex items-center justify-center text-2xl hover:bg-rose-500 transition-colors">×</button>
-            <img id="modal-image" src="" class="rounded-3xl max-h-[85vh] w-full object-contain shadow-2xl" alt="">
+    <!-- Image Change Modal -->
+    <div id="image-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
+        <div class="bg-zinc-900 rounded-3xl p-8 max-w-lg w-full mx-4">
+            <h3 class="text-xl mb-4">Foto ändern</h3>
+            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" 
+                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
+            <div class="flex gap-3">
+                <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Übernehmen</button>
+                <button onclick="closeImageModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
+            </div>
+            <p class="text-xs text-zinc-500 mt-4">Tipp: Du kannst eine direkte Bild-URL (z.B. von imgur, postimages, etc.) verwenden.</p>
         </div>
     </div>
 
     <script>
-        // Tailwind script already included via CDN
-        
+        let currentImageElement = null;
+        let isAdmin = false;
+
         function smoothScrollTo(id) {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
-        
-        // Candle functionality with localStorage
-        let litToday = 0;
-        
-        function updateCandleCount() {
-            const saved = localStorage.getItem('mayre_candles');
-            const total = saved ? parseInt(saved) : 142;
-            document.getElementById('total-lit').textContent = total;
-            
-            // Today's candles (session based)
-            document.getElementById('lit-count').textContent = litToday;
+
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            alert(isAdmin ? "Admin-Modus aktiviert: Fotos können geändert und Kommentare bearbeitet/gelöscht werden." : "Admin-Modus deaktiviert.");
+            loadComments(); // refresh to show/hide buttons
         }
-        
+
+        // Candle
+        function updateCandleCount() {
+            let total = parseInt(localStorage.getItem('mayre_candles') || '142');
+            document.getElementById('total-lit').textContent = total;
+            document.getElementById('lit-count').textContent = localStorage.getItem('mayre_lit_today') || '0';
+        }
+
         function lightCandle() {
             const flame = document.getElementById('flame');
-            const candle = document.getElementById('candle-main');
-            
             flame.classList.remove('hidden');
             
-            // Add a little shake effect
-            candle.style.transform = 'scale(1.08)';
-            setTimeout(() => {
-                candle.style.transform = 'scale(1)';
-            }, 300);
+            let today = parseInt(localStorage.getItem('mayre_lit_today') || '0');
+            today++;
+            localStorage.setItem('mayre_lit_today', today);
             
-            // Increase counters
-            litToday++;
             let total = parseInt(localStorage.getItem('mayre_candles') || '142');
-            total++;
-            localStorage.setItem('mayre_candles', total);
+            localStorage.setItem('mayre_candles', total + 1);
             
             updateCandleCount();
-            
-            // Auto hide flame after some time (optional)
-            setTimeout(() => {
-                if (Math.random() > 0.6) flame.classList.add('hidden');
-            }, 8000);
         }
-        
-        // Comments with localStorage
-        function loadComments() {
-            const commentsList = document.getElementById('comments-list');
-            commentsList.innerHTML = '';
-            
-            const comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
-            
-            if (comments.length === 0) {
-                commentsList.innerHTML = `
-                    <div class="text-center py-12 text-zinc-500">
-                        Noch keine Einträge. Sei der Erste, der eine Nachricht hinterlässt.
-                    </div>
-                `;
-                return;
+
+        // Image changing
+        function changeImage(el, id) {
+            if (!isAdmin) return;
+            currentImageElement = el;
+            document.getElementById('new-image-url').value = el.src;
+            document.getElementById('image-modal').classList.remove('hidden');
+            document.getElementById('image-modal').classList.add('flex');
+        }
+
+        function applyImageChange() {
+            const url = document.getElementById('new-image-url').value.trim();
+            if (url && currentImageElement) {
+                currentImageElement.src = url;
+                // Save to localStorage
+                const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+                savedImages[currentImageElement.id || 'hero'] = url;
+                localStorage.setItem('mayre_images', JSON.stringify(savedImages));
             }
-            
-            comments.reverse().forEach((comment, index) => {
+            closeImageModal();
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('image-modal').classList.remove('flex');
+        }
+
+        // Gallery
+        const defaultGallery = [
+            "https://picsum.photos/id/1015/600/600",
+            "https://picsum.photos/id/1027/600/600",
+            "https://picsum.photos/id/1005/600/600",
+            "https://picsum.photos/id/201/600/600",
+            "https://picsum.photos/id/133/600/600",
+            "https://picsum.photos/id/64/600/600"
+        ];
+
+        function loadGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            const saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
+            const images = saved.length ? saved : defaultGallery;
+
+            images.forEach((src, index) => {
                 const div = document.createElement('div');
-                div.className = `comment bg-zinc-900 border border-zinc-800 rounded-3xl p-7`;
+                div.className = "relative group";
                 div.innerHTML = `
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-rose-300 to-amber-300 rounded-2xl flex items-center justify-center text-xl flex-shrink-0">
-                            👤
-                        </div>
-                        <div class="flex-1">
-                            <div class="flex justify-between">
-                                <div class="font-medium">${comment.name}</div>
-                                <div class="text-xs text-zinc-500">${comment.date}</div>
-                            </div>
-                            <div class="mt-3 text-zinc-300 leading-relaxed">${comment.text}</div>
-                        </div>
-                    </div>
+                    <img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">
+                    ${isAdmin ? `<button onclick="removeGalleryImage(${index}); event.stopImmediatePropagation();" class="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded hidden group-hover:block">×</button>` : ''}
                 `;
-                commentsList.appendChild(div);
+                grid.appendChild(div);
             });
         }
-        
-        function addComment() {
-            const nameInput = document.getElementById('comment-name');
-            const textInput = document.getElementById('comment-text');
-            
-            const name = nameInput.value.trim();
-            const text = textInput.value.trim();
-            
-            if (!name || !text) {
-                alert("Bitte gib deinen Namen und eine Nachricht ein.");
+
+        function removeGalleryImage(index) {
+            if (!confirm("Foto entfernen?")) return;
+            let saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
+            saved.splice(index, 1);
+            localStorage.setItem('mayre_gallery', JSON.stringify(saved));
+            loadGallery();
+        }
+
+        // Comments
+        function loadComments() {
+            const list = document.getElementById('comments-list');
+            list.innerHTML = '';
+            const comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+
+            if (comments.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 text-zinc-500">Noch keine Einträge.</div>`;
                 return;
             }
-            
-            const comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
-            
-            const newComment = {
-                name: name,
-                text: text,
-                date: new Intl.DateTimeFormat('de-DE', { 
-                    day: '2-digit', 
-                    month: '2-digit', 
-                    year: 'numeric' 
-                }).format(new Date())
-            };
-            
-            comments.push(newComment);
+
+            comments.reverse().forEach((comment, idx) => {
+                const realIndex = comments.length - 1 - idx;
+                const div = document.createElement('div');
+                div.className = `comment bg-zinc-900 border border-zinc-700 rounded-3xl p-7`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-medium">${comment.name}</div>
+                            <div class="text-xs text-zinc-500">${comment.date}</div>
+                        </div>
+                        ${isAdmin ? `
+                        <div class="flex gap-2">
+                            <button onclick="editComment(${realIndex})" class="text-blue-400 hover:text-blue-300 text-sm"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteComment(${realIndex})" class="text-red-400 hover:text-red-300 text-sm"><i class="fa-solid fa-trash"></i></button>
+                        </div>` : ''}
+                    </div>
+                    <div class="mt-4 text-zinc-300">${comment.text}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function addComment() {
+            const name = document.getElementById('comment-name').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+            if (!name || !text) return alert("Name und Nachricht ausfüllen");
+
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            comments.push({
+                name,
+                text,
+                date: new Intl.DateTimeFormat('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}).format(new Date())
+            });
             localStorage.setItem('mayre_comments', JSON.stringify(comments));
             
-            // Clear form
-            nameInput.value = '';
-            textInput.value = '';
-            
-            // Reload comments
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-text').value = '';
             loadComments();
         }
-        
-        // Modal functions
-        function showModal(src) {
-            document.getElementById('modal-image').src = src;
-            document.getElementById('modal').classList.remove('hidden');
-            document.getElementById('modal').classList.add('flex');
+
+        function deleteComment(index) {
+            if (!confirm("Kommentar wirklich löschen?")) return;
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            comments.splice(index, 1);
+            localStorage.setItem('mayre_comments', JSON.stringify(comments));
+            loadComments();
         }
-        
-        function closeModal() {
-            const modal = document.getElementById('modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-        
-        // Keyboard support for modal
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "Escape") {
-                closeModal();
+
+        function editComment(index) {
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            const newText = prompt("Kommentar bearbeiten:", comments[index].text);
+            if (newText !== null) {
+                comments[index].text = newText;
+                localStorage.setItem('mayre_comments', JSON.stringify(comments));
+                loadComments();
             }
-        });
-        
-        // Initialize everything
-        window.onload = function() {
-            // Tailwind ready
+        }
+
+        // Init
+        window.onload = () => {
+            // Load saved images
+            const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+            if (savedImages['bio-image']) document.getElementById('bio-image').src = savedImages['bio-image'];
+
             updateCandleCount();
+            loadGallery();
             loadComments();
-            
-            // Demo: light one candle automatically on first visit
-            if (!localStorage.getItem('mayre_first_visit')) {
-                setTimeout(() => {
-                    const flame = document.getElementById('flame');
-                    flame.classList.remove('hidden');
-                }, 1800);
-                localStorage.setItem('mayre_first_visit', 'true');
-            }
-            
-            // Make gallery images nicer
-            console.log('%cGedenkseite für Mayre Berkpinar wurde geladen ❤️', 'color:#e11d48; font-family:monospace');
+
+            console.log('%cMayre Berkpinar Gedenkseite bereit (Admin-Modus mit Zahnrad)', 'color:#e11d48');
         };
     </script>
 </body>
