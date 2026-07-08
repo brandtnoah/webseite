@@ -34,24 +34,19 @@
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
-
-    <!-- Header + Navigation -->
+    <!-- Header -->
     <header class="border-b border-zinc-800 bg-black/70 backdrop-blur-md fixed w-full z-50">
         <div class="max-w-5xl mx-auto px-6 py-5 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <i class="fa-solid fa-dove text-rose-300 text-2xl"></i>
                 <h1 class="heading-font text-2xl tracking-wider text-white">Mayre Berkpinar</h1>
             </div>
-            <nav class="flex items-center gap-6 text-sm font-medium">
-                <a href="#bio" onclick="smoothScrollTo('bio')" class="hover:text-rose-300">Geschichte</a>
-                <a href="#poem" onclick="smoothScrollTo('poem')" class="hover:text-rose-300">Gedicht</a>
-                <a href="#gallery" onclick="smoothScrollTo('gallery')" class="hover:text-rose-300">Fotos</a>
-                <a href="#candle" onclick="smoothScrollTo('candle')" class="hover:text-rose-300">Kerze</a>
-                <a href="#guestbook" onclick="smoothScrollTo('guestbook')" class="hover:text-rose-300">Gästebuch</a>
-            </nav>
-            <button onclick="exportConfig()" class="text-xs px-4 py-2 border border-rose-400 text-rose-300 rounded-full hover:bg-rose-400 hover:text-black transition-all flex items-center gap-2">
-                <i class="fa-solid fa-download"></i> Export
-            </button>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleAdmin()" 
+                        class="text-xs px-4 py-2 border border-zinc-700 hover:border-rose-400 rounded-full transition-colors">
+                    <i class="fa-solid fa-gear"></i> Admin
+                </button>
+            </div>
         </div>
     </header>
 
@@ -84,19 +79,8 @@
             <div>
                 <img id="bio-image" src="https://picsum.photos/id/1011/800/900" 
                      class="rounded-3xl shadow-2xl w-full cursor-pointer" 
-                     onclick="changeImage(this)">
+                     onclick="changeImage(this, 'bio-image')">
             </div>
-        </div>
-    </section>
-
-    <!-- Gedicht -->
-    <section id="poem" class="max-w-5xl mx-auto px-6 py-24 bg-zinc-900">
-        <div class="max-w-3xl mx-auto text-center">
-            <h2 class="heading-font text-5xl font-semibold mb-8">Ein Gedicht für Mayre</h2>
-            <div id="poem-content" class="prose prose-invert text-zinc-300 leading-relaxed text-lg italic"></div>
-            <button onclick="editPoem()" class="mt-10 px-8 py-4 border border-rose-400 text-rose-300 rounded-2xl hover:bg-rose-400 hover:text-black transition-all">
-                <i class="fa-solid fa-pen"></i> Gedicht verfassen / ändern
-            </button>
         </div>
     </section>
 
@@ -104,7 +88,9 @@
     <section id="gallery" class="bg-black py-20">
         <div class="max-w-5xl mx-auto px-6">
             <h2 class="heading-font text-5xl font-semibold text-center mb-12">Erinnerungsfotos</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="gallery-grid"></div>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6" id="gallery-grid">
+                <!-- Wird per JS befüllt -->
+            </div>
         </div>
     </section>
 
@@ -151,19 +137,197 @@
         <p>In ewiger Liebe • Mayre Berkpinar • 1923 – 2019</p>
     </footer>
 
-    <!-- Modals -->
+    <!-- Image Change Modal -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-lg w-full mx-4">
             <h3 class="text-xl mb-4">Foto ändern</h3>
-            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
+            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" 
+                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
             <div class="flex gap-3">
                 <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Übernehmen</button>
                 <button onclick="closeImageModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
             </div>
+            <p class="text-xs text-zinc-500 mt-4">Tipp: Du kannst eine direkte Bild-URL (z.B. von imgur, postimages, etc.) verwenden.</p>
         </div>
     </div>
 
-    <div id="poem-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
-        <div class="bg-zinc-900 rounded-3xl p-8 max-w-2xl w-full mx-4">
-            <h3 class="text-xl mb-4">Gedicht verfassen / ändern</h3>
-            <textarea id="poem-textarea" rows="10
+    <script>
+        let currentImageElement = null;
+        let isAdmin = false;
+
+        function smoothScrollTo(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function toggleAdmin() {
+            isAdmin = !isAdmin;
+            alert(isAdmin ? "Admin-Modus aktiviert: Fotos können geändert und Kommentare bearbeitet/gelöscht werden." : "Admin-Modus deaktiviert.");
+            loadComments(); // refresh to show/hide buttons
+        }
+
+        // Candle
+        function updateCandleCount() {
+            let total = parseInt(localStorage.getItem('mayre_candles') || '142');
+            document.getElementById('total-lit').textContent = total;
+            document.getElementById('lit-count').textContent = localStorage.getItem('mayre_lit_today') || '0';
+        }
+
+        function lightCandle() {
+            const flame = document.getElementById('flame');
+            flame.classList.remove('hidden');
+            
+            let today = parseInt(localStorage.getItem('mayre_lit_today') || '0');
+            today++;
+            localStorage.setItem('mayre_lit_today', today);
+            
+            let total = parseInt(localStorage.getItem('mayre_candles') || '142');
+            localStorage.setItem('mayre_candles', total + 1);
+            
+            updateCandleCount();
+        }
+
+        // Image changing
+        function changeImage(el, id) {
+            if (!isAdmin) return;
+            currentImageElement = el;
+            document.getElementById('new-image-url').value = el.src;
+            document.getElementById('image-modal').classList.remove('hidden');
+            document.getElementById('image-modal').classList.add('flex');
+        }
+
+        function applyImageChange() {
+            const url = document.getElementById('new-image-url').value.trim();
+            if (url && currentImageElement) {
+                currentImageElement.src = url;
+                // Save to localStorage
+                const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+                savedImages[currentImageElement.id || 'hero'] = url;
+                localStorage.setItem('mayre_images', JSON.stringify(savedImages));
+            }
+            closeImageModal();
+        }
+
+        function closeImageModal() {
+            document.getElementById('image-modal').classList.add('hidden');
+            document.getElementById('image-modal').classList.remove('flex');
+        }
+
+        // Gallery
+        const defaultGallery = [
+            "https://picsum.photos/id/1015/600/600",
+            "https://picsum.photos/id/1027/600/600",
+            "https://picsum.photos/id/1005/600/600",
+            "https://picsum.photos/id/201/600/600",
+            "https://picsum.photos/id/133/600/600",
+            "https://picsum.photos/id/64/600/600"
+        ];
+
+        function loadGallery() {
+            const grid = document.getElementById('gallery-grid');
+            grid.innerHTML = '';
+            const saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
+            const images = saved.length ? saved : defaultGallery;
+
+            images.forEach((src, index) => {
+                const div = document.createElement('div');
+                div.className = "relative group";
+                div.innerHTML = `
+                    <img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">
+                    ${isAdmin ? `<button onclick="removeGalleryImage(${index}); event.stopImmediatePropagation();" class="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded hidden group-hover:block">×</button>` : ''}
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function removeGalleryImage(index) {
+            if (!confirm("Foto entfernen?")) return;
+            let saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
+            saved.splice(index, 1);
+            localStorage.setItem('mayre_gallery', JSON.stringify(saved));
+            loadGallery();
+        }
+
+        // Comments
+        function loadComments() {
+            const list = document.getElementById('comments-list');
+            list.innerHTML = '';
+            const comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+
+            if (comments.length === 0) {
+                list.innerHTML = `<div class="text-center py-12 text-zinc-500">Noch keine Einträge.</div>`;
+                return;
+            }
+
+            comments.reverse().forEach((comment, idx) => {
+                const realIndex = comments.length - 1 - idx;
+                const div = document.createElement('div');
+                div.className = `comment bg-zinc-900 border border-zinc-700 rounded-3xl p-7`;
+                div.innerHTML = `
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <div class="font-medium">${comment.name}</div>
+                            <div class="text-xs text-zinc-500">${comment.date}</div>
+                        </div>
+                        ${isAdmin ? `
+                        <div class="flex gap-2">
+                            <button onclick="editComment(${realIndex})" class="text-blue-400 hover:text-blue-300 text-sm"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteComment(${realIndex})" class="text-red-400 hover:text-red-300 text-sm"><i class="fa-solid fa-trash"></i></button>
+                        </div>` : ''}
+                    </div>
+                    <div class="mt-4 text-zinc-300">${comment.text}</div>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function addComment() {
+            const name = document.getElementById('comment-name').value.trim();
+            const text = document.getElementById('comment-text').value.trim();
+            if (!name || !text) return alert("Name und Nachricht ausfüllen");
+
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            comments.push({
+                name,
+                text,
+                date: new Intl.DateTimeFormat('de-DE', {day:'2-digit', month:'2-digit', year:'numeric'}).format(new Date())
+            });
+            localStorage.setItem('mayre_comments', JSON.stringify(comments));
+            
+            document.getElementById('comment-name').value = '';
+            document.getElementById('comment-text').value = '';
+            loadComments();
+        }
+
+        function deleteComment(index) {
+            if (!confirm("Kommentar wirklich löschen?")) return;
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            comments.splice(index, 1);
+            localStorage.setItem('mayre_comments', JSON.stringify(comments));
+            loadComments();
+        }
+
+        function editComment(index) {
+            let comments = JSON.parse(localStorage.getItem('mayre_comments') || '[]');
+            const newText = prompt("Kommentar bearbeiten:", comments[index].text);
+            if (newText !== null) {
+                comments[index].text = newText;
+                localStorage.setItem('mayre_comments', JSON.stringify(comments));
+                loadComments();
+            }
+        }
+
+        // Init
+        window.onload = () => {
+            // Load saved images
+            const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
+            if (savedImages['bio-image']) document.getElementById('bio-image').src = savedImages['bio-image'];
+
+            updateCandleCount();
+            loadGallery();
+            loadComments();
+
+            console.log('%cMayre Berkpinar Gedenkseite bereit (Admin-Modus mit Zahnrad)', 'color:#e11d48');
+        };
+    </script>
+</body>
+</html>
