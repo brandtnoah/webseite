@@ -1,1 +1,535 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regentopf vs Mittelwind 2018</title>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+#container {
+    width: 100%;
+    height: 75vh;
+}
+
+.infoBox {
+    background: #f4f6f8;
+    border-left: 5px solid #4a90e2;
+    padding: 10px 15px;
+    margin: 10px 0;
+}
+
+button {
+    margin: 5px 5px 10px 0;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+/* =========================
+   TOGGLE HINWEISBOX
+   ========================= */
+#noteBox {
+    margin-top: 20px;
+    padding: 0;
+    border: 2px dashed #bbb;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.6s ease, padding 0.4s ease;
+    color: #333;
+    white-space: pre-line;
+}
+
+#noteBox.open {
+    padding: 20px;
+    max-height: 900px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Regentopf manuell & Mittelwind 2018 (vollständige Daten)</h2>
+
+<div class="infoBox">
+<b>Kontext 2018:</b> Dieses Jahr war in Deutschland geprägt von einer außergewöhnlichen Dürreperiode im Sommer sowie mehreren Sturm- und Orkanereignissen im Herbst und Winter.
+</div>
+
+<button onclick="showInfo('wind')">🌬 Windspitzen</button>
+<button onclick="showInfo('drought')">☀ Dürrephase</button>
+<button onclick="showInfo('storm')">⛈ Stürme</button>
+<button onclick="resetInfo()">🔄 Reset</button>
+
+<!-- TOGGLE BUTTON -->
+<button onclick="toggleNotes()">📊 Statistik / Methodik anzeigen</button>
+
+<div id="dynamicInfo" class="infoBox">
+Klicke auf einen Button für Ereignisse.
+</div>
+
+<div id="container">
+<canvas id="chart"></canvas>
+</div>
+
+<!-- HINWEISBOX -->
+<div id="noteBox"></div>
+
+<script>
+
+// ===============================
+// ROHDATEN (UNVERÄNDERT)
+// ===============================
+const raw = `
+2018-01-26		0.6944444444444444
+2018-01-27		0
+2018-01-28		0
+2018-01-29		1.8518518518518519
+2018-01-30		1.9768518518518516
+2018-01-31		
+2018-02-01		2.184193121693122
+2018-02-05		2.0949074074074074
+2018-02-09		1.7407407407407407
+2018-02-10		1.8583622685185186
+2018-02-12		1.9830246913580247
+2018-02-19		1.9828703703703705
+2018-02-23		1.8773946360153257
+2018-02-26		2.0171440972222223
+2018-03-05		2.1542616334283
+2018-03-09		2.1918066322136087
+2018-03-12		2.124597423510467
+2018-03-19		2.1663172606568835
+2018-03-21		2.199705387205387
+2018-03-24		2.1841075989782883
+2018-04-02		2.1902639579878387
+2018-04-09		2.264139139139139
+2018-04-12		2.2073412698412698
+2018-04-15	11.6	2.1595775462962963
+2018-04-16	3	2.150777320530407
+2018-04-17	.	
+2018-04-18	.	
+2018-04-19	.	
+2018-04-20	.	
+2018-04-21	.	
+2018-04-22	1.6	
+2018-04-23	0	2.0854377104377106
+2018-04-24	0	
+2018-04-25	0	
+2018-04-26	0	
+2018-04-27	0.5	2.0642109500805152
+2018-04-28	0	
+2018-04-29	4.8	
+2018-04-30	0	2.0951510721247564
+2018-05-01	0	
+2018-05-02	0	
+2018-05-03	0	2.137070105820106
+2018-05-04	0	
+2018-05-05	0	
+2018-05-06	0	
+2018-05-07	0	2.093432280319535
+2018-05-08	0	
+2018-05-09	0	
+2018-05-10	0	
+2018-05-11	0	
+2018-05-12	0	
+2018-05-13	17.4	
+2018-05-14	0.2	2.0444699286442405
+2018-05-15	0	
+2018-05-16	10.1	
+2018-05-17	0	
+2018-05-18	0	
+2018-05-19	0	
+2018-05-20	0.1	
+2018-05-21	0	1.9701867816091954
+2018-05-22	3.2	
+2018-05-23	2.6	
+2018-05-24	0.4	
+2018-05-25	0	
+2018-05-26	0	
+2018-05-27	2.8	
+2018-05-28	0.3	1.9342818428184283
+2018-05-29	1.2	
+2018-05-30	0.7	
+2018-05-31	0.4	
+2018-06-01	35.6	
+2018-06-02	0	
+2018-06-03	0	
+2018-06-04	0	1.8753561253561253
+2018-06-05	0	
+2018-06-06	0	
+2018-06-07	1.3	
+2018-06-08	0.5	
+2018-06-09	15.1	
+2018-06-10	0.9	
+2018-06-11	1.6	1.8000642065423087
+2018-06-12	1.3	
+2018-06-13	0	
+2018-06-14	2	
+2018-06-15	0.5	
+2018-06-16	2.6	
+2018-06-17	0	
+2018-06-18	0	1.7496141975308641
+2018-06-19	0.2	
+2018-06-20	0	
+2018-06-21	0	
+2018-06-22	0	
+2018-06-23	0	1.7315280884911757
+2018-06-24	0	
+2018-06-25	0	
+2018-06-26	0	
+2018-06-27	0	
+2018-06-28	0	
+2018-06-29	0	
+2018-06-30	0	
+2018-07-01	0	
+2018-07-02	0	1.6830754805438348
+2018-07-03	0	
+2018-07-04	0.2	
+2018-07-05	0	
+2018-07-06	0	
+2018-07-07	0	
+2018-07-08	0	
+2018-07-09	0	1.6430274971941639
+2018-07-10	16	
+2018-07-11	2.3	
+2018-07-12	0	
+2018-07-13	0	
+2018-07-14	0	1.6113153594771241
+2018-07-15	0	
+2018-07-16	0	
+2018-07-17	3.4	
+2018-07-18	0.2	
+2018-07-19	0	
+2018-07-20	0	
+2018-07-21	0	
+2018-07-22	0	
+2018-07-23	0	1.5579091661493896
+2018-07-24	0	
+2018-07-25	0	
+2018-07-26	0	
+2018-07-27	0	
+2018-07-28	0	
+2018-07-29	0	
+2018-07-30	0	1.5417786738351256
+2018-07-31	0	
+2018-08-01	0	
+2018-08-02	0	
+2018-08-03	0	
+2018-08-04	0	
+2018-08-05	0	1.512526523919753
+2018-08-07	0	
+2018-08-08	4	
+2018-08-09	6.8	
+2018-08-10	0	
+2018-08-11	0	
+2018-08-12	0	1.5355713753954958
+2018-08-13	0	
+2018-08-14	7	
+2018-08-15	1	
+2018-08-16	0	1.5333652618135376
+2018-08-17	0	
+2018-08-18	0	
+2018-08-19	0	
+2018-08-20	0	
+2018-08-21	0	
+2018-08-22	0	
+2018-08-23	0	
+2018-08-24	0	
+2018-08-25	6.2	
+2018-08-26	0.2	
+2018-08-27	1	1.5082532883350641
+2018-08-28	0	
+2018-08-29	8	
+2018-08-30	0.9	
+2018-08-31	0	
+2018-09-01	0	
+2018-09-02	0	
+2018-09-03	0	1.4964073236132058
+2018-09-04	1	
+2018-09-05	0	
+2018-09-06	3.2	
+2018-09-07	0	
+2018-09-08	0	
+2018-09-09	0	
+2018-09-10	0	1.4729024528914878
+2018-09-11	0	
+2018-09-12	0	
+2018-09-13	1	
+2018-09-14	0	
+2018-09-15	0	1.4582339850580195
+2018-09-16	0	
+2018-09-17	0	
+2018-09-18	0	1.4574015222849968
+2018-09-19	0	
+2018-09-20	0	
+2018-09-21	2.4	
+2018-09-22	2.6	
+2018-09-23	28	
+2018-09-24	0.2	1.481864095500459
+2018-09-25	0	
+2018-09-26	0	
+2018-09-27	0	
+2018-09-28	0.6	
+2018-09-29	0	
+2018-09-30	0	1.465707138590203
+2018-10-01	0	1.4640971292577718
+2018-10-02	4.6	
+2018-10-03	0	1.4648812158772317
+2018-10-04	0	
+2018-10-05	0	
+2018-10-06	0	
+2018-10-07	0.8	
+2018-10-08	0	1.4628092447916667
+2018-10-09	0	
+2018-10-10	0	1.459589434395636
+2018-10-11	0	
+2018-10-12	0	
+2018-10-13	0	
+2018-10-14	0	1.480244557534634
+2018-10-15	0	
+2018-10-16	0	
+2018-10-17	0	1.470125786163522
+2018-10-18	0	
+2018-10-19	0	
+2018-10-20	0	
+2018-10-21	0	
+2018-10-22	0	
+2018-10-23	0	
+2018-10-24	1.4	
+2018-10-25	0.2	
+2018-10-26	0.8	
+2018-10-27	0	
+2018-10-28	0	1.4589204240472358
+2018-10-29	2.6	
+2018-10-30	6.4	
+2018-10-31	0	
+2018-11-01	1	1.4677992724867723
+2018-11-02	0	
+2018-11-03	0	
+2018-11-04	0	
+2018-11-05	0	1.4686440401669274
+2018-11-06	0	
+2018-11-07	0	
+2018-11-08	0	
+2018-11-09	0	
+2018-11-10	1.4	1.4891443167305236
+2018-11-11	8	1.494726040473463
+2018-11-12	5.4	1.495552701674277
+2018-11-13	0	1.495552701674277
+2018-11-14	0	
+2018-11-15	0	
+2018-11-16	0	
+2018-11-17	0	
+2018-11-18	0	1.5126964085297419
+2018-11-19	0	
+2018-11-20	0	
+2018-11-21	0	
+2018-11-22	0	1.5235480497108402
+2018-11-23	0	
+2018-11-24	3.4	
+2018-11-25	0.2	1.5267878898635479
+2018-11-26	0	
+2018-11-27	0	
+2018-11-28	1.8	1.5237815176740257
+2018-11-29	1.4	
+2018-11-30	0.4	
+2018-12-01	0.8	
+2018-12-02	23	1.5463111825652018
+2018-12-03	4.6	
+2018-12-04	0.8	1.5525899301857768
+2018-12-05	1.2	
+2018-12-06	0.4	
+2018-12-07	5.2	1.557115857946554
+2018-12-08	4	
+2018-12-09	7.8	
+2018-12-10	0.6	1.5907639614536166
+2018-12-11	0.2	
+2018-12-12	0	
+2018-12-13	0	1.5855043708304577
+2018-12-14	0	
+2018-12-15	0	
+2018-12-16	0.8	1.596545584045584
+2018-12-17	0.7	
+2018-12-18	0	
+2018-12-19	0.4	
+2018-12-20	0.6	1.6071780366993131
+2018-12-21	6.4	
+2018-12-22	2.4	
+2018-12-23	12.8	
+2018-12-24	0.6	
+2018-12-25	0	
+2018-12-26	0	
+2018-12-27	0	1.6187169312169312
+2018-12-28	0	
+2018-12-29	2.6	1.6142409051062898
+2018-12-30	3	
+2018-12-31	0.4	
+`;
+
+// ===============================
+// CLEAN FUNCTION
+// ===============================
+function clean(v){
+    if(!v || v === "." || v.trim() === "") return 0;
+    return parseFloat(v);
+}
+
+const rain = {};
+const wind = {};
+
+raw.trim().split("\n").forEach(l=>{
+    const [d,r,w] = l.split("\t");
+    rain[d]=clean(r);
+    wind[d]=clean(w);
+});
+
+// ===============================
+// SERIES
+// ===============================
+const start = new Date("2018-01-26");
+const end = new Date("2018-12-31");
+
+const labels = [];
+const rainVals = [];
+const windVals = [];
+
+for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+    const ds = d.toISOString().slice(0,10);
+    labels.push(ds);
+    rainVals.push(rain[ds] ?? 0);
+    windVals.push(wind[ds] ?? 0);
+}
+
+// ===============================
+// STATS
+// ===============================
+function stats(arr){
+    const v = arr.filter(x => !isNaN(x));
+    const sum = v.reduce((a,b)=>a+b,0);
+    return {
+        min: Math.min(...v),
+        max: Math.max(...v),
+        avg: sum / v.length,
+        sum: sum
+    };
+}
+
+const rS = stats(rainVals);
+const wS = stats(windVals);
+
+// ===============================
+// CHART
+// ===============================
+const chart = new Chart(document.getElementById("chart"), {
+    data: {
+        labels,
+        datasets: [
+            {
+                type: "bar",
+                label: "Regentopf (mm)",
+                data: rainVals,
+                yAxisID: "y1"
+            },
+            {
+                type: "line",
+                label: "Mittelwind",
+                data: windVals,
+                yAxisID: "y2",
+                tension: 0.25,
+                pointRadius: 0
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        interaction: { mode: "index", intersect: false },
+        scales: {
+            y1: { type: "linear", position: "left" },
+            y2: { type: "linear", position: "right", grid: { drawOnChartArea: false } }
+        }
+    }
+});
+
+// ===============================
+// TOGGLE HINWEISBOX
+// ===============================
+const noteBox = document.getElementById("noteBox");
+
+function renderNotes(){
+noteBox.innerHTML = `
+📊 STATISTIK (2018) – Alle Angaben ohne Gewährleistung, Daten in Teilen unvollständig 
+
+Niederschlag:
+- Gesamtsumme: ${rS.sum.toFixed(2)} mm
+- Minimum: ${rS.min.toFixed(2)} mm
+- Maximum: ${rS.max.toFixed(2)} mm
+- Mittelwert: ${rS.avg.toFixed(2)} mm
+
+Mittelwind:
+- Minimum: ${wS.min.toFixed(2)}
+- Maximum: ${wS.max.toFixed(2)}
+- Mittelwert: ${wS.avg.toFixed(2)}
+
+────────────────────────────
+
+⚠ EINORDNUNG
+
+• Datenbasis nur ein Jahr (2018) → eingeschränkte Aussagekraft  
+• Extremwerte beeinflussen Mittelwerte deutlich  
+• Nullwerte können ggf. echte Trockenphasen oder Messlücken sein  
+
+────────────────────────────
+
+🌦 MESSMETHODIK IN DEM STANDORT TROISDORF-WETTERPARK (ROTTER SEE)
+
+Niederschlag:
+- Regenmesser (manuell)
+- Fehlerquellen: Wind, Verdunstung, Standort
+
+Wind:
+- Anemometer (1 m Höhe, 2 m Höhe, 10 m Höhe) 
+- Böen werden ggf. nicht vollständig erfasst
+
+────────────────────────────
+
+📚 LITERATUR
+
+- Bitte aufklappen [ZE]
+`;
+}
+
+function toggleNotes(){
+    noteBox.classList.toggle("open");
+    if(noteBox.classList.contains("open")) renderNotes();
+}
+
+// ===============================
+// INTERAKTION
+// ===============================
+function showInfo(type){
+    const box = document.getElementById("dynamicInfo");
+
+    if(type === "wind"){
+        box.innerHTML = "🌬 Windspitzen: Herbst/Winter mit Sturmtiefs.";
+    }
+    if(type === "drought"){
+        box.innerHTML = "☀ Dürre: Extrem trockener Sommer 2018.";
+    }
+    if(type === "storm"){
+        box.innerHTML = "⛈ Stürme: Mehrere markante Ereignisse im Jahresverlauf.";
+    }
+}
+
+function resetInfo(){
+    document.getElementById("dynamicInfo").innerHTML =
+    "Klicke auf einen Button für Ereignisse.";
+}
+
+</script>
+
+</body>
+</html>
