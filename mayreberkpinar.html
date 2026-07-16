@@ -312,28 +312,39 @@
             win.appendChild(msg);
             win.scrollTop = win.scrollHeight;
         }
+
         function sendMessage() {
             const input = document.getElementById('chat-input');
             const txt = input.value.trim();
             if (!txt) return;
             addChatMessage(txt, true);
             input.value = '';
+
             setTimeout(() => {
-                addChatMessage("Es war ein langes, schönes Leben voller Familie und Liebe.");
-            }, 800);
+                const responses = [
+                    "In Kürecik habe ich viele Jahre in einem Lehmhaus gelebt. Es war lange mein Zuhause.",
+                    "Ich habe Battal Berkpinar geheiratet. Er hat bei den Ford-Werken in Köln-Nippes gearbeitet und uns versorgt.",
+                    "In Bonn-Bechlinghoven habe ich oft Börek und frisches Brot auf einem großen Ofen gebacken. Das war eine schöne Zeit.",
+                    "Von Bonn-Bechlinghoven aus sind wir manchmal mit dem Audi A8 ins Ausland, u.a. in die Niederlande, gefahren. Das waren schöne Ausflüge.",
+                    "Noah war hauptsächlich bei mir in Bonn-Bechlinghoven. Er ist dort geboren und ich habe Ihn eine Zeit lang begleitet, bis ich leider 2009 ausziehen musste.",
+                    "In Köln-Südstadt war Noah einmal mit seinem Cousin Ken unterwegs. Es gab Sucuk und Ei. Das war ein schöner Tag.",
+                    "In Bechlinghoven habe ich viel Zeit in der Küche verbracht. Börek backen gehörte zu meinen liebsten Beschäftigungen.",
+                    "Die Jahre in Bonn-Bechlinghoven von 2001 bis 2009 waren ruhig und friedlich. Dort habe ich viel mit der Familie und dem kleinen Noah verbracht.",
+                    "Köln war lange ein wichtiger Teil meines Lebens – zuerst Ostheim, später die Südstadt.",
+                    "In Berlin hatte ich von 1999 bis 2001 eine eigene Wohnung.",
+                    "Hamburg war meine letzte Heimat. Dort habe ich von 2015 bis 2019 gelebt.",
+                    "Die Familie war immer mein Mittelpunkt – von Kürecik bis nach Hamburg.",
+                    "Ich habe versucht, meinen Lieben Wärme und Weisheit mitzugeben, so gut ich konnte.",
+                    "Ken in Köln zu sehen, hat mir große Freude bereitet.",
+                    "Die Ausflüge in das Ausland, z.B. Niederlande, mit dem Audi A8 aus Bechlinghoven heraus sind mir in guter Erinnerung.",
+                    "In Kürecik habe ich in einem traditionellen Lehmhaus gelebt.",
+                    "Ich bin dankbar für jedes Jahr, das ich mit meiner Familie verbringen durfte – an all diesen Orten.",
+                    "Weisheit kommt mit den Jahren. Das Wichtigste bleibt immer die Liebe innerhalb der Familie."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addChatMessage(randomResponse);
+            }, 850);
         }
-
-        // Init
-        window.onload = () => {
-            const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
-            if (savedImages['bio-image']) document.getElementById('bio-image').src = savedImages['bio-image'];
-
-            updateCandleCount();
-            loadGallery();
-            loadComments();
-            initMap();
-
-            setTimeout(() => addChatMessage("Hallo... Schön, dass du hier bist."), 600);
 
             console.log('%cMayre Berkpinar Gedenkseite bereit', 'color:#e11d48');
         };
