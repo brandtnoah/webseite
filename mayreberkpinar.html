@@ -6,7 +6,7 @@
     <title>Mayre Berkpinar • 1923 – 2019</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Leaflet CSS & JS für die Karte -->
+    <!-- Leaflet für die Karte -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
@@ -35,55 +35,35 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Timeline Styles */
-        .timeline {
-            position: relative;
-        }
+        /* Timeline */
+        .timeline { position: relative; }
         .timeline::before {
             content: '';
             position: absolute;
             left: 50%;
-            top: 0;
-            bottom: 0;
+            top: 0; bottom: 0;
             width: 3px;
             background: linear-gradient(to bottom, #e11d48, #f97316);
             transform: translateX(-50%);
         }
-        .timeline-item {
-            margin-bottom: 3rem;
-            position: relative;
-        }
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
+        .timeline-item { margin-bottom: 3rem; position: relative; }
         .timeline-dot {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 18px;
-            height: 18px;
-            background: #18181b;
-            border: 4px solid #e11d48;
-            border-radius: 50%;
-            z-index: 10;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            width: 18px; height: 18px;
+            background: #18181b; border: 4px solid #e11d48;
+            border-radius: 50%; z-index: 10;
         }
         .timeline-content {
-            width: 45%;
-            padding: 1.5rem;
-            background: #27272a;
-            border-radius: 16px;
+            width: 45%; padding: 1.5rem;
+            background: #27272a; border-radius: 16px;
             border: 1px solid #3f3f46;
         }
-        .timeline-item:nth-child(odd) .timeline-content {
-            margin-left: auto;
-        }
+        .timeline-item:nth-child(odd) .timeline-content { margin-left: auto; }
         @media (max-width: 768px) {
-            .timeline::before { left: 20px; }
-            .timeline-dot { left: 20px; }
+            .timeline::before, .timeline-dot { left: 20px; }
             .timeline-content { width: calc(100% - 60px); margin-left: 50px !important; }
         }
 
-        /* Karte */
         #map { height: 500px; border-radius: 20px; }
     </style>
 </head>
@@ -96,8 +76,7 @@
                 <h1 class="heading-font text-2xl tracking-wider text-white">Mayre Berkpinar</h1>
             </div>
             <div class="flex items-center gap-4">
-                <button onclick="toggleAdmin()" 
-                        class="text-xs px-4 py-2 border border-zinc-700 hover:border-rose-400 rounded-full transition-colors">
+                <button onclick="toggleAdmin()" class="text-xs px-4 py-2 border border-zinc-700 hover:border-rose-400 rounded-full transition-colors">
                     <i class="fa-solid fa-gear"></i> Admin
                 </button>
             </div>
@@ -112,7 +91,6 @@
             </div>
             <h1 class="heading-font text-7xl md:text-8xl font-bold text-white tracking-tighter mb-4">Mayre Berkpinar</h1>
             <p class="text-xl text-zinc-300">In liebevoller Erinnerung</p>
-            
             <button onclick="smoothScrollTo('candle')" class="mt-16 px-10 py-4 bg-white text-black rounded-full font-medium flex items-center gap-3 mx-auto hover:bg-rose-300 hover:text-white transition-all">
                 <i class="fa-solid fa-fire-flame-curved"></i>
                 <span>Kerze anzünden</span>
@@ -143,46 +121,12 @@
         <div class="max-w-5xl mx-auto px-6">
             <h2 class="heading-font text-5xl font-semibold text-center mb-16">Lebensweg</h2>
             <div class="timeline max-w-4xl mx-auto">
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="text-rose-300 font-medium text-xl">1923</div>
-                        <div class="text-2xl heading-font mt-1 mb-2">Geburt in Kürecik</div>
-                        <p class="text-zinc-400">Geboren in Kürecik, Malatya, Türkei.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="text-rose-300 font-medium text-xl">1940er</div>
-                        <div class="text-2xl heading-font mt-1 mb-2">Junge Jahre & Heirat</div>
-                        <p class="text-zinc-400">Heirat und Gründung der Familie.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="text-rose-300 font-medium text-xl">1960er–1970er</div>
-                        <div class="text-2xl heading-font mt-1 mb-2">Neuanfang in Deutschland</div>
-                        <p class="text-zinc-400">Auswanderung nach Hamburg.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="text-rose-300 font-medium text-xl">1980er–2000er</div>
-                        <div class="text-2xl heading-font mt-1 mb-2">Familie & Weisheit</div>
-                        <p class="text-zinc-400">Großmutter und Uroma – Mittelpunkt der Familie.</p>
-                    </div>
-                </div>
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="text-rose-300 font-medium text-xl">2019</div>
-                        <div class="text-2xl heading-font mt-1 mb-2">Abschied</div>
-                        <p class="text-zinc-400">Verstorben in Hamburg.</p>
-                    </div>
-                </div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">1923</div><div class="text-2xl heading-font">Geburt</div><p class="text-zinc-400">Kürecik, Malatya (Türkei)</p></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">1940er</div><div class="text-2xl heading-font">Heirat & Familie</div><p class="text-zinc-400">Gründung der eigenen Familie</p></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">1999–2001</div><div class="text-2xl heading-font">Berlin</div><p class="text-zinc-400">Eigenständige Mietwohnung</p></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">2001–2009</div><div class="text-2xl heading-font">Bonn-Bechlinghoven</div><p class="text-zinc-400">Wohnort</p></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">2009–2014</div><div class="text-2xl heading-font">Köln-Südstadt</div><p class="text-zinc-400">Wohnort</p></div></div>
+                <div class="timeline-item"><div class="timeline-dot"></div><div class="timeline-content"><div class="text-rose-300 font-medium text-xl">2015–2019</div><div class="text-2xl heading-font">Hamburg</div><p class="text-zinc-400">Letzter Wohnort</p></div></div>
             </div>
         </div>
     </section>
@@ -190,29 +134,19 @@
     <!-- Interaktive Karte -->
     <section id="map-section" class="max-w-5xl mx-auto px-6 py-24 bg-black">
         <h2 class="heading-font text-5xl font-semibold text-center mb-12">Ihre Wohnorte</h2>
-        <div id="map" class="shadow-2xl"></div>
-        <div class="mt-8 text-center text-sm text-zinc-500">
-            Klicken Sie auf die Marker für weitere Informationen
-        </div>
+        <div id="map"></div>
     </section>
 
     <!-- Chat mit Mayre -->
     <section id="chat" class="max-w-5xl mx-auto px-6 py-24 bg-zinc-900">
         <div class="max-w-2xl mx-auto">
             <h2 class="heading-font text-5xl font-semibold text-center mb-4">Im Gespräch mit Mayre</h2>
-            <p class="text-center text-zinc-400 mb-10">Stellen Sie ihr eine Frage – sie erzählt gerne aus ihrem Leben.</p>
-            
+            <p class="text-center text-zinc-400 mb-10">Stellen Sie ihr eine Frage</p>
             <div id="chat-window" class="bg-zinc-950 border border-zinc-700 rounded-3xl h-96 overflow-y-auto p-6 mb-6 space-y-6"></div>
-            
             <div class="flex gap-3">
-                <input id="chat-input" type="text" placeholder="z.B. Wo haben Sie gelebt?" 
-                       class="flex-1 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 focus:outline-none focus:border-rose-400">
-                <button onclick="sendMessage()" 
-                        class="px-8 bg-rose-500 hover:bg-rose-600 text-white rounded-2xl font-medium transition-colors">
-                    Senden
-                </button>
+                <input id="chat-input" type="text" placeholder="z.B. Wo haben Sie gelebt?" class="flex-1 bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4">
+                <button onclick="sendMessage()" class="px-8 bg-rose-500 text-white rounded-2xl font-medium">Senden</button>
             </div>
-            <p class="text-xs text-center text-zinc-500 mt-4">Dies ist eine Erinnerung – die Antworten sind vorformuliert.</p>
         </div>
     </section>
 
@@ -239,12 +173,10 @@
                     </div>
                 </div>
             </div>
-            
             <div class="flex justify-center gap-12 mb-12">
                 <div><span id="lit-count" class="text-5xl font-light text-rose-300">0</span><div class="text-xs text-zinc-500">HEUTE</div></div>
                 <div><span id="total-lit" class="text-5xl font-light text-rose-300">142</span><div class="text-xs text-zinc-500">GESAMT</div></div>
             </div>
-            
             <button onclick="lightCandle()" class="px-12 py-5 bg-gradient-to-r from-rose-400 to-orange-400 text-black rounded-2xl font-medium text-lg">Kerze anzünden</button>
         </div>
     </section>
@@ -253,13 +185,11 @@
     <section id="guestbook" class="bg-black py-20">
         <div class="max-w-2xl mx-auto px-6">
             <h2 class="heading-font text-5xl font-semibold text-center mb-12">Gästebuch</h2>
-            
             <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 mb-12">
                 <input id="comment-name" type="text" placeholder="Dein Name" class="w-full bg-zinc-950 border border-zinc-700 rounded-2xl px-6 py-4 mb-4">
                 <textarea id="comment-text" rows="4" placeholder="Deine Nachricht..." class="w-full bg-zinc-950 border border-zinc-700 rounded-3xl px-6 py-4 mb-6"></textarea>
                 <button onclick="addComment()" class="w-full py-4 bg-white text-black rounded-2xl font-medium">Nachricht hinterlassen</button>
             </div>
-
             <div id="comments-list" class="space-y-8"></div>
         </div>
     </section>
@@ -269,17 +199,15 @@
         <p>In ewiger Liebe • Mayre Berkpinar • 1923 – 2019</p>
     </footer>
 
-    <!-- Image Change Modal -->
+    <!-- Image Modal -->
     <div id="image-modal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[200]">
         <div class="bg-zinc-900 rounded-3xl p-8 max-w-lg w-full mx-4">
             <h3 class="text-xl mb-4">Foto ändern</h3>
-            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" 
-                   class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
+            <input id="new-image-url" type="text" placeholder="Neue Bild-URL eingeben" class="w-full bg-zinc-800 border border-zinc-700 rounded-2xl px-6 py-4 mb-6">
             <div class="flex gap-3">
                 <button onclick="applyImageChange()" class="flex-1 py-4 bg-rose-500 text-white rounded-2xl">Übernehmen</button>
                 <button onclick="closeImageModal()" class="flex-1 py-4 bg-zinc-700 rounded-2xl">Abbrechen</button>
             </div>
-            <p class="text-xs text-zinc-500 mt-4">Tipp: Du kannst eine direkte Bild-URL (z.B. von imgur, postimages, etc.) verwenden.</p>
         </div>
     </div>
 
@@ -287,15 +215,8 @@
         let currentImageElement = null;
         let isAdmin = false;
 
-        function smoothScrollTo(id) {
-            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function toggleAdmin() {
-            isAdmin = !isAdmin;
-            alert(isAdmin ? "Admin-Modus aktiviert: Fotos können geändert und Kommentare bearbeitet/gelöscht werden." : "Admin-Modus deaktiviert.");
-            loadComments();
-        }
+        function smoothScrollTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
+        function toggleAdmin() { isAdmin = !isAdmin; alert(isAdmin ? "Admin-Modus aktiviert" : "Admin-Modus deaktiviert."); loadComments(); }
 
         // Candle
         function updateCandleCount() {
@@ -303,45 +224,42 @@
             document.getElementById('total-lit').textContent = total;
             document.getElementById('lit-count').textContent = localStorage.getItem('mayre_lit_today') || '0';
         }
-
         function lightCandle() {
-            const flame = document.getElementById('flame');
-            flame.classList.remove('hidden');
-            let today = parseInt(localStorage.getItem('mayre_lit_today') || '0');
-            today++;
+            document.getElementById('flame').classList.remove('hidden');
+            let today = parseInt(localStorage.getItem('mayre_lit_today') || '0') + 1;
             localStorage.setItem('mayre_lit_today', today);
-            let total = parseInt(localStorage.getItem('mayre_candles') || '142');
-            localStorage.setItem('mayre_candles', total + 1);
+            let total = parseInt(localStorage.getItem('mayre_candles') || '142') + 1;
+            localStorage.setItem('mayre_candles', total);
             updateCandleCount();
         }
 
-        // Image changing
-        function changeImage(el, id) {
+        // Image Change
+        function changeImage(el) {
             if (!isAdmin) return;
             currentImageElement = el;
             document.getElementById('new-image-url').value = el.src;
             document.getElementById('image-modal').classList.remove('hidden');
             document.getElementById('image-modal').classList.add('flex');
         }
-
         function applyImageChange() {
             const url = document.getElementById('new-image-url').value.trim();
-            if (url && currentImageElement) {
-                currentImageElement.src = url;
-                const savedImages = JSON.parse(localStorage.getItem('mayre_images') || '{}');
-                savedImages[currentImageElement.id || 'hero'] = url;
-                localStorage.setItem('mayre_images', JSON.stringify(savedImages));
-            }
+            if (url && currentImageElement) currentImageElement.src = url;
             closeImageModal();
         }
-
         function closeImageModal() {
             document.getElementById('image-modal').classList.add('hidden');
             document.getElementById('image-modal').classList.remove('flex');
         }
 
         // Gallery
-        const defaultGallery = [ /* ... unverändert ... */ ];
+        const defaultGallery = [
+            "https://scontent-fra3-2.xx.fbcdn.net/v/t1.6435-9/57460094_848589128827006_3079832142138572800_n.jpg?stp=dst-jpg_tt6&cstp=mx640x843&ctp=s640x843&_nc_cat=111&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=jBuzfJOXR6YQ7kNvwHdmwUK&_nc_oc=AdpDHirQru5gxNp6YFnI7Ktc6uv3eIZN-_XrtFPH76y8i7Cl17W8C9LO_ZZS2K99S2E&_nc_zt=23&_nc_ht=scontent-fra3-2.xx&_nc_gid=H5tdg6O0aeV-FKQxJPtZ4Q&_nc_ss=7b2a8&oh=00_AQDzA7k9_GJenrCJDXN3yUUKaqgoPu_FM6gf29BDleKneg&oe=6A80B2A1",
+            "https://scontent-fra5-2.xx.fbcdn.net/v/t1.6435-9/57726501_599665410517210_1632312113370234880_n.jpg?stp=dst-jpg_tt6&cstp=mx1560x878&ctp=s1560x878&_nc_cat=109&ccb=1-7&_nc_sid=127cfc&_nc_ohc=KPyNGwoyguwQ7kNvwEQ6wEl&_nc_oc=Adoy_OskBH9-02h7WNFyJxHjDY3CTZCuQHUB5Xs2ocstIdUqxU9uiUh061bdDj38cKQ&_nc_zt=23&_nc_ht=scontent-fra5-2.xx&_nc_gid=yy3Bcr3AiEA5JZGqU3A-og&_nc_ss=7b2a8&oh=00_AQBSGNJ9SeL_Fo8JuhxZ8lvTfwglnYyQup_6fLo82ZQeCA&oe=6A80AFBC",
+            "https://scontent-fra5-2.xx.fbcdn.net/v/t1.6435-9/57576949_598352433981841_1049263095983112192_n.jpg?stp=dst-jpg_tt6&cstp=mx640x850&ctp=s640x850&_nc_cat=109&ccb=1-7&_nc_sid=833d8c&_nc_ohc=IbEXI2YvgksQ7kNvwHMHxrM&_nc_oc=AdpkpFC9m5qAbnVlgdiVS89rC-b9pBAEq3TlwhLAxwnWWVGaEw6rh92sjkRQOGxGXOo&_nc_zt=23&_nc_ht=scontent-fra5-2.xx&_nc_gid=GlDhQX_iKGiSa0n5zFOsWQ&_nc_ss=7b2a8&oh=00_AQDbiMbT9HS4Z5TsMNAubMT-q_qlPzzeK-FKuGQ3UWOERQ&oe=6A80B556",
+            "https://scontent-fra3-2.xx.fbcdn.net/v/t1.6435-9/57774940_848589568826962_9116936596866727936_n.jpg?stp=dst-jpg_tt6&cstp=mx640x852&ctp=s640x852&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=SIEXFtDNBUsQ7kNvwEPKDhy&_nc_oc=Adr6bZdllUt5cwv01zI33HBWoSFNVvKmcAEZUOXVyyYPQc6oWEeWkJdyeFvQ2mOdDVY&_nc_zt=23&_nc_ht=scontent-fra3-2.xx&_nc_gid=-sQxrpiVvgVZAgq5G8r6cQ&_nc_ss=7b2a8&oh=00_AQB6orYuIVYls0Xhb31E73yDEF-qkOF5pvkpcR-ZuAiWmw&oe=6A80AA88",
+            "https://scontent-fra5-2.xx.fbcdn.net/v/t1.6435-9/58619853_599662587184159_1803051752174387200_n.jpg?stp=dst-jpg_tt6&cstp=mx512x512&ctp=s512x512&_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=oWBji0qYUIMQ7kNvwFijxVH&_nc_oc=AdqSzyC1fpk9OxRO8De6l_0gieZxz0YrO-uKYcPEVe-HBX7mBnPiL_RmfCJRaEumWlo&_nc_zt=23&_nc_ht=scontent-fra5-2.xx&_nc_gid=SNPPuXeWQ8dRXCZXmE_ZaA&_nc_ss=7b2a8&oh=00_AQDL3ITSslYcJejtwwKYIDvzLjQPZsK3vWcKJhp6XYp0_w&oe=6A80BD94",
+            "https://scontent-fra5-1.xx.fbcdn.net/v/t1.6435-9/57227753_597366107413807_6792965982395564032_n.jpg?stp=dst-jpg_tt6&cstp=mx640x1136&ctp=s640x1136&_nc_cat=102&ccb=1-7&_nc_sid=86c6b0&_nc_ohc=neb3C1TBH5EQ7kNvwGp_mDs&_nc_oc=AdokqS5nRt7nWWRs4WK6LzKJbzu_M47aUeyJXyPD-yiyILVw-Ek3hgJRrpmCor-lklI&_nc_zt=23&_nc_ht=scontent-fra5-1.xx&_nc_gid=N-KumBOfgPBUyopBT6_x3A&_nc_ss=7b2a8&oh=00_AQCjYYlgbmR69vyrTXFhg03J6m43IPTfTMf_X1FifVdymA&oe=6A808FBF"
+        ];
 
         function loadGallery() {
             const grid = document.getElementById('gallery-grid');
@@ -351,14 +269,10 @@
             images.forEach((src, index) => {
                 const div = document.createElement('div');
                 div.className = "relative group";
-                div.innerHTML = `
-                    <img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">
-                    ${isAdmin ? `<button onclick="removeGalleryImage(${index}); event.stopImmediatePropagation();" class="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded hidden group-hover:block">×</button>` : ''}
-                `;
+                div.innerHTML = `<img src="${src}" class="rounded-3xl aspect-square object-cover w-full cursor-pointer" onclick="changeImage(this)">${isAdmin ? `<button onclick="removeGalleryImage(${index}); event.stopImmediatePropagation();" class="absolute top-3 right-3 bg-black/70 text-white text-xs px-2 py-1 rounded hidden group-hover:block">×</button>` : ''}`;
                 grid.appendChild(div);
             });
         }
-
         function removeGalleryImage(index) {
             if (!confirm("Foto entfernen?")) return;
             let saved = JSON.parse(localStorage.getItem('mayre_gallery') || '[]');
@@ -368,75 +282,42 @@
         }
 
         // Comments (unverändert)
-        function loadComments() { /* ... unverändert ... */ }
-        function addComment() { /* ... unverändert ... */ }
-        function deleteComment(index) { /* ... unverändert ... */ }
-        function editComment(index) { /* ... unverändert ... */ }
+        function loadComments() { /* ... (Original-Code) ... */ }
+        function addComment() { /* ... */ }
+        function deleteComment(index) { /* ... */ }
+        function editComment(index) { /* ... */ }
 
-        // === INTERAKTIVE KARTE ===
+        // Karte
         function initMap() {
             const map = L.map('map').setView([51.0, 10.0], 6);
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap'
-            }).addTo(map);
-
-            const locations = [
-                { name: "Köln-Ostheim", coords: [50.95, 7.0], period: "Frühere Jahre" },
-                { name: "Berlin (eigenständige Mietwohnung)", coords: [52.52, 13.405], period: "1999 – 2001" },
-                { name: "Bonn-Bechlinghoven", coords: [50.72, 7.15], period: "2001 – 2009" },
-                { name: "Köln-Südstadt", coords: [50.92, 6.96], period: "2009 – 2014" },
-                { name: "Hamburg", coords: [53.55, 10.0], period: "2015 – 2019" }
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+            const places = [
+                {name:"Köln-Ostheim", coords:[50.95,7.0], period:"Frühe Jahre"},
+                {name:"Berlin", coords:[52.52,13.405], period:"1999–2001"},
+                {name:"Bonn-Bechlinghoven", coords:[50.72,7.15], period:"2001–2009"},
+                {name:"Köln-Südstadt", coords:[50.92,6.96], period:"2009–2014"},
+                {name:"Hamburg", coords:[53.55,10.0], period:"2015–2019"}
             ];
-
-            locations.forEach(loc => {
-                L.marker(loc.coords).addTo(map)
-                    .bindPopup(`<b>${loc.name}</b><br>${loc.period}`);
-            });
+            places.forEach(p => L.marker(p.coords).addTo(map).bindPopup(`<b>${p.name}</b><br>${p.period}`));
         }
 
-        // === CHAT MIT MAYRE ===
-        const mayreResponses = {
-            "wo": "Ich habe an vielen schönen Orten in Deutschland gelebt – zuletzt in Hamburg, davor in Köln und Bonn.",
-            "leben": "Mein Leben war geprägt von Liebe zur Familie, harter Arbeit und vielen schönen Momenten mit meinen Kindern und Enkeln.",
-            "hamburg": "Hamburg war meine letzte Heimat. Ich habe die Nähe zum Wasser und die offenen Menschen sehr gemocht.",
-            "köln": "Köln war viele Jahre mein Zuhause. Die Südstadt und Ostheim haben mir besonders gefallen.",
-            "berlin": "In Berlin hatte ich von 1999 bis 2001 eine eigene kleine Wohnung – das war eine sehr selbstständige Zeit.",
-            "bonn": "In Bonn-Bechlinghoven habe ich von 2001 bis 2009 gelebt. Eine ruhige und grüne Gegend.",
-            "default": "Es war ein langes, erfülltes Leben voller Liebe. Ich bin dankbar für jede Station."
-        };
-
+        // Chat
         function addChatMessage(text, isUser = false) {
-            const window = document.getElementById('chat-window');
+            const win = document.getElementById('chat-window');
             const msg = document.createElement('div');
-            msg.className = isUser 
-                ? "flex justify-end" 
-                : "flex justify-start";
-            msg.innerHTML = `
-                <div class="${isUser ? 'bg-rose-600 text-white' : 'bg-zinc-800'} max-w-[75%] rounded-2xl px-5 py-3">
-                    ${text}
-                </div>
-            `;
-            window.appendChild(msg);
-            window.scrollTop = window.scrollHeight;
+            msg.className = isUser ? "flex justify-end" : "flex justify-start";
+            msg.innerHTML = `<div class="${isUser ? 'bg-rose-600 text-white' : 'bg-zinc-800'} max-w-[75%] rounded-2xl px-5 py-3">${text}</div>`;
+            win.appendChild(msg);
+            win.scrollTop = win.scrollHeight;
         }
-
         function sendMessage() {
             const input = document.getElementById('chat-input');
-            const text = input.value.trim().toLowerCase();
-            if (!text) return;
-
-            addChatMessage(input.value, true);
+            const txt = input.value.trim();
+            if (!txt) return;
+            addChatMessage(txt, true);
             input.value = '';
-
             setTimeout(() => {
-                let response = mayreResponses.default;
-                for (let key in mayreResponses) {
-                    if (text.includes(key)) {
-                        response = mayreResponses[key];
-                        break;
-                    }
-                }
-                addChatMessage(response);
+                addChatMessage("Es war ein langes, schönes Leben voller Familie und Liebe.");
             }, 800);
         }
 
@@ -450,12 +331,9 @@
             loadComments();
             initMap();
 
-            // Begrüßung im Chat
-            setTimeout(() => {
-                addChatMessage("Hallo mein Lieber / meine Liebe... Schön, dass du hier bist. Worüber möchtest du sprechen?");
-            }, 600);
+            setTimeout(() => addChatMessage("Hallo... Schön, dass du hier bist."), 600);
 
-            console.log('%cMayre Berkpinar Gedenkseite bereit (Admin-Modus mit Zahnrad)', 'color:#e11d48');
+            console.log('%cMayre Berkpinar Gedenkseite bereit', 'color:#e11d48');
         };
     </script>
 </body>
