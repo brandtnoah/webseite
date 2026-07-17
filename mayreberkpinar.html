@@ -226,9 +226,11 @@
         </div>
     </div>
 
-    <script>
-        let currentImageElement = null;
-        let isAdmin = false;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+    let currentImageElement = null;
+    let isAdmin = false;
 
         function smoothScrollTo(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
         function toggleAdmin() { isAdmin = !isAdmin; alert(isAdmin ? "Admin-Modus aktiviert" : "Admin-Modus deaktiviert."); loadComments(); }
@@ -296,11 +298,210 @@
             loadGallery();
         }
 
-        // Comments (unverändert)
-        function loadComments() { /* ... (Original-Code) ... */ }
-        function addComment() { /* ... */ }
-        function deleteComment(index) { /* ... */ }
-        function editComment(index) { /* ... */ }
+// =====================================
+// GÄSTEBUCH MIT SUPABASE
+// =====================================
+
+
+// Supabase Verbindung
+const supabase = window.supabase.createClient(
+    "DEINE_SUPABASE_URL",
+    "DEIN_SUPABASE_ANON_KEY"
+);
+
+
+
+// Kommentare laden
+async function loadComments() {
+
+    const { data, error } = await supabase
+        .from("guestbook")
+        .select("*")
+        .order("created_at", {
+            ascending: false
+        });
+
+
+    if (error) {
+
+        console.error(
+            "Gästebuch Fehler:",
+            error
+        );
+
+        return;
+    }
+
+
+    const list = document.getElementById(
+        "comments-list"
+    );
+
+
+    list.innerHTML = "";
+
+
+    data.forEach(comment => {
+
+
+        const box = document.createElement(
+            "div"
+        );
+
+
+        box.className =
+            "comment bg-zinc-900 border border-zinc-700 rounded-3xl p-6";
+
+
+        box.innerHTML = `
+
+            <div class="flex justify-between mb-3">
+
+                <div class="text-white font-medium">
+                    ${escapeHTML(comment.name)}
+                </div>
+
+
+                <div class="text-xs text-zinc-500">
+                    ${new Date(comment.created_at)
+                    .toLocaleDateString("de-DE")}
+                </div>
+
+            </div>
+
+
+            <div class="text-zinc-300">
+                ${escapeHTML(comment.message)}
+            </div>
+
+        `;
+
+
+        list.appendChild(box);
+
+
+    });
+
+
+}
+
+
+
+
+// Kommentar speichern
+async function addComment() {
+
+
+    const name =
+        document.getElementById(
+            "comment-name"
+        )
+        .value
+        .trim();
+
+
+
+    const message =
+        document.getElementById(
+            "comment-text"
+        )
+        .value
+        .trim();
+
+
+
+    if(
+        name === "" ||
+        message === ""
+    ){
+
+        alert(
+            "Bitte Name und Nachricht eingeben."
+        );
+
+        return;
+
+    }
+
+
+
+    const { error } = await supabase
+        .from("guestbook")
+        .insert([
+            {
+                name:name,
+                message:message
+            }
+        ]);
+
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "Nachricht konnte nicht gespeichert werden."
+        );
+
+        return;
+
+    }
+
+
+
+    document.getElementById(
+        "comment-name"
+    ).value = "";
+
+
+
+    document.getElementById(
+        "comment-text"
+    ).value = "";
+
+
+
+    await loadComments();
+
+}
+
+
+
+
+// Sicherheit gegen HTML-Code
+function escapeHTML(text){
+
+    return text
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+
+
+// Live-Aktualisierung für alle Besucher
+
+supabase
+.channel("guestbook-live")
+.on(
+    "postgres_changes",
+    {
+        event:"INSERT",
+        schema:"public",
+        table:"guestbook"
+    },
+    () => {
+
+        loadComments();
+
+    }
+)
+.subscribe();
 
         // Karte
         function initMap() {
