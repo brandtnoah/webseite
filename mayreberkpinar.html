@@ -184,7 +184,7 @@
     </section>
 
     <!-- Guestbook -->
-    <section id="guestbook" class="bg-black py-20">
+    <section id="guestbook01" class="bg-black py-20">
         <div class="max-w-2xl mx-auto px-6">
             <h2 class="heading-font text-5xl font-semibold text-center mb-12">Gästebuch</h2>
             <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 mb-12">
@@ -315,7 +315,7 @@ const supabase = window.supabase.createClient(
 async function loadComments() {
 
     const { data, error } = await supabase
-        .from("guestbook")
+        .from("guestbook01")
         .select("*")
         .order("created_at", {
             ascending: false
@@ -426,7 +426,7 @@ async function addComment() {
 
 
     const { error } = await supabase
-        .from("guestbook")
+        .from("guestbook01")
         .insert([
             {
                 name:name,
@@ -493,7 +493,7 @@ supabase
     {
         event:"INSERT",
         schema:"public",
-        table:"guestbook"
+        table:"guestbook01"
     },
     () => {
 
